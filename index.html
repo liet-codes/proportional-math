@@ -249,14 +249,15 @@
 
 <div class="card">
 <h3>The Crossover at <em>e</em></h3>
-<p>As you slide <code>n</code>, the ordering of the nine values changes. Some powers swap rank. The critical transitions cluster around <code>n ≈ e ≈ 2.718</code>.</p>
-<p>This is because the crossover point for <code>a^b = b^a</code> (where non-commutativity vanishes) is governed by <code>x^(1/x)</code>, which peaks at <code>x = e</code>. The number <em>e</em> isn't just a base for logarithms — it's the <strong>symmetry point of exponentiation</strong>.</p>
+<p>As you slide <code>n</code>, the ordering of the nine values changes. Some powers swap rank. Different pairs commute (go orange) at different values of n — for instance, 2^4 = 4^2 exactly at n=3, and 2.3^3.3 ≈ 3.3^2.3 near n=3.3.</p>
+<p>The crossover point for <code>a^b = b^a</code> is governed by <code>x^(1/x)</code>, which peaks at <code>x = e</code>. This peak is why e keeps appearing: it's where the function that determines <em>whether two numbers can commute under exponentiation</em> reaches its maximum. The number e is the <strong>symmetry point of exponentiation</strong> — not because the table is most orange there, but because it's the fulcrum around which all commutative pairs organize.</p>
 
-<h3>At n = e exactly:</h3>
+<h3>Key observations:</h3>
 <ul style="padding-left:1.5rem;">
-  <li><code>(e−1)^(e+1)</code> and <code>(e+1)^(e−1)</code> are maximally close — the non-commutative gap is minimized</li>
-  <li>The spectrum is most "ordered" — fewest rank inversions</li>
-  <li>Move away from e in either direction and the spectrum becomes more disordered</li>
+  <li>At <code>n=3</code>: <code>2^4 = 4^2 = 16</code> — exact commutation! The only integer solution to x^y = y^x (besides x=y).</li>
+  <li>At <code>n≈3.3</code>: <code>2.3^3.3 ≈ 3.3^2.3</code> — the (a,b) pair nearly commutes.</li>
+  <li>At <code>n=e</code>: no single pair is especially close, but e is where <code>x^(1/x)</code> peaks — the theoretical maximum of "commutability." All pairs that DO commute at other n values owe their existence to this peak.</li>
+  <li>As n grows larger, ALL pairs diverge further — exponentiation becomes increasingly non-commutative at scale.</li>
 </ul>
 </div>
 
@@ -607,7 +608,7 @@ function drawSpectrum() {
     html += '</tr>';
   }
   html += '</table>';
-  html += `<p style="font-size:0.8rem;color:var(--dim);margin-top:0.5rem;">Orange cells: near-commutative (a^b ≈ b^a). The closer n is to e ≈ 2.718, the more orange you see.</p>`;
+  html += `<p style="font-size:0.8rem;color:var(--dim);margin-top:0.5rem;">Orange cells: near-commutative (a^b ≈ b^a within 1%). Different pairs commute at different n values. Try n=3.0 and n=3.3 for the most orange.</p>`;
   document.getElementById('spectrumTable').innerHTML = html;
 }
 drawSpectrum();
