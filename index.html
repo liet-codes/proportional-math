@@ -47,7 +47,7 @@
 <div class="hero">
   <h1>🌊 Wet Math</h1>
   <p class="subtitle">The Liquid State Framework</p>
-  <p class="equation">G(S) = C( D(I(S, D(S))), I(D(S), D(D(S))) )</p>
+  <p class="equation">G(S) = C( D(E(S)), E(D(S)) )</p>
 </div>
 
 <!-- ═══ THE SYNTHESIS ═══ -->
@@ -113,239 +113,16 @@
 <h2>The Groovy Commutator</h2>
 
 <div class="card">
+<p>Take any system with rules. Do two things in opposite order: evolve the state then ask what changed, vs ask what's changing then evolve <em>that</em>. Compare the results. If they match — nothing interesting, the system is predictable. If they differ randomly — chaos, noise. But if they differ <em>with structure</em>? That's the edge of chaos. That's aliveness.</p>
 
-<h3 style="margin-top:0;">Operators</h3>
-
-<table style="font-size:0.95rem;">
-  <tr><th style="width:5rem;">Symbol</th><th>Name</th><th>Definition</th></tr>
-  <tr><td><code>φ</code></td><td><strong>Rules</strong></td><td>The system's raw rules. A pure function: given any input state, return what the rules produce. In CAs, the rule lookup table. In physics, the force laws.</td></tr>
-  <tr><td><code>D(S)</code></td><td><strong>Differentiation</strong></td><td>Detect what's changing. Defined as <code>S ⊕ φ(S)</code> — compare where we are against what the rules say. Uses φ, not E.</td></tr>
-  <tr><td><code>I(S, d)</code></td><td><strong>Integration</strong></td><td>Assemble the next state from current state + change. In CAs: <code>S ⊕ d</code>. In physics: integrate forces over a timestep (Euler, RK4, etc).</td></tr>
-  <tr><td><code>C(a, b)</code></td><td><strong>Comparison</strong></td><td>Measure discrepancy between two results. In CAs: XOR. In continuous systems: subtraction, distance metric, etc.</td></tr>
-  <tr><td><code>E(S)</code></td><td><strong>Evolution</strong></td><td>Advance the system one step. <em>Derived</em>, not primitive: <code>E(S) = I(S, D(S))</code>. Equals <code>φ(S)</code> in CAs (where I is trivial), but the decomposition matters in domains where integration is non-trivial.</td></tr>
-</table>
-
-<p style="font-size:0.9rem; color:var(--dim); margin-top:1rem;">Note: φ and E are isomorphic in CAs — both give you the next state — but conceptually they're different. φ is the primitive rule. E is the composed operator. D is defined in terms of φ, not E, so there's no circularity.</p>
-
-<h3>The Commutator</h3>
-
-<p style="text-align:center; font-size:1.3rem; margin:1.5rem 0; font-family:'Fira Code',monospace;">
+<p style="text-align:center; font-size:1.2rem; margin:1.5rem 0; font-family:'Fira Code',monospace; color:var(--accent);">
   G(S) = C( D(E(S)), E(D(S)) )
 </p>
 
-<p>Two paths through the same operators:</p>
-<ul style="padding-left:1.5rem;">
-  <li><strong>Path 1: D(E(S))</strong> — evolve the state, then differentiate the result. "What changed after evolution?"</li>
-  <li><strong>Path 2: E(D(S))</strong> — differentiate the state, then evolve the derivative. "What happens when we evolve the change pattern?"</li>
-</ul>
+<p>This shows up everywhere: J Dilla's micro-timing (groove as structured deviation from the grid), Rule 110 (computation at the edge of chaos), quantum mechanics (<code>[x, p] = iℏ</code>), exponentiation (<code>a^b ≠ b^a</code> clustering around e), renormalization group flow (physics changing across scale).</p>
 
-<p>Expanding E into I and D reveals what the shorthand hides:</p>
-<p style="text-align:center; font-size:1.1rem; margin:1rem 0; font-family:'Fira Code',monospace;">
-  G(S) = C( D(I(S, D(S))), I(D(S), D(D(S))) )
-</p>
-<p>Both paths consume D(S), but path 2 also needs <code>D(D(S))</code> — the derivative of the derivative-as-state. More on that below.</p>
-
-<table>
-  <tr><th>G(S)</th><th>Meaning</th><th>CA Class</th><th>State</th></tr>
-  <tr><td><code>G = 0</code></td><td>Operations commute. Predictable, dead.</td><td>I / II</td><td>Solid</td></tr>
-  <tr><td><code>G ≠ 0</code> random</td><td>No pattern. Noise.</td><td>III</td><td>Gas</td></tr>
-  <tr><td><code>G ≠ 0</code> <strong>structured</strong></td><td>Patterned non-commutation. <em>Aliveness.</em></td><td><strong>IV</strong></td><td><strong>Liquid</strong></td></tr>
-</table>
-
-<h3>Where it shows up</h3>
-<ul style="padding-left:1.5rem;">
-  <li><strong>J Dilla's micro-timing</strong> — drums that don't land on the grid but don't scatter randomly. The deviation has structure. That's groove.</li>
-  <li><strong>Cellular automata</strong> — Rule 110, Game of Life. The commutator between evolution and local analysis is non-zero and patterned.</li>
-  <li><strong>Quantum mechanics</strong> — <code>[x, p] = iℏ</code>. Position and momentum don't commute, and the structure of that non-commutation gives us all of physics.</li>
-  <li><strong>Exponentiation</strong> — <code>a^b ≠ b^a</code>, and the structure of that gap organizes around e. Patrick's discovery.</li>
-  <li><strong>Scale</strong> — physics changes as you zoom in or out (renormalization). The non-commutativity of "measure then zoom" vs "zoom then measure" is the RG flow. Brooklyn's territory.</li>
-</ul>
-
-<!-- D₂ callout — nested inside Groovy Commutator -->
-<div class="connection" style="border-color:var(--accent2); margin-top:1.5rem;">
-<h3 style="color:var(--accent2);">🔮 D₂ — The Secret Third Thing</h3>
-<p>The expanded commutator reveals something hiding inside:</p>
-
-<p style="margin-left:1rem;"><strong>D₀(S) = S</strong> — the state itself.<br>
-<strong>D₁(S) = D(S)</strong> — what's changing. The first derivative.<br>
-<strong>D₂(S) = D(D(S))</strong> — apply the system's rules <em>to the change pattern</em> and see what changes about <em>that</em>.</p>
-
-<p>D₂ is <strong>not the second derivative.</strong></p>
-
-<p>For the <strong>second derivative</strong> s'':</p>
-<ol style="padding-left:1.5rem; font-size:0.95rem;">
-  <li>Compute <code>s'₁ = D(S)</code> — the derivative at step 0</li>
-  <li>Compute <code>s'₂ = D(φ(S))</code> — evolve the state, then take the derivative at step 1</li>
-  <li><code>s'' = s'₁ ⊕ s'₂</code> — how the derivative changed between steps</li>
-</ol>
-
-<p>For <strong>D₂(S)</strong>:</p>
-<ol style="padding-left:1.5rem; font-size:0.95rem;">
-  <li>Compute <code>s' = D(S)</code> — the derivative of state</li>
-  <li>Compute <code>D₂ = D(s') = s' ⊕ φ(s')</code> — the derivative <em>of that</em>, treating the change pattern as state</li>
-</ol>
-
-<p>Both are expressed purely in terms of φ. The difference: s'' compares derivatives at two timepoints along the system's actual trajectory (<code>φ(S)</code> then <code>φ(φ(S))</code>). D₂ never evolves the original state — it just differentiates the derivative, feeding the change pattern into φ as if it were a world: <code>φ(D(S))</code>. The second derivative tracks where the system is going. D₂ tracks <em>the system dreaming about its own dynamics</em>.</p>
-
-<p style="font-size:0.9rem; color:var(--dim);">The commutator's path 2 needs D₂, not the second derivative. It's measuring whether the system's response to "change-as-state" is consistent with its response to "state-as-state."</p>
+<p>The deeper you go, the weirder it gets. The commutator decomposes into three primitive operators — differentiation, integration, and comparison — and the expansion reveals a <em>secret third thing</em>: D₂, the derivative of the derivative-as-state. Not the second derivative. Something stranger: the system dreaming about its own dynamics.</p>
 </div>
-
-<!-- D₂ interactive demo — still inside Groovy Commutator -->
-<div class="card" id="d2-demo" style="margin-top:1rem;">
-<h3>🔬 Rule 110: D₂ vs Second Derivative</h3>
-<p style="font-size:0.9rem; color:var(--dim); margin-bottom:1rem;">Click cells to toggle, or randomize. The demo computes both D₂ and the classical second derivative for the same state — they almost always differ.</p>
-
-<div style="margin-bottom:1rem;">
-  <button onclick="randomizeD2()">Randomize</button>
-  <button onclick="clearD2()">Clear</button>
-  <button onclick="stepD2()">Step →</button>
-  <span id="d2-match" style="margin-left:1rem; font-size:0.9rem;"></span>
-</div>
-
-<canvas id="d2Canvas" width="800" height="320" style="width:100%; border-radius:8px; cursor:pointer;"></canvas>
-
-<div id="d2-stats" style="margin-top:0.8rem; font-size:0.85rem; color:var(--dim);"></div>
-</div>
-
-<script>
-(function() {
-  const W = 64; // cells
-  let state = new Uint8Array(W);
-
-  // Rule 110
-  function phi(s) {
-    const next = new Uint8Array(s.length);
-    for (let i = 0; i < s.length; i++) {
-      const L = s[(i - 1 + s.length) % s.length];
-      const C = s[i];
-      const R = s[(i + 1) % s.length];
-      const idx = (L << 2) | (C << 1) | R;
-      next[i] = (110 >> idx) & 1;
-    }
-    return next;
-  }
-
-  // D(S) = S ⊕ φ(S)
-  function D(s) {
-    const p = phi(s);
-    const d = new Uint8Array(s.length);
-    for (let i = 0; i < s.length; i++) d[i] = s[i] ^ p[i];
-    return d;
-  }
-
-  // XOR two arrays
-  function xor(a, b) {
-    const r = new Uint8Array(a.length);
-    for (let i = 0; i < a.length; i++) r[i] = a[i] ^ b[i];
-    return r;
-  }
-
-  function countOnes(a) { let c = 0; for (let i = 0; i < a.length; i++) c += a[i]; return c; }
-
-  function draw() {
-    const canvas = document.getElementById('d2Canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const cw = canvas.width, ch = canvas.height;
-    ctx.fillStyle = '#09090b';
-    ctx.fillRect(0, 0, cw, ch);
-
-    const cellW = cw / W;
-    const rowH = ch / 6;
-    const rows = [];
-    const labels = [];
-
-    // Compute everything
-    const S = state;
-    const phiS = phi(S);              // φ(S) — next state
-    const dS = D(S);                   // D₁(S) = S ⊕ φ(S)
-    const d2S = D(dS);                 // D₂(S) = D(D(S)) = D(S) ⊕ φ(D(S))
-    const dPhiS = D(phiS);              // D(φ(S)) — derivative at step 1
-    const secondDeriv = xor(dS, dPhiS); // second derivative = D(S) ⊕ D(φ(S)) = s'₁ ⊕ s'₂
-    const diff = xor(d2S, secondDeriv);     // where they disagree
-
-    rows.push(S, dS, phiS, d2S, secondDeriv, diff);
-    labels.push(
-      'S — state',
-      'D₁(S) = D(S) — what\'s changing',
-      'φ(S) — next state',
-      'D₂(S) = D(D(S)) — system dreams its dynamics',
-      'S\'\' = D(S) ⊕ D(φ(S)) — classical second derivative',
-      'D₂ ⊕ S\'\' — where they disagree'
-    );
-
-    const colors = ['#d4d4d8', '#06b6d4', '#a78bfa', '#f97316', '#22c55e', '#ef4444'];
-
-    for (let r = 0; r < rows.length; r++) {
-      const y = r * rowH;
-      // Label
-      ctx.fillStyle = colors[r];
-      ctx.font = '11px Inter, system-ui, sans-serif';
-      ctx.fillText(labels[r], 4, y + 13);
-
-      // Cells
-      for (let i = 0; i < W; i++) {
-        if (rows[r][i]) {
-          ctx.fillStyle = colors[r];
-          ctx.fillRect(i * cellW, y + 18, cellW - 1, rowH - 22);
-        } else {
-          ctx.fillStyle = '#1a1a1f';
-          ctx.fillRect(i * cellW, y + 18, cellW - 1, rowH - 22);
-        }
-      }
-    }
-
-    // Stats
-    const d2Count = countOnes(d2S);
-    const sdCount = countOnes(secondDeriv);
-    const diffCount = countOnes(diff);
-    const match = diffCount === 0;
-
-    document.getElementById('d2-match').innerHTML = match
-      ? '<span style="color:#22c55e;">✓ D₂ = S\'\' (identical!)</span>'
-      : '<span style="color:#ef4444;">✗ D₂ ≠ S\'\' — differ at ' + diffCount + '/' + W + ' cells (' + Math.round(diffCount/W*100) + '%)</span>';
-
-    document.getElementById('d2-stats').innerHTML =
-      'D₂ active: ' + d2Count + '/' + W +
-      ' · S\'\' active: ' + sdCount + '/' + W +
-      ' · Disagreement: ' + diffCount + '/' + W;
-  }
-
-  window.randomizeD2 = function() {
-    for (let i = 0; i < W; i++) state[i] = Math.random() < 0.5 ? 1 : 0;
-    draw();
-  };
-
-  window.clearD2 = function() {
-    state.fill(0);
-    state[W >> 1] = 1; // single seed
-    draw();
-  };
-
-  window.stepD2 = function() {
-    state = phi(state);
-    draw();
-  };
-
-  // Click to toggle cells
-  const canvas = document.getElementById('d2Canvas');
-  if (canvas) {
-    canvas.addEventListener('click', function(e) {
-      const rect = canvas.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const i = Math.floor(x * W);
-      if (i >= 0 && i < W) {
-        state[i] ^= 1;
-        draw();
-      }
-    });
-  }
-
-  // Initialize with single seed
-  state[W >> 1] = 1;
-  draw();
-})();
-</script>
 
 <!-- ═══ PATRICK'S BRIDGE ═══ -->
 <h2>Patrick's Proportional Mathematics</h2>
@@ -360,7 +137,7 @@
 </div>
 
 <!-- ═══ BROOKLYN'S SCALE GEOMETRY ═══ -->
-<h2>Brooklyn's Scale Geometry</h2>
+<h2 id="brooklyn">Brooklyn's Scale Geometry</h2>
 
 <div class="connection">
 <h3>🔗 Scale as a Spatial Dimension</h3>
@@ -377,21 +154,12 @@
 <p>This is the commutator question applied to meaning: <strong>when does rephrasing change the semantics, and when doesn't it?</strong> The invariant under transformation is the thing worth indexing. SubTXT is the infrastructure Wet Math needs to manage its own growing body of cross-domain connections.</p>
 </div>
 
-<!-- ═══ EPIPLEXITY ═══ -->
-<h2>Epiplexity</h2>
+<!-- ═══ THE DEEPER PATTERN ═══ -->
+<h2>The Deeper Pattern</h2>
 
 <div class="card">
-<p><strong>Epiplexity</strong> (Finzi et al. 2026): what computationally bounded observers can <em>learn</em> from a system. Class IV systems have high epiplexity — complex but learnable structure. Class III (chaotic) is complex but unlearnably so. Class I/II is learnable but boring.</p>
-<p>The liquid state is the sweet spot: <strong>complex enough to be interesting, structured enough to be learnable</strong>. This is why groove feels good. This is why e keeps appearing. This is what alive systems are doing.</p>
-</div>
-
-<!-- ═══ LINES OF FLIGHT ═══ -->
-<h2>Lines of Flight</h2>
-
-<div class="card">
-<p>From Deleuze: operations don't belong to their origin domains. They're capacities that got captured by domain-strata through historical accident. <strong>Deterritorialization</strong> frees the operation from the domain.</p>
-<p>Wet Math is itself a line of flight. The groovy commutator deterritorialized from cellular automata, applied to music, to metabolism, to number theory, to quantum mechanics. The operation is always the same: <strong>measure where order-of-operations matters in a structured way</strong>. The domain changes. The operation persists.</p>
-<p>Patrick's construction history is shadow-walking in number space (à la Zelazny's Amber). Each <code>+1</code> is a step. The order of steps determines where you arrive. <code>(abf+a+1)/n ≠ (abf+b+1)/n</code> — the path creates the territory.</p>
+<p><strong>Epiplexity</strong> (Finzi et al. 2026): what computationally bounded observers can <em>learn</em> from a system. The liquid state is the sweet spot — <strong>complex enough to be interesting, structured enough to be learnable</strong>. This is why groove feels good. This is why e keeps appearing.</p>
+<p>And from Deleuze: operations don't belong to their origin domains. The groovy commutator deterritorialized from cellular automata, applied to music, to metabolism, to number theory, to quantum mechanics, to scale geometry. The operation is always the same: <strong>measure where order-of-operations matters in a structured way</strong>. The domain changes. The operation persists.</p>
 </div>
 
 <!-- ═══ EXPLORE ═══ -->
@@ -415,11 +183,11 @@
   <span class="arrow">→</span>
 </a>
 
-<a href="https://liet-codes.github.io/groovy-viz" target="_blank" class="link-card" style="text-decoration:none;">
+<a href="./commutator.html" class="link-card" style="text-decoration:none;">
   <div>
-    <span class="title">🎛️ Groovy Commutator Visualizer</span>
-    <div class="desc">Interactive CA dynamics — watch the commutator in action</div>
-    <div class="credit">by Myk</div>
+    <span class="title">🎛️ The Groovy Commutator</span>
+    <div class="desc">Operator definitions, D₂ (the secret third thing), interactive Rule 110 demo, holonic metabolism</div>
+    <div class="credit">by Myk · explainer by Liet</div>
   </div>
   <span class="arrow">→</span>
 </a>
@@ -440,15 +208,6 @@
     <div class="credit">by Brooklyn (brookcub) · in development</div>
   </div>
   <span class="arrow" style="color:var(--dim);">◇</span>
-</a>
-
-<a href="https://github.com/mbilokonsky/claude_skills" target="_blank" class="link-card" style="text-decoration:none;">
-  <div>
-    <span class="title">✈️ Flight Lines / Semantic Walk</span>
-    <div class="desc">Claude skills for cross-domain composition and latent space navigation</div>
-    <div class="credit">by Myk</div>
-  </div>
-  <span class="arrow">→</span>
 </a>
 
 <!-- ═══ FOOTER ═══ -->
