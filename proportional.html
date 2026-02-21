@@ -144,10 +144,13 @@
 <cite>— Patrick, on irrationals</cite>
 </div>
 
-<canvas id="pixelCanvas" width="800" height="200"></canvas>
-<div class="controls">
-  <label>Resolution: <input type="range" id="pixelRes" min="2" max="40" value="10" oninput="drawPixel()"></label>
-  <label>Target: <input type="range" id="pixelTarget" min="100" max="300" value="141" oninput="drawPixel()"><span id="pixelVal" style="font-family:monospace;">√2 ≈ 1.41</span></label>
+<div class="card" style="padding:1rem;">
+<p style="font-size:0.85rem; color:#a1a1aa; margin-bottom:0.8rem;">Drag the sliders to change the grid resolution and target value. The grid can only express values that land on its marks — everything else falls between, with a gap.</p>
+<canvas id="pixelCanvas" width="800" height="220"></canvas>
+<div class="controls" style="margin-top:0.5rem;">
+  <label>Resolution: <input type="range" id="pixelRes" min="2" max="40" value="10" oninput="drawPixel()"> <span id="resLabel" style="font-family:monospace; color:#06b6d4;">10</span></label>
+  <label>Target: <input type="range" id="pixelTarget" min="100" max="300" value="141" oninput="drawPixel()"> <span id="pixelVal" style="font-family:monospace; color:#f97316;">1.41</span></label>
+</div>
 </div>
 
 <div class="card">
@@ -485,38 +488,100 @@ const pc = document.getElementById('pixelCanvas').getContext('2d');
 function drawPixel() {
   const res = parseInt(document.getElementById('pixelRes').value);
   const target = parseInt(document.getElementById('pixelTarget').value)/100;
-  pc.clearRect(0,0,800,200);
+  const W = 800, H = 220;
+  pc.clearRect(0, 0, W, H);
 
-  const w=700, h=150, x0=50, y0=25;
-  document.getElementById('pixelVal').textContent = `Target: ${target.toFixed(2)}`;
+  document.getElementById('pixelVal').textContent = target.toFixed(2);
+  document.getElementById('resLabel').textContent = res;
 
-  // Grid
-  for(let i=0; i<=res; i++){
-    const x = x0 + (i/res)*w;
-    pc.beginPath(); pc.moveTo(x, y0); pc.lineTo(x, y0+h);
-    pc.strokeStyle = '#222'; pc.lineWidth=1; pc.stroke();
-    if(i<=5||i===res){pc.fillStyle='#555';pc.font='9px monospace';pc.fillText((i/res*2).toFixed(2),x-10,y0+h+15);}
+  const mL = 30, mR = 30, mT = 45, mB = 30;
+  const pW = W - mL - mR;
+  const pH = H - mT - mB;
+  const maxVal = 2; // number line goes from 0 to 2
+
+  // Background
+  pc.fillStyle = '#0d0d0f';
+  pc.fillRect(0, 0, W, H);
+
+  // Grid lines — one per resolution step
+  for (let i = 0; i <= res; i++) {
+    const val = (i / res) * maxVal;
+    const x = mL + (val / maxVal) * pW;
+    // Taller lines on integer values
+    const isInt = Math.abs(val - Math.round(val)) < 0.001;
+    const lineH = isInt ? pH : pH * 0.6;
+    const yStart = mT + (pH - lineH) / 2;
+
+    pc.beginPath(); pc.moveTo(x, yStart); pc.lineTo(x, yStart + lineH);
+    pc.strokeStyle = isInt ? '#444' : '#2a2a30';
+    pc.lineWidth = isInt ? 2 : 1;
+    pc.stroke();
+
+    // Labels for first few + last
+    if (i <= 6 || i === res) {
+      pc.fillStyle = '#666';
+      pc.font = '10px "Fira Code", monospace';
+      pc.textAlign = 'center';
+      pc.fillText(val.toFixed(2), x, mT + pH + 15);
+    }
   }
 
-  // Target line
-  const tx = x0 + (target/2)*w;
-  pc.beginPath(); pc.moveTo(tx, y0); pc.lineTo(tx, y0+h);
-  pc.strokeStyle='var(--accent)'; pc.lineWidth=2; pc.setLineDash([4,4]); pc.stroke(); pc.setLineDash([]);
+  // Target line (what we're trying to express)
+  const tx = mL + (target / maxVal) * pW;
+  pc.beginPath(); pc.moveTo(tx, mT - 5); pc.lineTo(tx, mT + pH + 5);
+  pc.strokeStyle = '#f97316';
+  pc.lineWidth = 2.5;
+  pc.setLineDash([6, 4]);
+  pc.stroke();
+  pc.setLineDash([]);
 
-  // Nearest grid lines
-  const nearest = Math.round(target/2*res)/res*2;
-  const nx = x0 + (nearest/2)*w;
-  pc.beginPath(); pc.moveTo(nx, y0+20); pc.lineTo(nx, y0+h-20);
-  pc.strokeStyle='var(--green)'; pc.lineWidth=3; pc.stroke();
+  // Nearest grid line
+  const nearest = Math.round(target / maxVal * res) / res * maxVal;
+  const nx = mL + (nearest / maxVal) * pW;
+  pc.beginPath(); pc.moveTo(nx, mT); pc.lineTo(nx, mT + pH);
+  pc.strokeStyle = '#22c55e';
+  pc.lineWidth = 3;
+  pc.stroke();
+
+  // Gap bracket
+  const gap = Math.abs(target - nearest);
+  if (gap > 0.001) {
+    const bracketY = mT + pH * 0.75;
+    const lx = Math.min(tx, nx);
+    const rx = Math.max(tx, nx);
+    pc.beginPath();
+    pc.moveTo(lx, bracketY - 4); pc.lineTo(lx, bracketY);
+    pc.lineTo(rx, bracketY); pc.lineTo(rx, bracketY - 4);
+    pc.strokeStyle = '#ef4444';
+    pc.lineWidth = 1.5;
+    pc.stroke();
+  }
 
   // Labels
-  pc.fillStyle='var(--accent)'; pc.font='12px Inter';
-  pc.fillText(`Target: ${target.toFixed(4)}`, tx-40, y0-5);
-  pc.fillStyle='var(--green)';
-  pc.fillText(`Nearest: ${nearest.toFixed(4)}`, nx+5, y0+15);
-  const err = Math.abs(target-nearest);
-  pc.fillStyle = err > 0.01 ? 'var(--red)' : 'var(--green)';
-  pc.fillText(`Gap: ${err.toFixed(4)}`, tx+5, y0+h-5);
+  pc.textAlign = 'left';
+  pc.font = '13px Inter, system-ui, sans-serif';
+
+  // Target label
+  pc.fillStyle = '#f97316';
+  pc.fillText(`Target: ${target.toFixed(4)}`, tx + 8, mT + 15);
+
+  // Nearest label
+  pc.fillStyle = '#22c55e';
+  const nearLabel = `Grid: ${nearest.toFixed(4)}`;
+  pc.fillText(nearLabel, nx > tx ? nx + 8 : nx - pc.measureText(nearLabel).width - 8, mT + 35);
+
+  // Gap label
+  pc.fillStyle = gap < 0.005 ? '#22c55e' : '#ef4444';
+  pc.font = '12px "Fira Code", monospace';
+  const gapLabel = gap < 0.005 ? '✓ exact match' : `Gap: ${gap.toFixed(4)}`;
+  pc.fillText(gapLabel, Math.min(tx, nx) + Math.abs(tx - nx) / 2 - 30, mT + pH * 0.75 + 18);
+
+  // Title
+  pc.fillStyle = '#a1a1aa';
+  pc.font = '11px Inter, system-ui, sans-serif';
+  pc.textAlign = 'center';
+  pc.fillText(`Number line with ${res} divisions (resolution = ${res})`, W / 2, 15);
+  pc.textAlign = 'left';
 }
 drawPixel();
 
