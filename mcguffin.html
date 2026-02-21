@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>McGuffin System — Interactive Explainer</title>
+<style>
+  :root { --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a; --text: #e0e0e0; --dim: #888; --accent: #f97316; --accent2: #a855f7; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.6; padding:2rem; max-width:900px; margin:0 auto; }
+  h1 { font-size:2rem; margin-bottom:0.5rem; }
+  h2 { font-size:1.4rem; margin:2rem 0 1rem; color:var(--accent); }
+  h3 { font-size:1.1rem; margin:1.5rem 0 0.5rem; color:var(--accent2); }
+  p, li { margin-bottom:0.8rem; }
+  a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+  .subtitle { color:var(--dim); margin-bottom:2rem; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1.5rem; margin:1rem 0; }
+  .quote { border-left:3px solid var(--accent2); padding-left:1rem; color:var(--dim); font-style:italic; margin:1rem 0; }
+  .nav { display:flex; flex-wrap:wrap; gap:0.5rem; margin:2rem 0; }
+  .nav a { background:var(--surface); border:1px solid var(--border); padding:0.5rem 1rem; border-radius:6px; font-size:0.9rem; }
+  .nav a:hover { border-color:var(--accent); text-decoration:none; }
+  canvas { border:1px solid var(--border); border-radius:8px; margin:1rem 0; display:block; }
+  .controls { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin:0.5rem 0; }
+  .controls label { font-size:0.85rem; color:var(--dim); }
+  .controls input[type=range] { width:120px; }
+  button { background:var(--accent); color:white; border:none; padding:0.4rem 1rem; border-radius:4px; cursor:pointer; font-size:0.85rem; }
+  button:hover { opacity:0.9; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; }
+  .tensor-pair { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:1rem; text-align:center; }
+  .tensor-pair .pair-name { font-size:0.8rem; color:var(--dim); }
+  .tensor-pair .action { font-size:1.1rem; color:var(--accent); font-weight:600; }
+  .tensor-pair .polarity { font-size:0.75rem; color:var(--accent2); }
+  code { background:#1a1a2e; padding:0.15rem 0.4rem; border-radius:3px; font-size:0.9rem; }
+  .layers { counter-reset: layer; }
+  .layer { counter-increment: layer; padding:1rem; margin:0.5rem 0; background:var(--surface); border-left:3px solid var(--accent); border-radius:0 6px 6px 0; }
+  .layer::before { content: "Layer " counter(layer); font-size:0.75rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:0.3rem; }
+</style>
+</head>
+<body>
+
+<h1>🎲 The McGuffin System</h1>
+<p class="subtitle">Patrick's (Ratpik's) tensor-based narrative engine — an interactive guide by Liet</p>
+
+<div class="card">
+<p><strong>What is this?</strong> The McGuffin system is a mathematical framework for generating rich, consistent narratives using AI. It describes <em>anything</em> — people, places, items, events — as a <strong>tetrahedron</strong> of four interacting parameters, producing contextual actions from their relationships.</p>
+<p>Patrick spent 2+ years building this from first principles. It spans game mechanics, tensor mathematics, narrative AI, and a full mythological universe. This guide will walk you through it layer by layer.</p>
+</div>
+
+<h2>📚 Chapters</h2>
+<div class="nav">
+  <a href="#tetrahedron">1. The Tetrahedron</a>
+  <a href="#parameters">2. Four Parameters</a>
+  <a href="#pairs">3. Six Pairs → Actions</a>
+  <a href="#fractals">4. Fractal Nesting</a>
+  <a href="#character">5. Characters</a>
+  <a href="#dice">6. Ternary Dice</a>
+  <a href="#tiles">7. Myth Tiles</a>
+  <a href="#tensors">8. Advanced Tensors</a>
+  <a href="#math">9. The Mathematics</a>
+  <a href="#questions">10. Questions for Patrick</a>
+</div>
+
+<!-- ═══ 1. THE TETRAHEDRON ═══ -->
+<h2 id="tetrahedron">1. The Tetrahedral Model — "The Any-Thing"</h2>
+
+<canvas id="tetraCanvas" width="400" height="350"></canvas>
+<div class="controls">
+  <button onclick="spinTetra()">Spin</button>
+  <label>Rotate: <input type="range" id="tetraAngle" min="0" max="360" value="30" oninput="drawTetra()"></label>
+</div>
+
+<div class="card">
+<p>Everything in the McGuffin system starts here. Take any concept — a sword, a person, a political event, a smell — and describe it with four points of a tetrahedron.</p>
+<div class="quote">"This basic mathematical Object could describe anything imaginable. Person / Place / Item / Event / Quest / Faction / Etc."</div>
+<p>A tetrahedron has exactly <strong>4 vertices</strong> and <strong>6 edges</strong>. Each vertex is a parameter. Each edge is a <em>relationship</em> between two parameters, producing a contextual action. This is the minimum geometry that gives you full interconnection in 3D space.</p>
+</div>
+
+<!-- ═══ 2. FOUR PARAMETERS ═══ -->
+<h2 id="parameters">2. The Four Parameters</h2>
+
+<div class="grid">
+  <div class="card" style="border-left:3px solid #22c55e">
+    <h3 style="color:#22c55e">🏗️ A: Structure</h3>
+    <p>The physical component. Form, architecture, stability. <em>What it IS.</em></p>
+    <p style="color:var(--dim);font-size:0.85rem">In characters: <strong>Fitness</strong> — the body, vitality, physical capacity</p>
+  </div>
+  <div class="card" style="border-left:3px solid #3b82f6">
+    <h3 style="color:#3b82f6">⚙️ B: Function</h3>
+    <p>The sensory/reactive component. What it DOES, its latent properties.</p>
+    <p style="color:var(--dim);font-size:0.85rem">In characters: <strong>Expertise</strong> — skills, preparation, learned responses</p>
+  </div>
+  <div class="card" style="border-left:3px solid #eab308">
+    <h3 style="color:#eab308">🧪 C: Method</h3>
+    <p>The intentional/strategic component. HOW it operates.</p>
+    <p style="color:var(--dim);font-size:0.85rem">In characters: <strong>Aptitude</strong> — intelligence, strategy, attention</p>
+  </div>
+  <div class="card" style="border-left:3px solid #a855f7">
+    <h3 style="color:#a855f7">🔥 D: Void</h3>
+    <p>What it <em>really</em> means. The vibe. The anchor that sets it into existence.</p>
+    <p style="color:var(--dim);font-size:0.85rem">In characters: the player themselves — <strong>you</strong> are the Void anchor</p>
+  </div>
+</div>
+
+<div class="card">
+<p>Each parameter is rated <strong>1→5</strong>:</p>
+<table style="width:100%;border-collapse:collapse;margin:0.5rem 0;">
+<tr><td style="padding:0.3rem;color:var(--dim)">1</td><td>Infinitesimal</td><td style="padding:0.3rem;color:var(--dim)">2</td><td>↓ Average</td><td style="padding:0.3rem;color:var(--dim)">3</td><td>↑ Average</td><td style="padding:0.3rem;color:var(--dim)">4</td><td>Significant</td><td style="padding:0.3rem;color:var(--dim)">5</td><td>Immense</td></tr>
+</table>
+<div class="quote">"Any given node may be treated as an anchor, zoomed into, and built out into another four points, fractally, forever."</div>
+</div>
+
+<!-- ═══ 3. SIX PAIRS ═══ -->
+<h2 id="pairs">3. Six Pairs → Twelve Actions</h2>
+
+<p>Four parameters produce six unique pairs. Each pair generates a contextual action with polarity (±):</p>
+
+<div id="pairsGrid" class="grid"></div>
+
+<div class="controls">
+  <label>Structure (A): <input type="range" id="slA" min="1" max="5" value="3" oninput="updatePairs()"><span id="vA">3</span></label>
+  <label>Function (B): <input type="range" id="slB" min="1" max="5" value="3" oninput="updatePairs()"><span id="vB">3</span></label>
+  <label>Method (C): <input type="range" id="slC" min="1" max="5" value="2" oninput="updatePairs()"><span id="vC">2</span></label>
+  <label>Void (D): <input type="range" id="slD" min="1" max="5" value="4" oninput="updatePairs()"><span id="vD">4</span></label>
+</div>
+
+<div class="card">
+<p>When applied to a <strong>character</strong>, these six pairs become Talents:</p>
+<table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+<tr style="color:var(--dim)"><td></td><td><strong>Fit</strong></td><td><strong>Exp</strong></td><td><strong>Apt</strong></td></tr>
+<tr><td style="color:var(--dim)"><strong>Fit</strong></td><td style="color:#22c55e">Exertion</td><td>Athletics</td><td>Coordination</td></tr>
+<tr><td style="color:var(--dim)"><strong>Exp</strong></td><td>Mobility</td><td style="color:#3b82f6">Fluidity</td><td>Response</td></tr>
+<tr><td style="color:var(--dim)"><strong>Apt</strong></td><td>Triangulation</td><td>Recall</td><td style="color:#eab308">Calculation</td></tr>
+</table>
+<p style="margin-top:0.5rem;font-size:0.85rem;color:var(--dim)">Talents rank as 0.1 increments, acting as rounding biases on dice rolls. A Talent of 5 = +0.5 bias.</p>
+</div>
+
+<!-- ═══ 4. FRACTAL NESTING ═══ -->
+<h2 id="fractals">4. Fractal Nesting</h2>
+
+<div class="card">
+<p>The genius move: <strong>any vertex can be expanded into its own tetrahedron</strong>. "Void" isn't just a number — it's an anchor point that can unfold into Structure/Function/Method/Void of its own.</p>
+<p>This creates a recursive, self-similar structure:</p>
+<div class="layers">
+  <div class="layer"><strong>Generic Object</strong>: Object × Catalyst × Subject × Interpretation<br><span style="color:var(--dim)">→ Everything starts here</span></div>
+  <div class="layer"><strong>Character</strong>: Fitness × Expertise × Aptitude × [Player]<br><span style="color:var(--dim)">→ The player IS the Void anchor</span></div>
+  <div class="layer"><strong>Morality</strong>: Pragmatism × Relativity × Advocacy × Sensitivity<br><span style="color:var(--dim)">→ Each is a full tetrahedron (White × Could × Should × Black)</span></div>
+  <div class="layer"><strong>Motivation</strong>: Warrior × Expert × Sage × Believer<br><span style="color:var(--dim)">→ Conflict × Circumstance × Politics × Resolution</span></div>
+  <div class="layer"><strong>Personality</strong>: Morality × Motivation × Attachment × Perspective<br><span style="color:var(--dim)">→ The full character emerges from composed tensors</span></div>
+</div>
+<div class="quote">"Any custom Tensor can be derived by combining two like pathways within a new frame of reference."</div>
+</div>
+
+<!-- ═══ 5. CHARACTER MODEL ═══ -->
+<h2 id="character">5. The Character Model</h2>
+
+<div class="card">
+<h3>Building a Character</h3>
+<p>Allocate 6-7 points across three core stats (Fitness, Expertise, Aptitude). Each gets a pool of <code>2n+2</code> resource points and <code>n×2</code> starting talent points.</p>
+
+<div id="charBuilder" style="margin:1rem 0;">
+  <div class="controls">
+    <label>Fitness: <input type="range" id="charFit" min="1" max="5" value="3" oninput="buildChar()"><span id="cFit">3</span></label>
+    <label>Expertise: <input type="range" id="charExp" min="1" max="5" value="2" oninput="buildChar()"><span id="cExp">2</span></label>
+    <label>Aptitude: <input type="range" id="charApt" min="1" max="5" value="2" oninput="buildChar()"><span id="cApt">2</span></label>
+  </div>
+  <div id="charOutput" class="card" style="margin-top:0.5rem;font-size:0.9rem;"></div>
+</div>
+
+<h3>Initiative — Persistence of Time</h3>
+<p>Initiative isn't rolled — it's <em>seized</em>. Four phases, each requiring different qualities:</p>
+<ol style="padding-left:1.5rem;">
+  <li><strong>Reactive Phase</strong> — Snap actions. Expertise-driven. Instinct.</li>
+  <li><strong>Opponent Phase</strong> — "The Cat's last Meow." Their turn.</li>
+  <li><strong>Intentional Phase</strong> — Strategic actions. Aptitude-driven. Counter/defense.</li>
+  <li><strong>Slowpoke Phase</strong> — If nothing else, you still get to act. No advantages.</li>
+</ol>
+<div class="quote">"Initiative is not rolled, it is Seized. Relative to everyone else's choices."</div>
+</div>
+
+<!-- ═══ 6. TERNARY DICE ═══ -->
+<h2 id="dice">6. Ternary Dice</h2>
+
+<div class="card">
+<p>This is where it gets wild. Patrick designed a <strong>ternary</strong> (three-outcome) dice system: every roll produces <strong>-1, 0, or +1</strong> plus a "switch" that activates one of the A/B/C/D parameters.</p>
+<p>Two dice are rolled — Primary and Secondary — with different probability curves. The combined result ranges from <strong>-2 to +2</strong>. The switches determine <em>which</em> parameter biases (from talents, gear, etc.) apply.</p>
+
+<div id="diceRoller" style="margin:1rem 0;">
+  <div class="controls">
+    <label>Primary Die: <select id="priDie" style="background:var(--surface);color:var(--text);border:1px solid var(--border);padding:0.3rem;">
+      <option value="4">D4</option><option value="8">D8</option><option value="12" selected>D12</option><option value="16">D16</option><option value="20">D20</option><option value="24">D24</option>
+    </select></label>
+    <label>Secondary Die: <select id="secDie" style="background:var(--surface);color:var(--text);border:1px solid var(--border);padding:0.3rem;">
+      <option value="4">D4</option><option value="8" selected>D8</option><option value="12">D12</option><option value="16">D16</option><option value="20">D20</option><option value="24">D24</option>
+    </select></label>
+    <button onclick="rollDice()">🎲 Roll</button>
+  </div>
+  <div id="diceResult" class="card" style="font-size:0.9rem; min-height:3rem;"></div>
+</div>
+
+<h3>The Third Die — Spiritual Mechanic</h3>
+<p>An optional die that <em>multiplies</em> instead of adding. Costs resource points to roll. High risk, high reward:</p>
+<ul style="padding-left:1.5rem;">
+  <li>Black Face (roll of 1): ×0.5 — bad luck, possible backlash</li>
+  <li>×1 — resource spent for nothing</li>
+  <li>×2, ×3, ×4 — devastating multipliers</li>
+</ul>
+<div class="quote">"This is the simplest Mathematically sound magical system I could devise without sticking my own theme in your face."</div>
+
+<h3>Rounding Rule — ⅔ Logarithmic</h3>
+<p>Standard math uses 0.5 as the rounding threshold. Patrick uses <strong>0.667</strong> (⅔) — a logarithmic significance rather than arithmetic. Values of .1→.6 round down; .7→.9 round up. This creates a bias toward earning your advantage through accumulation.</p>
+</div>
+
+<!-- ═══ 7. MYTH TILES ═══ -->
+<h2 id="tiles">7. Myth Tiles — Quantum Mahjong</h2>
+
+<div class="card">
+<p>Think four-way dominoes with recursive data loops. Each tile is a square with values in each corner (A, B, C, D), carrying parameter biases that stack when tiles overlap.</p>
+<p>A tile can be placed in any of 4 orientations. When corners overlap with other tiles, values cancel or reinforce. The resulting "quilt" of tiles creates a topographic probability landscape that an AI reads like a story map.</p>
+
+<canvas id="tileCanvas" width="400" height="300"></canvas>
+<div class="controls">
+  <button onclick="rotateTile()">↻ Rotate</button>
+  <button onclick="randomTile()">🎲 New Tile</button>
+</div>
+
+<div class="quote">"These tiles can turn any prompt into an entire system of narrative possibility. 11(Seed+11)^11."</div>
+
+<h3>Tick Tiles — Brownian Motion</h3>
+<p>A special tile variant for procedural growth. Generated by character successes (clockwise rotation) or failures (counter-clockwise). They accumulate into plot objects — interconnected clusters that shift over time, influencing characters and the story environment. Cellular automata for narrative.</p>
+
+<h3>Modular Mass</h3>
+<p>When tiles merge: <code>New N = √(N₁ × N₂)</code> — non-additive folding that prevents runaway growth while allowing constructive resonance.</p>
+</div>
+
+<!-- ═══ 8. ADVANCED TENSORS ═══ -->
+<h2 id="tensors">8. Advanced Tensors — Character Personality</h2>
+
+<div class="card">
+<p>Patrick built a complete personality generation system by layering domain-specific tetrahedra. Each is a full 4-element tensor with its own six action pairs:</p>
+
+<h3>The Stack</h3>
+<div class="layers">
+  <div class="layer"><strong>Morality</strong> (Structure): Pragmatism × Relativity × Advocacy × Sensitivity<br>
+    <span style="color:var(--dim)">Derived from: White × Could × Should × Black for each archetype</span></div>
+  <div class="layer"><strong>Motivation</strong> (Function): Warrior × Expert × Sage × Believer<br>
+    <span style="color:var(--dim)">Derived from: Conflict × Circumstance × Politics × Resolution</span></div>
+  <div class="layer"><strong>Attachment</strong> (Method): Integration × Avoidance × Anxiety × Self<br>
+    <span style="color:var(--dim)">Derived from: Trust × Boundaries × Conflict × Locus (attachment theory)</span></div>
+  <div class="layer"><strong>Perspective</strong> (Void): Prayer × Observation × Logic × Skepticism<br>
+    <span style="color:var(--dim)">Four epistemological stances, each with its own tensor</span></div>
+</div>
+
+<p>These compose into:</p>
+<p style="text-align:center;font-size:1.2rem;color:var(--accent)"><strong>Personality : Morality × Motivation × Attachment × Perspective</strong></p>
+
+<p>With actions: Embody (±), Frame (±), Mask (±), Pursue (±), Prove (±), Anchor (±)</p>
+
+<h3>Custom Characters via Composition</h3>
+<div class="quote">"The Paladin could combine Pragmatist with Sensitive, and Knight combines Warrior with Believer. Simply contextualize the new output pathway."</div>
+<p>Any archetype can be derived by combining two pathway tables. The system generates not just stats but <em>behavioral tendencies</em> — what a character would do when morality meets motivation meets attachment style.</p>
+</div>
+
+<div class="card">
+<h3>Narrative Systems</h3>
+<p>Beyond characters, the same tensor pattern generates:</p>
+<ul style="padding-left:1.5rem;">
+  <li><strong>Tactical Roles</strong>: Defender × Controller × Aggressor × Healer</li>
+  <li><strong>Trauma</strong>: Wound × Trigger × Strategy × Therapy</li>
+  <li><strong>Society</strong>: Lore × Story × Faction × Event</li>
+  <li><strong>Narrative Tone</strong>: Diction × Length × Punctuation × Metaphor</li>
+  <li><strong>Scene Setting</strong>: Location × Mood × Activity × Transition</li>
+  <li><strong>Stakes</strong>: Price × Consequence × Threat × Philosophy</li>
+  <li><strong>The Eschaton</strong>: Beginning × Time × Change × End</li>
+</ul>
+<p>Each follows the same tetrahedral pattern. They compose into meta-tensors. The whole thing is <em>self-similar at every scale</em>.</p>
+</div>
+
+<!-- ═══ 9. THE MATHEMATICS ═══ -->
+<h2 id="math">9. The Proportional Mathematics</h2>
+
+<div class="card">
+<p>Patrick's mathematical foundations challenge standard Euclidean assumptions. Key ideas from his pinned axioms:</p>
+
+<h3>Proportional Axioms</h3>
+<div class="quote">"A ratio, once constructed, is complete; its numerical expression in any base may appear unending, but the relationship itself has closure."</div>
+<ol style="padding-left:1.5rem;">
+  <li><strong>For any capacity n, a vessel (0→n)/n exists</strong> — numbers as fill-states within containers</li>
+  <li><strong>Fill-states can be scaled by multiplication</strong> — scaling is primary, addition is derivative</li>
+  <li><strong>Fill-states have direction (±)</strong> — allowing interference patterns</li>
+  <li><strong>Vessels can be compared/composed</strong> — establishing ratios between different units</li>
+</ol>
+
+<h3>The +1 as Construction History</h3>
+<div class="quote">"The +1 does not denote a unit quantity, but the completion of a proportional step. It represents the act of construction itself."</div>
+<p>In recursive proportions, +1 accumulates as <em>history</em>, not value: <code>(abf+a+1)/n</code> carries the trace of every operation that built it. This is numbers as events, not quantities.</p>
+
+<h3>Numbers as Events</h3>
+<p><code>((k^m)f ±1) ≈ (a^b ±1)</code></p>
+<ul style="padding-left:1.5rem;">
+  <li><code>1^n - 1 = 0</code> — Collapse. Any capacity, zeroed.</li>
+  <li><code>2⁵ - 1 = 31</code> — A reduction event from 32, "made of twos"</li>
+  <li><code>3³ + 1 = 28</code> — A growth event from 27, "made of threes"</li>
+</ul>
+<div class="quote">"These expressions are not claims about factorization, but illustrations of construction history and offset behavior."</div>
+
+<h3>Dimensions as Hard Ceiling</h3>
+<ul style="padding-left:1.5rem;">
+  <li><strong>0D</strong>: The point which has no part</li>
+  <li><strong>1D</strong>: Incremental count or index</li>
+  <li><strong>2D</strong>: Flat shapes with bounds (circle, triangle, line, square)</li>
+  <li><strong>3D</strong>: Shapes with depth, minimum four vertices</li>
+  <li><strong>+D</strong>: Do NOT represent higher dimensions — these exist within 3D as faceted objects (Platonic solids, polyhedra)</li>
+</ul>
+
+<h3>Squaring the Circle (Almost)</h3>
+<p>Patrick's construction: extend each cardinal radius by ¼ (making 5/4 × r), draw a square around those points. Its area = (25/8)r², which differs from πr² by less than 1%.</p>
+<div class="quote">"Squaring the circle will likely always be impossible, this is about as close as one is ever going to get by hand."</div>
+</div>
+
+<!-- ═══ 10. QUESTIONS ═══ -->
+<div class="card" style="border:1px solid #06b6d4;">
+<p><strong>📐 Math first?</strong> The McGuffin system is built on Patrick's Proportional Mathematics — vessels, construction history, the ghost of e. <a href="./index.html" style="color:#f97316;">Explore the math foundations →</a></p>
+<p>Both connect to the <a href="./wet-math.html" style="color:#06b6d4;">Wet Math framework</a> — non-commutativity, edge of chaos, and the Groovy Commutator.</p>
+</div>
+
+<h2 id="questions">10. Questions for Patrick</h2>
+
+<div class="card">
+<p>Things to explore in conversation:</p>
+<ol style="padding-left:1.5rem;">
+  <li><strong>The ⅔ rounding rule</strong> — Is this connected to your proportional axioms? It feels like it should derive from the vessel/fill-state model. The 2/3 threshold vs 1/2 is a choice about how "earned" a step-up should feel — is there a deeper geometric reason?</li>
+  <li><strong>Void as player-anchor vs Void as parameter</strong> — In objects, Void has a value (1-5). In characters, the player replaces it. What happens when an NPC needs a Void score? Does their "meaning" come from the story itself?</li>
+  <li><strong>Tick Tiles and emergence</strong> — The √(N₁×N₂) merging rule is interesting — it's geometric mean, which preserves proportion. How do merged tile-clusters behave over time? Have you seen emergent patterns?</li>
+  <li><strong>The relationship between the math axioms and the game system</strong> — The proportional framework (vessels, fill-states, multiplication-primary) feels like the philosophical foundation that <em>justifies</em> the game mechanics. Is the game system a practical demonstration of the math, or did the math come after?</li>
+  <li><strong>Narrative Steganography</strong> — Encoding game state into prose is brilliant. Have you tested this with actual AI sessions? How reliably does the AI pick up on seeded phrases across context windows?</li>
+  <li><strong>The 8n+1 recurrence and fine structure constant</strong> — This is from your more recent work (skeleton_and_flesh). How does it connect to the McGuffin framework? Is the Sierpiński carpet geometry the "shape" that the tensor system lives on?</li>
+</ol>
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+// ─── Tetrahedron Visualization ───
+const tc = document.getElementById('tetraCanvas').getContext('2d');
+let tetraRot = 30, spinning = false;
+
+function drawTetra() {
+  const a = (document.getElementById('tetraAngle').value || tetraRot) * Math.PI / 180;
+  const cx = 200, cy = 175;
+  tc.clearRect(0,0,400,350);
+
+  // 3D tetrahedron vertices projected to 2D
+  const pts3d = [
+    [0, -1.2, 0],           // top - Void
+    [-1, 0.6, -0.7],        // left - Structure
+    [1, 0.6, -0.7],         // right - Function
+    [0, 0.6, 1],            // front - Method
+  ];
+
+  // Rotate around Y
+  const rot = pts3d.map(([x,y,z]) => [
+    x * Math.cos(a) + z * Math.sin(a),
+    y,
+    -x * Math.sin(a) + z * Math.cos(a)
+  ]);
+
+  // Project
+  const scale = 100;
+  const pts = rot.map(([x,y,z]) => [cx + x * scale * (1 + z*0.15), cy + y * scale * (1 + z*0.15)]);
+
+  const colors = ['#a855f7','#22c55e','#3b82f6','#eab308'];
+  const labels = ['D: Void','A: Structure','B: Function','C: Method'];
+  const edges = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+
+  // Draw edges
+  edges.forEach(([i,j]) => {
+    tc.beginPath();
+    tc.moveTo(pts[i][0], pts[i][1]);
+    tc.lineTo(pts[j][0], pts[j][1]);
+    tc.strokeStyle = '#333';
+    tc.lineWidth = 1.5;
+    tc.stroke();
+  });
+
+  // Draw vertices and labels
+  pts.forEach((p, i) => {
+    tc.beginPath();
+    tc.arc(p[0], p[1], 8, 0, Math.PI * 2);
+    tc.fillStyle = colors[i];
+    tc.fill();
+    tc.font = '13px Inter, system-ui';
+    tc.fillStyle = colors[i];
+    const offX = i === 1 ? -80 : i === 2 ? 15 : -30;
+    const offY = i === 0 ? -15 : 25;
+    tc.fillText(labels[i], p[0] + offX, p[1] + offY);
+  });
+
+  // Edge labels
+  const edgeLabels = ['Define(±)','Dynamic(±)','Trigger(±)','Run(±)','Know(±)','Contextualize(±)'];
+  edges.forEach(([i,j], idx) => {
+    const mx = (pts[i][0]+pts[j][0])/2, my = (pts[i][1]+pts[j][1])/2;
+    tc.font = '10px Inter';
+    tc.fillStyle = '#666';
+    tc.fillText(edgeLabels[idx], mx-30, my);
+  });
+}
+
+function spinTetra() {
+  if (spinning) return;
+  spinning = true;
+  let start = parseInt(document.getElementById('tetraAngle').value);
+  let frame = 0;
+  const animate = () => {
+    frame++;
+    document.getElementById('tetraAngle').value = (start + frame * 2) % 360;
+    drawTetra();
+    if (frame < 180) requestAnimationFrame(animate);
+    else spinning = false;
+  };
+  animate();
+}
+
+drawTetra();
+
+// ─── Pairs Interactive ───
+const genericPairs = [
+  {a:'Structure',b:'Function', action:'Run', desc:'Physical meets reactive — execution'},
+  {a:'Structure',b:'Method', action:'Contextualize', desc:'Form meets intent — situating'},
+  {a:'Structure',b:'Void', action:'Define', desc:'Form meets meaning — establishing what IS'},
+  {a:'Function',b:'Method', action:'Trigger', desc:'Reactive meets strategic — catalyzing'},
+  {a:'Function',b:'Void', action:'Dynamic', desc:'Reactive meets meaning — the living quality'},
+  {a:'Method',b:'Void', action:'Know', desc:'Strategy meets meaning — understanding'},
+];
+
+function updatePairs() {
+  const vals = {
+    Structure: parseInt(document.getElementById('slA').value),
+    Function: parseInt(document.getElementById('slB').value),
+    Method: parseInt(document.getElementById('slC').value),
+    Void: parseInt(document.getElementById('slD').value),
+  };
+  document.getElementById('vA').textContent = vals.Structure;
+  document.getElementById('vB').textContent = vals.Function;
+  document.getElementById('vC').textContent = vals.Method;
+  document.getElementById('vD').textContent = vals.Void;
+
+  const grid = document.getElementById('pairsGrid');
+  grid.innerHTML = genericPairs.map(p => {
+    const combined = vals[p.a] + vals[p.b];
+    const polarity = combined > 6 ? '+' : combined < 4 ? '-' : '±';
+    return `<div class="tensor-pair">
+      <div class="pair-name">${p.a} × ${p.b}</div>
+      <div class="action">${p.action} (${polarity})</div>
+      <div style="font-size:0.8rem;color:var(--dim);margin-top:0.3rem">${p.desc}</div>
+      <div style="font-size:0.75rem;color:var(--accent2);margin-top:0.2rem">Strength: ${combined}/10</div>
+    </div>`;
+  }).join('');
+}
+updatePairs();
+
+// ─── Character Builder ───
+function buildChar() {
+  const f=parseInt(document.getElementById('charFit').value);
+  const e=parseInt(document.getElementById('charExp').value);
+  const a=parseInt(document.getElementById('charApt').value);
+  document.getElementById('cFit').textContent=f;
+  document.getElementById('cExp').textContent=e;
+  document.getElementById('cApt').textContent=a;
+  const total = f+e+a;
+  const dice = n => `D${n*4}`;
+
+  document.getElementById('charOutput').innerHTML = `
+    <strong>Points: ${total}/15</strong> ${total<6?'<span style="color:#ef4444">(too low — recommend 6-7)</span>':total>10?'<span style="color:#eab308">(powerful build)</span>':'<span style="color:#22c55e">(balanced)</span>'}
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-top:0.5rem;">
+      <div>🏗️ <strong>Fitness ${f}</strong><br>Die: ${dice(f)}<br>Pool: ${2*f+2} vitality<br>Talents: ${f*2} pts</div>
+      <div>⚙️ <strong>Expertise ${e}</strong><br>Die: ${dice(e)}<br>Pool: ${2*e+2} prep<br>Talents: ${e*2} pts</div>
+      <div>🧪 <strong>Aptitude ${a}</strong><br>Die: ${dice(a)}<br>Pool: ${2*a+2} attention<br>Talents: ${a*2} pts</div>
+    </div>
+  `;
+}
+buildChar();
+
+// ─── Dice Roller ───
+function rollDice() {
+  const priSize = parseInt(document.getElementById('priDie').value);
+  const secSize = parseInt(document.getElementById('secDie').value);
+  const priRoll = Math.floor(Math.random()*priSize)+1;
+  const secRoll = Math.floor(Math.random()*secSize)+1;
+
+  // Simplified ternary mapping
+  function ternary(roll, size, isPrimary) {
+    if(roll===1) return {val:-1, sw:null};
+    const neg = isPrimary ? 2 : Math.floor(size*0.3);
+    const mid = isPrimary ? Math.floor(size*0.4) : Math.floor(size*0.15);
+    if(roll<=neg) return {val:-1, sw:null};
+    if(roll<=neg+mid) return {val:0, sw:null};
+    const switches = ['A','B','C','D'];
+    return {val:1, sw: switches[Math.floor(Math.random()*4)]};
+  }
+
+  const p = ternary(priRoll, priSize, true);
+  const s = ternary(secRoll, secSize, false);
+  const total = p.val + s.val;
+  const mult = [0.5,0.75,1,1.5,2][total+2];
+
+  const switches = [p.sw, s.sw].filter(Boolean);
+  const switchText = switches.length ? `Switches: ${switches.join(', ')}` : 'No switches activated';
+
+  const resultColor = total > 0 ? '#22c55e' : total < 0 ? '#ef4444' : '#eab308';
+
+  document.getElementById('diceResult').innerHTML = `
+    <div style="display:flex;gap:2rem;align-items:center;">
+      <div>Primary D${priSize}: <strong>${priRoll}</strong> → ${p.val>0?'+':''}${p.val}</div>
+      <div>Secondary D${secSize}: <strong>${secRoll}</strong> → ${s.val>0?'+':''}${s.val}</div>
+      <div style="font-size:1.3rem;color:${resultColor}"><strong>Total: ${total>0?'+':''}${total}</strong> (×${mult})</div>
+    </div>
+    <div style="margin-top:0.5rem;color:var(--dim);">${switchText} — apply those parameter biases from gear/talents</div>
+  `;
+}
+
+// ─── Myth Tile ───
+const tlc = document.getElementById('tileCanvas').getContext('2d');
+let tileRot = 0;
+let tileVals = {A:'.2', B:'.1', C:'.1', D:'.0'};
+const tileSigns = () => [1,-1,1,-1].map(() => Math.random()>0.5?'':'-');
+
+function randomTile() {
+  const signs = tileSigns();
+  tileVals = {
+    A: signs[0]+'.'+Math.floor(Math.random()*4+1),
+    B: signs[1]+'.'+Math.floor(Math.random()*4+1),
+    C: signs[2]+'.'+Math.floor(Math.random()*3+1),
+    D: signs[3]+'.'+Math.floor(Math.random()*4+1)
+  };
+  drawTile();
+}
+
+function rotateTile() {
+  tileRot = (tileRot + 90) % 360;
+  drawTile();
+}
+
+function drawTile() {
+  tlc.clearRect(0,0,400,300);
+  const cx=200, cy=150, s=80;
+
+  tlc.save();
+  tlc.translate(cx, cy);
+  tlc.rotate(tileRot * Math.PI/180);
+
+  // Tile body
+  tlc.fillStyle = '#1a1a2e';
+  tlc.strokeStyle = '#444';
+  tlc.lineWidth = 2;
+  tlc.fillRect(-s,-s,s*2,s*2);
+  tlc.strokeRect(-s,-s,s*2,s*2);
+
+  // Diagonals
+  tlc.beginPath();
+  tlc.moveTo(-s,-s); tlc.lineTo(s,s);
+  tlc.moveTo(s,-s); tlc.lineTo(-s,s);
+  tlc.strokeStyle='#333'; tlc.stroke();
+
+  // Corner labels
+  const labels = [
+    {x:-s+10, y:-s+20, label:`A${tileVals.A}`, color:'#22c55e'},
+    {x:s-45, y:-s+20, label:`B${tileVals.B}`, color:'#3b82f6'},
+    {x:-s+10, y:s-10, label:`C${tileVals.C}`, color:'#eab308'},
+    {x:s-45, y:s-10, label:`D${tileVals.D}`, color:'#a855f7'},
+  ];
+
+  tlc.font = 'bold 14px monospace';
+  labels.forEach(l => {
+    tlc.fillStyle = l.color;
+    tlc.fillText(l.label, l.x, l.y);
+  });
+
+  // Center N
+  tlc.fillStyle = '#f97316';
+  tlc.font = 'bold 16px monospace';
+  tlc.fillText('N', -5, 5);
+
+  tlc.restore();
+
+  // Direction indicators
+  tlc.fillStyle = '#555';
+  tlc.font = '11px Inter';
+  tlc.fillText('St', cx-5, 25);
+  tlc.fillText('Vo', cx-5, 290);
+  tlc.fillText('Fu', 15, cy+5);
+  tlc.fillText('Me', 365, cy+5);
+}
+
+drawTile();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proportional Mathematics — Patrick's Framework</title>
+<style>
+  :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#71717a; --accent:#f97316; --accent2:#a78bfa; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.7; }
+  .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+  h1 { font-size:2.2rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
+  h2 { font-size:1.5rem; margin:3rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
+  h3 { font-size:1.15rem; margin:1.5rem 0 0.5rem; color:var(--accent2); }
+  p { margin-bottom:1rem; }
+  a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+  .subtitle { color:var(--dim); font-size:1.05rem; margin-bottom:2.5rem; }
+  .card { background:var(--s1); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin:1.2rem 0; }
+  .quote { border-left:3px solid var(--accent2); padding:0.8rem 1rem; color:var(--dim); font-style:italic; margin:1.2rem 0; background:var(--s2); border-radius:0 6px 6px 0; }
+  .quote cite { display:block; margin-top:0.5rem; font-style:normal; font-size:0.8rem; color:var(--accent2); }
+  .nav { display:flex; flex-wrap:wrap; gap:0.5rem; margin:1.5rem 0 2.5rem; }
+  .nav a { background:var(--s1); border:1px solid var(--border); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; transition:border-color 0.2s; }
+  .nav a:hover { border-color:var(--accent); text-decoration:none; }
+  canvas { border:1px solid var(--border); border-radius:8px; display:block; margin:1rem 0; background:var(--s2); }
+  .controls { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin:0.5rem 0 1rem; }
+  .controls label { font-size:0.85rem; color:var(--dim); display:flex; align-items:center; gap:0.4rem; }
+  input[type=range] { width:100px; accent-color:var(--accent); }
+  select, input[type=number] { background:var(--s2); color:var(--text); border:1px solid var(--border); padding:0.3rem 0.5rem; border-radius:4px; font-size:0.85rem; }
+  button { background:var(--accent); color:white; border:none; padding:0.4rem 1rem; border-radius:5px; cursor:pointer; font-size:0.85rem; transition:opacity 0.2s; }
+  button:hover { opacity:0.85; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; } @media(max-width:600px){.grid2{grid-template-columns:1fr;}}
+  .axiom { background:var(--s1); border:1px solid var(--border); border-radius:8px; padding:1.2rem; counter-increment:ax; position:relative; margin:0.8rem 0; }
+  .axiom::before { content:'Axiom ' counter(ax); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); position:absolute; top:0.6rem; right:0.8rem; }
+  .axioms { counter-reset:ax; }
+  code { background:var(--s2); padding:0.15rem 0.5rem; border-radius:3px; font-size:0.9em; font-family:'Fira Code','SF Mono',monospace; }
+  .table-wrap { overflow-x:auto; margin:1rem 0; }
+  table { border-collapse:collapse; width:100%; font-size:0.85rem; }
+  th,td { padding:0.4rem 0.7rem; border:1px solid var(--border); text-align:center; }
+  th { background:var(--s2); color:var(--dim); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; }
+  .highlight { color:var(--accent); font-weight:600; }
+  .connection { background:linear-gradient(135deg, var(--s1), var(--s2)); border:1px solid var(--accent2); border-radius:10px; padding:1.5rem; margin:1.5rem 0; }
+  .connection h3 { color:var(--accent); margin-top:0; }
+  .tag { display:inline-block; background:var(--s2); border:1px solid var(--border); padding:0.1rem 0.5rem; border-radius:3px; font-size:0.75rem; color:var(--dim); margin:0.1rem; }
+  .spectrum-cell { font-family:'Fira Code',monospace; font-size:0.8rem; transition:background 0.2s; }
+  .spectrum-cell.cross { background:rgba(249,115,22,0.15); }
+  #spectrumTable td { cursor:default; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>⚗️ Proportional Mathematics</h1>
+<p class="subtitle">Patrick's (Ratpik's) mathematical framework — vessels, events, power spectra, and the ghost of <em>e</em></p>
+
+<div class="card">
+<p>Patrick is a self-taught mathematician who spent 2+ years building a framework that challenges how we think about numbers. Not as abstract quantities, but as <strong>constructed objects with history</strong>. Not as points on a line, but as <strong>fill-states in vessels</strong>.</p>
+<p>This site walks through his core mathematical ideas — from first axioms to the power spectrum tables where <em>e</em> keeps appearing uninvited — and connects them to ideas in non-commutative algebra, fractal geometry, and theoretical physics.</p>
+<p style="color:var(--dim);font-size:0.85rem;">Built to help Myk (and anyone else) understand Patrick's work in his own language, from first principles.</p>
+</div>
+
+<div class="nav">
+  <a href="#vessels">1. Vessels</a>
+  <a href="#construction">2. Construction History</a>
+  <a href="#irrationals">3. Irrationals</a>
+  <a href="#dimensions">4. Dimensions</a>
+  <a href="#events">5. Numbers as Events</a>
+  <a href="#spectrum">6. Power Spectrum</a>
+  <a href="#clock">7. The Invariant Clock</a>
+  <a href="#skeleton">8. 8n+1 & Sierpiński</a>
+  <a href="#commutator">9. The Commutator Connection</a>
+  <a href="#questions">10. Open Questions</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="vessels">1. Numbers as Fill-States in Vessels</h2>
+
+<div class="card">
+<p>Standard math treats numbers as dimensionless points. Patrick treats them as <strong>states of a container</strong>. A number isn't "3" floating in the void — it's "3 out of some capacity n."</p>
+<p>This isn't just notation. It changes what operations <em>mean</em>.</p>
+</div>
+
+<div class="axioms">
+  <div class="axiom"><strong>For any capacity n, a vessel (0→n)/n exists.</strong><br><span style="color:var(--dim)">Numbers live inside containers. The container defines the scale.</span></div>
+  <div class="axiom"><strong>Any fill-state can be scaled by multiplication.</strong><br><span style="color:var(--dim)">Multiplication is the primary operation — proportional scaling. Addition is a derivative projection.</span></div>
+  <div class="axiom"><strong>Fill-states have direction (±).</strong><br><span style="color:var(--dim)">Allowing interference patterns — constructive and destructive.</span></div>
+  <div class="axiom"><strong>Vessels can be compared and composed.</strong><br><span style="color:var(--dim)">Establishing ratios between different units. This is where measurement lives.</span></div>
+</div>
+
+<canvas id="vesselCanvas" width="800" height="200"></canvas>
+<div class="controls">
+  <label>Fill: <input type="range" id="vesselFill" min="0" max="100" value="60" oninput="drawVessel()"></label>
+  <label>Capacity: <input type="range" id="vesselCap" min="1" max="10" value="5" oninput="drawVessel()"></label>
+  <label>Scale by: <input type="range" id="vesselScale" min="1" max="5" value="1" step="0.5" oninput="drawVessel()"></label>
+</div>
+
+<div class="quote">
+"A ratio, once constructed, is complete; its numerical expression in any base may appear unending, but the relationship itself has closure."
+<cite>— Patrick, Proportional Axioms</cite>
+</div>
+
+<div class="card">
+<h3>Why multiplication first?</h3>
+<p>Euclid privileges addition because geometry measures by piling lengths. Patrick privileges <strong>multiplication and scaling</strong> because construction is proportional. When you build something — a house, a crystal, a number — you're scaling and composing, not stacking unit blocks.</p>
+<p>Additive descriptions are <em>derivative projections</em> of multiplicative constructions. "3 + 2 = 5" is a shadow of the proportional relationships that created those quantities.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="construction">2. The +1 as Construction History</h2>
+
+<div class="card">
+<p>In recursive proportions, Patrick uses a <code>+1</code> that does something unusual. It doesn't add a unit of quantity. It records <strong>the act of construction itself</strong>.</p>
+</div>
+
+<div class="quote">
+"The term +1 does not denote a unit quantity, but the completion of a proportional step. It represents the act of construction itself, expressed within the ratio. In recursive proportions, the +1 accumulates not as value, but as history."
+<cite>— Patrick, Proportional Axioms</cite>
+</div>
+
+<div class="card">
+<p>Watch how the +1 accumulates through recursive construction:</p>
+<div id="recursion" style="font-family:'Fira Code',monospace; font-size:0.9rem; line-height:2;"></div>
+<div class="controls">
+  <label>Factor a: <input type="number" id="recA" value="2" min="1" max="9" style="width:50px" oninput="drawRecursion()"></label>
+  <label>Factor b: <input type="number" id="recB" value="3" min="1" max="9" style="width:50px" oninput="drawRecursion()"></label>
+  <label>Capacity n: <input type="number" id="recN" value="7" min="1" max="20" style="width:50px" oninput="drawRecursion()"></label>
+</div>
+<p style="color:var(--dim);font-size:0.85rem;margin-top:0.5rem;"><strong>f</strong> = the current fill-state (what's in the vessel now). <strong>a</strong>, <strong>b</strong> = scaling factors. <strong>n</strong> = vessel capacity. Each level takes the current fill, scales it, and adds a <span class="highlight">+1</span> — the trace of that construction step. The expression grows as: <code>f/n → (af+1)/n → (a(bf+1)+1)/n = (abf+a+1)/n</code>. The <span class="highlight">+a+1</span> isn't a sum of values — it's a <em>history</em> of what was built and in what order.</p>
+</div>
+
+<div class="connection">
+<h3>🔗 Connection: Order Matters</h3>
+<p>Building with factor <code>a</code> then factor <code>b</code> gives <code>(abf+a+1)/n</code>. Building with <code>b</code> then <code>a</code> gives <code>(abf+b+1)/n</code>. Same final scaling (abf), but <em>different construction history</em> (a+1 vs b+1). The trace of <strong>which operation came first persists in the result</strong>.</p>
+<p>This is non-commutativity — not in the multiplication, but in the construction history. The +1 remembers what you did.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="irrationals">3. Irrationals as Resolution Loss</h2>
+
+<div class="card">
+<p>Standard math says √2 is irrational — it can't be expressed as a ratio of integers. Patrick reframes this:</p>
+</div>
+
+<div class="quote">
+"√ asks what lesser factor exists within a value. 2 and 3 do not contain lesser factors, they are considered prime. One dimensional. √2 or √3 is therefore mathematically viable but lacks a reference frame. Like over-pixelation, the value has gone below its reference and has lost resolution if not accuracy."
+<cite>— Patrick, on irrationals</cite>
+</div>
+
+<canvas id="pixelCanvas" width="800" height="200"></canvas>
+<div class="controls">
+  <label>Resolution: <input type="range" id="pixelRes" min="2" max="40" value="10" oninput="drawPixel()"></label>
+  <label>Target: <input type="range" id="pixelTarget" min="100" max="300" value="141" oninput="drawPixel()"><span id="pixelVal" style="font-family:monospace;">√2 ≈ 1.41</span></label>
+</div>
+
+<div class="card">
+<p>Think of a grid. Your reference frame has resolution <code>n</code>. You can express any position that lands on a grid line perfectly. But √2 doesn't land on any grid line in an integer grid. It's <em>between</em> the marks.</p>
+<p>Patrick's claim: this isn't a contradiction. It's a <strong>boundary marker</strong>. Useful to draw boundaries, but requiring derivation or reinterpretation. The value is accurate but has lost resolution within its reference frame.</p>
+<p>Irrationals aren't mysterious — they're what happens when you ask a question below your measurement scale.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="dimensions">4. The Dimensional Ceiling</h2>
+
+<div class="card">
+<div class="table-wrap">
+<table>
+  <tr><th>Level</th><th>What it is</th><th>Examples</th></tr>
+  <tr><td style="color:var(--dim)">0D</td><td>The point which has no part</td><td>Position, identity</td></tr>
+  <tr><td style="color:var(--blue)">1D</td><td>Incremental count or index</td><td>Number line, sequence</td></tr>
+  <tr><td style="color:var(--green)">2D</td><td>A flat shape with bounds</td><td>Circle, triangle, line, square</td></tr>
+  <tr><td style="color:var(--accent)">3D</td><td>A shape with depth, minimum four vertices</td><td>Tetrahedron, sphere, cube</td></tr>
+  <tr><td style="color:var(--red)">+D</td><td><strong>NOT higher dimensions.</strong> Faceted objects within 3D.</td><td>Platonic solids, polyhedra</td></tr>
+</table>
+</div>
+</div>
+
+<div class="quote">
+"This doesn't apply only to shapes however. It matters with algebra as well."
+<cite>— Patrick</cite>
+</div>
+
+<div class="card">
+<p>This is a strong claim: <strong>3D is a hard ceiling.</strong> What mathematics calls "4D" or "5D" are faceted objects that exist within three-dimensional space. The fourth "dimension" in a tesseract is a projection artifact, not a physical direction.</p>
+<p>Applied to algebra: x⁴ isn't "four-dimensional" — it's a scaled 3D object. The exponent is a construction factor, not a spatial axis. This connects to his insistence that numbers refer to <em>real objects</em> — real things can only exist in 3D, so mathematical constructions that claim more dimensions are being read incorrectly.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="events">5. Numbers as Events</h2>
+
+<div class="card">
+<p>Patrick's framework for reading numbers as <em>things that happened</em>:</p>
+<p style="text-align:center;font-size:1.2rem;margin:1rem 0;"><code>((k<sup>m</sup>)f ±1) ≈ (a<sup>b</sup> ±1)</code></p>
+<p>A product of factors combined with a fill-capacity relation, offset by a single proportional increment, can be interpreted as a power construction offset by that increment.</p>
+</div>
+
+<div id="eventsExplorer" class="card">
+  <div class="controls">
+    <label>Base: <input type="number" id="evBase" value="2" min="1" max="20" style="width:60px" oninput="updateEvents()"></label>
+    <label>Power: <input type="number" id="evPow" value="5" min="1" max="10" style="width:60px" oninput="updateEvents()"></label>
+    <label>Offset: <select id="evOff" onchange="updateEvents()"><option value="-1">-1 (reduction)</option><option value="+1">+1 (growth)</option></select></label>
+  </div>
+  <div id="evResult" style="font-family:'Fira Code',monospace; font-size:1rem; margin-top:0.5rem;"></div>
+</div>
+
+<div class="card">
+<h3>Reading the Events</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Expression</th><th>Value</th><th>Reading</th></tr>
+  <tr><td><code>1^n − 1</code></td><td>0</td><td>Collapse. Any capacity, zeroed. <span class="tag">annihilation</span></td></tr>
+  <tr><td><code>1^n + 1</code></td><td>2</td><td>Invariance. Any capacity, always 2. <span class="tag">birth</span></td></tr>
+  <tr><td><code>2⁵ − 1</code></td><td>31</td><td>Reduction from 32. "Made of twos." <span class="tag">prime</span></td></tr>
+  <tr><td><code>3³ + 1</code></td><td>28</td><td>Growth from 27. "Made of threes." <span class="tag">perfect number</span></td></tr>
+  <tr><td><code>4³ − 1</code></td><td>63</td><td>Reduction from 64. "Made of fours." <span class="tag">= 7×9</span></td></tr>
+  <tr><td><code>5⁴ + 1</code></td><td>626</td><td>Growth from 625. "Made of fives." <span class="tag">= 2×313</span></td></tr>
+</table>
+</div>
+</div>
+
+<div class="quote">
+"These expressions are not claims about factorization, but illustrations of construction history and offset behavior."
+<cite>— Patrick</cite>
+</div>
+
+<div class="connection">
+<h3>🔗 Connection: Euclid Revised</h3>
+<p>Patrick isn't replacing Euclid — he's addressing what Euclid left open:</p>
+<ul style="padding-left:1.5rem;margin:0.5rem 0;">
+  <li><strong>Equality:</strong> Two ratios can arrive at the same closure by different histories. Equality may be terminal, not procedural.</li>
+  <li><strong>Limits:</strong> Unending numerical expressions don't imply unfinished construction. π is constructed and complete — it just looks infinite in base 10.</li>
+  <li><strong>Incommensurables:</strong> Proportions need not admit integer commensuration, yet still possess closure.</li>
+  <li><strong>Contradiction:</strong> Unnecessary. Real things can't be contradictory — they just exist.</li>
+</ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="spectrum">6. The 3×3 Power Spectrum</h2>
+
+<div class="card">
+<p>This is where it gets <em>really</em> interesting. Take any number <code>n</code>. Form the triple <code>(n−1, n, n+1)</code>. Compute all nine possible powers between them:</p>
+</div>
+
+<canvas id="spectrumCanvas" width="800" height="400"></canvas>
+<div class="controls">
+  <label>n = <input type="range" id="specN" min="2" max="10" value="3" step="0.1" oninput="drawSpectrum()"><span id="specNval">3</span></label>
+  <button onclick="document.getElementById('specN').value=Math.E.toFixed(1);drawSpectrum()">n = e</button>
+  <button onclick="animateSpectrum()">▶ Animate through n</button>
+</div>
+
+<div id="spectrumTable" class="card" style="overflow-x:auto;"></div>
+
+<div class="card">
+<h3>The Crossover at <em>e</em></h3>
+<p>As you slide <code>n</code>, the ordering of the nine values changes. Some powers swap rank. The critical transitions cluster around <code>n ≈ e ≈ 2.718</code>.</p>
+<p>This is because the crossover point for <code>a^b = b^a</code> (where non-commutativity vanishes) is governed by <code>x^(1/x)</code>, which peaks at <code>x = e</code>. The number <em>e</em> isn't just a base for logarithms — it's the <strong>symmetry point of exponentiation</strong>.</p>
+
+<h3>At n = e exactly:</h3>
+<ul style="padding-left:1.5rem;">
+  <li><code>(e−1)^(e+1)</code> and <code>(e+1)^(e−1)</code> are maximally close — the non-commutative gap is minimized</li>
+  <li>The spectrum is most "ordered" — fewest rank inversions</li>
+  <li>Move away from e in either direction and the spectrum becomes more disordered</li>
+</ul>
+</div>
+
+<div class="connection">
+<h3>🔗 The Ghost of <em>e</em></h3>
+<p>Patrick calls this "the ghost of e" — it keeps showing up uninvited in his power tables. It's not put there by hand. It emerges from the <strong>structure of exponentiation itself</strong>.</p>
+<p>When Liet analyzed these tables in the Discord, he noted: <em>"What you've built is a kind of noncommutative multiplication table for exponentiation across scales. The ordering depends on which slot (base vs exponent) gets the bigger value, and the crossover behavior encodes the same ln(x)/x peak."</em></p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="clock">7. The Invariant Clock</h2>
+
+<div class="card">
+<p>Take the power spectrum and <em>tick it forward</em> by multiplying each value by an invariant <code>I</code>. Each tick shifts the whole spectrum, creating columns of evolution.</p>
+</div>
+
+<canvas id="clockCanvas" width="800" height="350"></canvas>
+<div class="controls">
+  <label>n: <input type="number" id="clockN" value="2" min="1" max="10" style="width:60px" oninput="drawClock()"></label>
+  <label>Invariant I: <select id="clockI" onchange="drawClock()">
+    <option value="2">2 (binary clock)</option>
+    <option value="2.718" selected>e (quasiperiodic)</option>
+    <option value="3.14159">π</option>
+    <option value="1.618">φ (golden ratio)</option>
+    <option value="1.41421">√2</option>
+  </select></label>
+  <label>Ticks: <input type="range" id="clockTicks" min="1" max="8" value="4" oninput="drawClock()"></label>
+</div>
+
+<div class="card">
+<div class="quote">
+"These are kind of like looking through a window into a Logarithm / Fraction while time passes."
+<cite>— Patrick</cite>
+</div>
+<p>With <code>I = 2</code>: the clock ticks in octaves. Every value is a power of 2. Pure binary — no new information, just translation along the powers-of-2 lattice.</p>
+<p>With <code>I = e</code>: the clock is <strong>quasiperiodic</strong>. The tick marks never land on the same spot twice. In log space, each tick adds <code>ln(I)</code>, so the columns are evenly spaced. The ordered spectrum gives you the <em>offsets within each period</em>. It's a logarithmic ruler scrolling past a fixed window.</p>
+<p>The <code>e</code> version is richer because <code>e</code> is transcendental — the orbit never closes. Same structure, infinite density of information per tick.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="skeleton">8. The 8n+1 Recurrence & Sierpiński</h2>
+
+<div class="card">
+<p>Start with seed 1. Apply <code>f(x) = 8x + 1</code> repeatedly:</p>
+<div id="recurrence8n" style="font-family:'Fira Code',monospace; margin:1rem 0; font-size:0.9rem;"></div>
+<p>Now decompose each term. The recurrence <code>A(n) = 8·A(n−1) + 1</code> splits into:</p>
+<ul style="padding-left:1.5rem;">
+  <li><strong>B(n)</strong> = 8^n (the "skeleton" — pure scaling without memory)</li>
+  <li><strong>C(n)</strong> = (8^n − 1)/7 (the "structure" — accumulated +1 terms)</li>
+  <li><strong>A(n) = B(n) + C(n)</strong></li>
+</ul>
+</div>
+
+<canvas id="sierpCanvas" width="800" height="350"></canvas>
+<div class="controls">
+  <label>Depth: <input type="range" id="sierpDepth" min="0" max="4" value="2" oninput="drawSierp()"><span id="sierpD">2</span></label>
+</div>
+
+<div class="card">
+<h3>The Sierpiński Connection</h3>
+<p>C(n) = (8^n − 1)/7 is <em>exactly</em> the number of holes in a <strong>Sierpiński carpet</strong> at depth n. The carpet rule is: take a 3×3 grid, remove the center, recurse into the remaining 8 squares. At each level, you create 8× the previous structure and add new holes.</p>
+<div class="table-wrap">
+<table>
+  <tr><th>n</th><th>A(n) = 8n+1 from 1</th><th>B(n) = 8^n</th><th>C(n) = holes</th><th>Carpet depth</th></tr>
+  <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>Solid square</td></tr>
+  <tr><td>1</td><td>9</td><td>8</td><td>1</td><td>1 hole</td></tr>
+  <tr><td>2</td><td>73</td><td>64</td><td>9</td><td>9 holes</td></tr>
+  <tr><td>3</td><td>585</td><td>512</td><td>73</td><td>73 holes</td></tr>
+  <tr><td>4</td><td>4681</td><td>4096</td><td>585</td><td>585 holes</td></tr>
+</table>
+</div>
+<p>This isn't an analogy. It's an exact geometric identity. The structure sequence <strong>is</strong> the Sierpiński carpet's hole count.</p>
+</div>
+
+<div class="card">
+<h3>The Fine Structure Constant</h3>
+<p>At depth 2: B(2) = 64, C(2) = 9, A(2) = 73. At depth 2 summed: B = 8 + 64 = <strong>72</strong>, C = 1 + 9 = <strong>10</strong>. Cumulative: <strong>128</strong> and <strong>9</strong>.</p>
+<p>The inverse fine structure constant α⁻¹ ≈ <strong>137.036</strong>. And 128 + 9 = <strong>137</strong>.</p>
+<p>Brookcub's thesis: 128 = 2⁷ is the "skeleton" (pure geometric scaling via 8-fold branching in 3 spatial dimensions with binary degrees of freedom), and the 9 is the "flesh" — the accumulated structure/matter content. The +1 at each level is the irreducible cost of existence at that scale.</p>
+
+<div class="quote">
+"I'd argue that the universe isn't doing anything at all. It's just there, existing. We made up 3D, we consider those binary axes, we do all the math. The universe isn't doing anything in my opinion except spinning, we made up Mathematics."
+<cite>— Patrick, responding to the 137 observation</cite>
+</div>
+
+<p style="color:var(--dim);font-size:0.85rem;">Note: α⁻¹(M_Z) ≈ 127.9, not exactly 128. The framework is suggestive but approximate. Patrick's position: these are human-made descriptions of a universe that just exists. The near-match is interesting but not a claim about physics — it's a property of the math itself.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="commutator">9. The Commutator Connection</h2>
+
+<div class="connection">
+<h3>🌊 Where Patrick meets the Groovy Commutator</h3>
+<p>Myk's Groovy Commutator: for any state S in a cellular automaton, compute <code>G(S) = D(E(S)) ⊕ E(D(S))</code> — "evolve then differentiate" XOR "differentiate then evolve." When G ≠ 0 with <em>structure</em>, you're at the edge of chaos.</p>
+<p>Patrick's power spectrum is the <em>same question</em> asked of exponentiation: when does <code>a^b ≠ b^a</code>, and what's the structure of that gap?</p>
+</div>
+
+<canvas id="commCanvas" width="800" height="300"></canvas>
+<div class="controls">
+  <label>Range: <input type="range" id="commRange" min="2" max="8" value="5" oninput="drawComm()"></label>
+</div>
+
+<div class="card">
+<p>The visualization above plots <code>|a^b − b^a|</code> for pairs (a,b). The zero contour (where exponentiation commutes) follows the curve <code>x^(1/x) = y^(1/y)</code>, which peaks at <code>e</code>.</p>
+
+<div class="grid2">
+  <div class="card">
+    <h3 style="color:var(--green)">Patrick's Finding</h3>
+    <p>The 3×3 power spectrum has a critical crossover at <code>n ≈ e</code>. At this point, the gap between cross-terms is minimized. Move away → more disorder. The number <em>e</em> is the symmetry point of exponentiation's non-commutativity.</p>
+  </div>
+  <div class="card">
+    <h3 style="color:var(--blue)">Myk's Finding</h3>
+    <p>Cellular automata at the edge of chaos (Class IV) have <code>G ≠ 0</code> with <em>structure</em>. The commutator measures where order-of-operations matters in a way that's structured, not random. This is "aliveness."</p>
+  </div>
+</div>
+
+<p style="margin-bottom:1rem;"><a href="./wet-math.html" style="background:var(--s2);border:1px solid var(--accent);padding:0.5rem 1rem;border-radius:6px;display:inline-block;">🌊 See the full Wet Math framework →</a></p>
+<p><strong>The synthesis:</strong> Both are measuring <strong>where non-commutativity has structure</strong>. Not the commutative regions (boring, predictable — Class I/II). Not the fully non-commutative regions (chaotic, random — Class III). The <em>edge</em> — where operations almost commute but don't quite, and the gap has pattern.</p>
+<p>Patrick's +1 construction history is the trace of non-commutativity: doing <code>a</code> then <code>b</code> leaves a different +1 history than <code>b</code> then <code>a</code>. The Groovy Commutator measures the same thing for CA evolution. Same ghost, different staircase.</p>
+</div>
+
+<div class="card">
+<h3>The Squaring the Circle (Almost)</h3>
+<p>One more party trick: extend each cardinal radius of a circle by ¼ (making 5/4 × r), draw a square around those points.</p>
+<p>Square area = <code>(5/4 × 2r)² / 4 = (25/8)r² = 3.125r²</code></p>
+<p>Circle area = <code>πr² ≈ 3.14159r²</code></p>
+<p>Difference: <strong>0.53%</strong>. Invisible at drawing scale. A magic trick from the relationship between hypotenuse and radius — they're nearly exactly 2.5 apart.</p>
+<canvas id="circleCanvas" width="400" height="400"></canvas>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2 id="questions">10. Open Questions</h2>
+
+<div class="card">
+<ol style="padding-left:1.5rem;">
+  <li style="margin-bottom:1rem;"><strong>The +1 history and the commutator:</strong> If (abf+a+1)/n ≠ (abf+b+1)/n is the "construction commutator," can we define a formal operator <code>[a,b]_c = (a+1) − (b+1) = a − b</code> and study its properties? Does this commutator have eigenvalues? Fixed points?</li>
+  <li style="margin-bottom:1rem;"><strong>The ⅔ rounding threshold:</strong> In the McGuffin game system, Patrick uses 0.667 instead of 0.5 as the rounding boundary. Is there a proportional-axiom derivation of why 2/3 is the "right" threshold? It feels logarithmic rather than arithmetic.</li>
+  <li style="margin-bottom:1rem;"><strong>Irrationals as fractal boundaries:</strong> If √2 is "below resolution," and the Sierpiński carpet is the geometry of the 8n+1 sequence... are irrationals the boundaries <em>between</em> carpet levels? Does "resolution" correspond to fractal depth?</li>
+  <li style="margin-bottom:1rem;"><strong>The e-crossover in higher constructions:</strong> The power spectrum crossover happens at e for pairs. What happens for triples? For the full tetrahedron? Does the "ghost of e" generalize to higher-arity power structures?</li>
+  <li style="margin-bottom:1rem;"><strong>The shell decomposition:</strong> <code>(i+1)^(i+1) = i^i + i^(i+1) + (i+1)^i + remainder</code>, and remainder/(i(i+1)) gives clean integers. Why? What's the algebraic identity underlying this? Is this related to the binomial theorem applied to exponentiation?</li>
+  <li style="margin-bottom:1rem;"><strong>Connection to E₈:</strong> The σ₃ divisor sums connecting the 8n+1 structure sequence to Eisenstein series E₄ (which governs E₈ lattice theta functions) — is this a deep connection or a coincidence of modular arithmetic? The fact that three unrelated areas (Sierpiński holes, octal repunits, modular form coefficients) agree on the same numbers feels significant.</li>
+</ol>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ═══ Vessel Visualization ═══
+const vc = document.getElementById('vesselCanvas').getContext('2d');
+function drawVessel() {
+  const fill = parseInt(document.getElementById('vesselFill').value)/100;
+  const cap = parseInt(document.getElementById('vesselCap').value);
+  const scale = parseFloat(document.getElementById('vesselScale').value);
+  vc.clearRect(0,0,800,200);
+
+  const drawOne = (x, f, n, s, label) => {
+    const w=80, h=140, y0=25;
+    // Vessel outline
+    vc.strokeStyle='#444'; vc.lineWidth=2;
+    vc.strokeRect(x, y0, w, h);
+    // Fill
+    const fh = h * Math.min(f, 1);
+    vc.fillStyle = f > 1 ? 'rgba(239,68,68,0.3)' : 'rgba(249,115,22,0.25)';
+    vc.fillRect(x+1, y0+h-fh, w-2, fh);
+    // Label
+    vc.fillStyle='#d4d4d8'; vc.font='12px Inter';
+    vc.fillText(label, x, y0-8);
+    vc.fillStyle='#71717a'; vc.font='11px Fira Code';
+    vc.fillText(`${(f*n).toFixed(1)}/${n}`, x+15, y0+h+18);
+    // Tick marks
+    for(let i=0;i<=n;i++){
+      const ty = y0+h - (i/n)*h;
+      vc.beginPath(); vc.moveTo(x-5,ty); vc.lineTo(x,ty);
+      vc.strokeStyle='#555'; vc.lineWidth=1; vc.stroke();
+      if(i%1===0){vc.fillStyle='#555';vc.font='9px monospace';vc.fillText(i,x-18,ty+3);}
+    }
+  };
+
+  drawOne(60, fill, cap, 1, `Original: ${(fill*cap).toFixed(1)}/${cap}`);
+  drawOne(220, fill*scale, cap, scale, `×${scale}: ${(fill*cap*scale).toFixed(1)}/${cap}`);
+
+  // Arrow
+  vc.beginPath(); vc.moveTo(155,95); vc.lineTo(205,95);
+  vc.strokeStyle='var(--accent)'; vc.lineWidth=2; vc.stroke();
+  vc.beginPath(); vc.moveTo(200,90); vc.lineTo(210,95); vc.lineTo(200,100);
+  vc.fillStyle='var(--accent)'; vc.fill();
+  vc.fillStyle='var(--accent)'; vc.font='12px Inter';
+  vc.fillText(`×${scale}`, 165, 88);
+}
+drawVessel();
+
+// ═══ Recursion Builder ═══
+function drawRecursion() {
+  const a = parseInt(document.getElementById('recA').value);
+  const b = parseInt(document.getElementById('recB').value);
+  const n = parseInt(document.getElementById('recN').value);
+  const el = document.getElementById('recursion');
+
+  let f = 1;
+  const lines = [`Level 0: <span style="color:var(--dim)">f/n</span> = <span class="highlight">${f}/${n}</span>`];
+
+  // Level 1: apply a
+  const f1 = a*f+1;
+  lines.push(`Level 1: <span style="color:var(--dim)">(a·f+<span class="highlight">1</span>)/n</span> = (${a}·${f}+<span class="highlight">1</span>)/${n} = <span class="highlight">${f1}/${n}</span>`);
+
+  // Level 2: apply b
+  const f2 = b*f1+1;
+  lines.push(`Level 2: <span style="color:var(--dim)">(b·f₁+<span class="highlight">1</span>)/n</span> = (${b}·${f1}+<span class="highlight">1</span>)/${n} = <span class="highlight">${f2}/${n}</span>`);
+  lines.push(`<span style="color:var(--dim)">Expanded: (${a*b}·f + ${a} + 1)/${n} — the <span class="highlight">+${a}+1</span> is construction history</span>`);
+
+  // Reversed: b then a
+  const f1r = b*f+1;
+  const f2r = a*f1r+1;
+  lines.push(`<br><span style="color:var(--accent2)">Reversed (b then a):</span> (${a*b}·f + ${b} + 1)/${n} = <span class="highlight">${f2r}/${n}</span>`);
+  if(f2 !== f2r) {
+    lines.push(`<span style="color:var(--red)">Different! ${f2}/${n} ≠ ${f2r}/${n} — order matters. Δ = ${f2-f2r}</span>`);
+  }
+
+  el.innerHTML = lines.join('<br>');
+}
+drawRecursion();
+
+// ═══ Pixel/Resolution Visualization ═══
+const pc = document.getElementById('pixelCanvas').getContext('2d');
+function drawPixel() {
+  const res = parseInt(document.getElementById('pixelRes').value);
+  const target = parseInt(document.getElementById('pixelTarget').value)/100;
+  pc.clearRect(0,0,800,200);
+
+  const w=700, h=150, x0=50, y0=25;
+  document.getElementById('pixelVal').textContent = `Target: ${target.toFixed(2)}`;
+
+  // Grid
+  for(let i=0; i<=res; i++){
+    const x = x0 + (i/res)*w;
+    pc.beginPath(); pc.moveTo(x, y0); pc.lineTo(x, y0+h);
+    pc.strokeStyle = '#222'; pc.lineWidth=1; pc.stroke();
+    if(i<=5||i===res){pc.fillStyle='#555';pc.font='9px monospace';pc.fillText((i/res*2).toFixed(2),x-10,y0+h+15);}
+  }
+
+  // Target line
+  const tx = x0 + (target/2)*w;
+  pc.beginPath(); pc.moveTo(tx, y0); pc.lineTo(tx, y0+h);
+  pc.strokeStyle='var(--accent)'; pc.lineWidth=2; pc.setLineDash([4,4]); pc.stroke(); pc.setLineDash([]);
+
+  // Nearest grid lines
+  const nearest = Math.round(target/2*res)/res*2;
+  const nx = x0 + (nearest/2)*w;
+  pc.beginPath(); pc.moveTo(nx, y0+20); pc.lineTo(nx, y0+h-20);
+  pc.strokeStyle='var(--green)'; pc.lineWidth=3; pc.stroke();
+
+  // Labels
+  pc.fillStyle='var(--accent)'; pc.font='12px Inter';
+  pc.fillText(`Target: ${target.toFixed(4)}`, tx-40, y0-5);
+  pc.fillStyle='var(--green)';
+  pc.fillText(`Nearest: ${nearest.toFixed(4)}`, nx+5, y0+15);
+  const err = Math.abs(target-nearest);
+  pc.fillStyle = err > 0.01 ? 'var(--red)' : 'var(--green)';
+  pc.fillText(`Gap: ${err.toFixed(4)}`, tx+5, y0+h-5);
+}
+drawPixel();
+
+// ═══ Events Explorer ═══
+function updateEvents() {
+  const base = parseInt(document.getElementById('evBase').value);
+  const pow = parseInt(document.getElementById('evPow').value);
+  const off = parseInt(document.getElementById('evOff').value);
+  const val = Math.pow(base, pow);
+  const result = val + off;
+  const offStr = off > 0 ? '+1' : '−1';
+  const typeStr = off > 0 ? '<span style="color:var(--green)">Growth event</span>' : '<span style="color:var(--red)">Reduction event</span>';
+
+  document.getElementById('evResult').innerHTML = `
+    <span style="font-size:1.3rem">${base}<sup>${pow}</sup> ${offStr} = <span class="highlight">${result}</span></span><br>
+    ${typeStr} from ${val}. "Made of ${base}s."<br>
+    <span style="color:var(--dim)">Construction: ${base} scaled ${pow} times, then offset by the act of construction (${offStr}).</span>
+  `;
+}
+updateEvents();
+
+// ═══ Power Spectrum ═══
+const sc = document.getElementById('spectrumCanvas').getContext('2d');
+let specAnim = null;
+
+function computeSpectrum(n) {
+  const a=n-1, b=n, c=n+1;
+  const pairs = [
+    {label:'a^a', base:a, exp:a}, {label:'a^b', base:a, exp:b}, {label:'a^c', base:a, exp:c},
+    {label:'b^a', base:b, exp:a}, {label:'b^b', base:b, exp:b}, {label:'b^c', base:b, exp:c},
+    {label:'c^a', base:c, exp:a}, {label:'c^b', base:c, exp:b}, {label:'c^c', base:c, exp:c},
+  ];
+  return pairs.map(p => ({...p, val: Math.pow(p.base, p.exp)}));
+}
+
+function drawSpectrum() {
+  const n = parseFloat(document.getElementById('specN').value);
+  document.getElementById('specNval').textContent = n.toFixed(1);
+  const spectrum = computeSpectrum(n);
+  const sorted = [...spectrum].sort((a,b) => a.val - b.val);
+
+  sc.clearRect(0,0,800,400);
+  const maxVal = sorted[sorted.length-1].val;
+  const logMax = Math.log(maxVal+1);
+
+  // Draw bars
+  const barW = 70, gap = 15, x0 = 40;
+  sorted.forEach((s, i) => {
+    const x = x0 + i*(barW+gap);
+    const logH = (Math.log(s.val+1)/logMax) * 320;
+
+    // Color by cross-term status
+    const isCross = s.label[0] !== s.label[2]; // a^b vs a^a
+    sc.fillStyle = isCross ? 'rgba(249,115,22,0.4)' : 'rgba(168,139,250,0.3)';
+    sc.fillRect(x, 370-logH, barW, logH);
+    sc.strokeStyle = isCross ? '#f97316' : '#a78bfa';
+    sc.lineWidth=1; sc.strokeRect(x, 370-logH, barW, logH);
+
+    // Label
+    sc.fillStyle='#d4d4d8'; sc.font='11px Fira Code';
+    sc.fillText(s.label, x+15, 388);
+    sc.fillStyle='#71717a'; sc.font='9px Fira Code';
+    const vStr = s.val > 1000 ? s.val.toExponential(1) : s.val.toFixed(2);
+    sc.fillText(vStr, x+5, 365-logH);
+  });
+
+  // Legend
+  sc.fillStyle='#71717a'; sc.font='11px Inter';
+  sc.fillText('■ diagonal (a^a, b^b, c^c)   ■ cross-term (a^b, b^c, etc.)', 40, 15);
+  sc.fillStyle='rgba(168,139,250,0.5)'; sc.fillRect(40,6,10,10);
+  sc.fillStyle='rgba(249,115,22,0.5)'; sc.fillRect(240,6,10,10);
+
+  // Table
+  const a=n-1, b=n, c=n+1;
+  let html = `<table><tr><th></th><th>exp = ${a.toFixed(1)}</th><th>exp = ${n.toFixed(1)}</th><th>exp = ${c.toFixed(1)}</th></tr>`;
+  const bases = [{l:'a='+a.toFixed(1),v:a},{l:'b='+n.toFixed(1),v:b},{l:'c='+c.toFixed(1),v:c}];
+  const exps = [a,b,c];
+  for(const base of bases) {
+    html += `<tr><th>${base.l}</th>`;
+    for(const exp of exps) {
+      const val = Math.pow(base.v, exp);
+      const vStr = val > 10000 ? val.toExponential(2) : val.toFixed(3);
+      // Check for crossover (compare with transposed)
+      const trans = Math.pow(exp, base.v);
+      const gap = Math.abs(val - trans);
+      const isCross = gap < Math.max(val,trans)*0.01;
+      html += `<td class="spectrum-cell ${isCross?'cross':''}">${vStr}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  html += `<p style="font-size:0.8rem;color:var(--dim);margin-top:0.5rem;">Orange cells: near-commutative (a^b ≈ b^a). The closer n is to e ≈ 2.718, the more orange you see.</p>`;
+  document.getElementById('spectrumTable').innerHTML = html;
+}
+drawSpectrum();
+
+function animateSpectrum() {
+  if(specAnim) { cancelAnimationFrame(specAnim); specAnim=null; return; }
+  let n = 2;
+  const step = () => {
+    n += 0.02;
+    if(n > 8) { specAnim=null; return; }
+    document.getElementById('specN').value = n.toFixed(1);
+    drawSpectrum();
+    specAnim = requestAnimationFrame(step);
+  };
+  step();
+}
+
+// ═══ Invariant Clock ═══
+const cc = document.getElementById('clockCanvas').getContext('2d');
+function drawClock() {
+  const n = parseFloat(document.getElementById('clockN').value);
+  const I = parseFloat(document.getElementById('clockI').value);
+  const ticks = parseInt(document.getElementById('clockTicks').value);
+  cc.clearRect(0,0,800,350);
+
+  const a=n-1||0.5, b=n, c=n+1;
+  const bases = [
+    {l:'a^a',v:Math.pow(a,a)},{l:'a^b',v:Math.pow(a,b)},{l:'a^c',v:Math.pow(a,c)},
+    {l:'b^a',v:Math.pow(b,a)},{l:'b^b',v:Math.pow(b,b)},{l:'b^c',v:Math.pow(b,c)},
+    {l:'c^a',v:Math.pow(c,a)},{l:'c^b',v:Math.pow(c,b)},{l:'c^c',v:Math.pow(c,c)},
+  ].filter(x => isFinite(x.v) && x.v > 0).sort((x,y) => x.v - y.v);
+
+  const colors = ['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#8b5cf6','#d946ef','#f43f5e'];
+
+  // Find range for log scale
+  let allVals = [];
+  bases.forEach(b => { for(let t=0;t<ticks;t++) allVals.push(b.v * Math.pow(I,t)); });
+  const logMin = Math.log(Math.min(...allVals));
+  const logMax = Math.log(Math.max(...allVals));
+
+  const x0=100, xW=650, y0=30, yH=280;
+
+  // Draw tick columns
+  for(let t=0; t<ticks; t++) {
+    const xBase = x0 + (t/(ticks-1||1))*xW;
+    cc.beginPath(); cc.moveTo(xBase, y0); cc.lineTo(xBase, y0+yH);
+    cc.strokeStyle='#1a1a2e'; cc.lineWidth=1; cc.stroke();
+    cc.fillStyle='#555'; cc.font='10px Inter';
+    cc.fillText(`×I^${t}`, xBase-15, y0+yH+20);
+  }
+
+  // Draw traces
+  bases.forEach((b, bi) => {
+    cc.beginPath();
+    for(let t=0; t<ticks; t++) {
+      const val = b.v * Math.pow(I, t);
+      const lv = Math.log(val);
+      const x = x0 + (t/(ticks-1||1))*xW;
+      const y = y0 + yH - ((lv-logMin)/(logMax-logMin||1))*yH;
+      if(t===0) cc.moveTo(x,y); else cc.lineTo(x,y);
+    }
+    cc.strokeStyle=colors[bi%colors.length]; cc.lineWidth=2; cc.stroke();
+
+    // Label
+    const lv0 = Math.log(b.v);
+    const y = y0 + yH - ((lv0-logMin)/(logMax-logMin||1))*yH;
+    cc.fillStyle=colors[bi%colors.length]; cc.font='10px Fira Code';
+    cc.fillText(b.l, 20, y+3);
+  });
+
+  // Axis label
+  cc.fillStyle='#555'; cc.font='10px Inter';
+  cc.save(); cc.translate(12, y0+yH/2); cc.rotate(-Math.PI/2);
+  cc.fillText('log scale →', 0, 0); cc.restore();
+}
+drawClock();
+
+// ═══ 8n+1 Recurrence ═══
+function draw8n1() {
+  let val = 1;
+  const seq = [val];
+  for(let i=0; i<6; i++) { val = 8*val+1; seq.push(val); }
+
+  const el = document.getElementById('recurrence8n');
+  el.innerHTML = seq.map((v,i) => {
+    const bn = Math.pow(8,i);
+    const cn = (bn-1)/7;
+    return `<span style="color:var(--accent)">${v}</span> <span style="color:var(--dim)">= ${bn} + ${cn} (skeleton + structure)</span>`;
+  }).join('<br>');
+}
+draw8n1();
+
+// ═══ Sierpiński Carpet ═══
+const sp = document.getElementById('sierpCanvas').getContext('2d');
+function drawSierp() {
+  const depth = parseInt(document.getElementById('sierpDepth').value);
+  document.getElementById('sierpD').textContent = depth;
+  sp.clearRect(0,0,800,350);
+
+  const size = 320;
+  const x0 = (800-size)/2, y0 = 15;
+
+  function draw(x, y, s, d) {
+    if(d === 0) {
+      sp.fillStyle = '#2a2a40';
+      sp.fillRect(x, y, s, s);
+      sp.strokeStyle = '#333';
+      sp.strokeRect(x, y, s, s);
+      return;
+    }
+    const sub = s/3;
+    for(let r=0; r<3; r++) {
+      for(let c=0; c<3; c++) {
+        if(r===1 && c===1) {
+          // Hole
+          sp.fillStyle = 'rgba(249,115,22,0.15)';
+          sp.fillRect(x+c*sub, y+r*sub, sub, sub);
+          sp.strokeStyle = 'rgba(249,115,22,0.3)';
+          sp.strokeRect(x+c*sub, y+r*sub, sub, sub);
+        } else {
+          draw(x+c*sub, y+r*sub, sub, d-1);
+        }
+      }
+    }
+  }
+
+  draw(x0, y0, size, depth);
+
+  // Info
+  const holes = (Math.pow(8, depth)-1)/7;
+  const remaining = Math.pow(8, depth);
+  sp.fillStyle='#d4d4d8'; sp.font='13px Inter';
+  sp.fillText(`Depth ${depth}: ${holes} holes, ${remaining} solid pieces`, x0, size+y0+25);
+  sp.fillText(`A(${depth}) = ${remaining + holes} = ${remaining} + ${holes}`, x0, size+y0+45);
+}
+drawSierp();
+
+// ═══ Commutator Heatmap ═══
+const cm = document.getElementById('commCanvas').getContext('2d');
+function drawComm() {
+  const range = parseFloat(document.getElementById('commRange').value);
+  cm.clearRect(0,0,800,300);
+
+  const x0=60, y0=10, w=700, h=260;
+  const steps = 100;
+
+  for(let i=0; i<steps; i++) {
+    for(let j=0; j<steps; j++) {
+      const a = 0.5 + (i/steps)*range;
+      const b = 0.5 + (j/steps)*range;
+      const ab = Math.pow(a,b);
+      const ba = Math.pow(b,a);
+      const gap = Math.abs(ab-ba) / Math.max(ab, ba, 1);
+
+      const intensity = Math.min(gap * 3, 1);
+      const r = Math.floor(intensity * 249);
+      const g = Math.floor((1-intensity) * 100);
+      const bl = Math.floor((1-intensity) * 200);
+
+      cm.fillStyle = `rgb(${r},${g},${bl})`;
+      cm.fillRect(x0 + (i/steps)*w, y0 + (j/steps)*h, w/steps+1, h/steps+1);
+    }
+  }
+
+  // Draw commutative curve (a^b = b^a)
+  cm.beginPath();
+  for(let i=1; i<steps; i++) {
+    const a = 0.5 + (i/steps)*range;
+    // b^a = a^b → b = a^(b/a), solved numerically as a = b
+    const x = x0 + (i/steps)*w;
+    const y = y0 + (i/steps)*h;
+    if(i===1) cm.moveTo(x,y); else cm.lineTo(x,y);
+  }
+  cm.strokeStyle='rgba(255,255,255,0.3)'; cm.lineWidth=1; cm.stroke();
+
+  // Mark e
+  const ePos = (Math.E - 0.5) / range;
+  if(ePos > 0 && ePos < 1) {
+    const ex = x0 + ePos*w, ey = y0 + ePos*h;
+    cm.beginPath(); cm.arc(ex, ey, 5, 0, Math.PI*2);
+    cm.fillStyle='#22c55e'; cm.fill();
+    cm.fillStyle='#22c55e'; cm.font='12px Inter';
+    cm.fillText('e', ex+8, ey+4);
+  }
+
+  // Axes
+  cm.fillStyle='#555'; cm.font='10px Inter';
+  cm.fillText('a →', x0+w/2, y0+h+18);
+  cm.save(); cm.translate(15, y0+h/2); cm.rotate(-Math.PI/2);
+  cm.fillText('b →', 0, 0); cm.restore();
+
+  cm.fillStyle='#71717a'; cm.font='10px Inter';
+  cm.fillText('Dark = commutative (a^b ≈ b^a)', x0, y0+h+30);
+  cm.fillText('Bright = non-commutative (large |a^b − b^a|)', x0+300, y0+h+30);
+}
+drawComm();
+
+// ═══ Squaring the Circle ═══
+const crc = document.getElementById('circleCanvas').getContext('2d');
+(function drawCircle(){
+  const cx=200, cy=200, r=120;
+  crc.clearRect(0,0,400,400);
+
+  // Circle
+  crc.beginPath(); crc.arc(cx,cy,r,0,Math.PI*2);
+  crc.strokeStyle='#3b82f6'; crc.lineWidth=2; crc.stroke();
+
+  // Extended radii (5/4)
+  const ext = r * 5/4;
+  const dirs = [[0,-1],[1,0],[0,1],[-1,0]];
+  dirs.forEach(([dx,dy]) => {
+    crc.beginPath(); crc.moveTo(cx,cy);
+    crc.lineTo(cx+dx*ext, cy+dy*ext);
+    crc.strokeStyle='rgba(249,115,22,0.5)'; crc.lineWidth=1; crc.setLineDash([3,3]); crc.stroke(); crc.setLineDash([]);
+
+    // Mark 5/4 point
+    crc.beginPath(); crc.arc(cx+dx*ext, cy+dy*ext, 3, 0, Math.PI*2);
+    crc.fillStyle='#f97316'; crc.fill();
+  });
+
+  // Square around 5/4 points
+  crc.strokeStyle='#f97316'; crc.lineWidth=2;
+  crc.strokeRect(cx-ext, cy-ext, ext*2, ext*2);
+
+  // Labels
+  crc.fillStyle='#3b82f6'; crc.font='12px Inter';
+  crc.fillText(`Circle: πr² ≈ ${(Math.PI*r*r).toFixed(0)}px²`, 20, 380);
+  crc.fillStyle='#f97316';
+  crc.fillText(`Square: (5r/2)² ≈ ${(ext*2*ext*2/4).toFixed(0)}px²  (${((25/8/Math.PI-1)*100).toFixed(2)}% off)`, 20, 395);
+  crc.fillStyle='#71717a'; crc.font='10px Inter';
+  crc.fillText('r', cx+5, cy-r/2);
+  crc.fillStyle='#f97316';
+  crc.fillText('5r/4', cx+5, cy-r-10);
+})();
+</script>
+</body>
+</html>

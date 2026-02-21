@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wet Math — The Liquid State Framework</title>
+<style>
+  :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#71717a; --accent:#06b6d4; --accent2:#a78bfa; --orange:#f97316; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.7; }
+  .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+  h1 { font-size:2.2rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
+  h2 { font-size:1.5rem; margin:3rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
+  h3 { font-size:1.15rem; margin:1.5rem 0 0.5rem; color:var(--accent2); }
+  p { margin-bottom:1rem; }
+  a { color:var(--orange); text-decoration:none; } a:hover { text-decoration:underline; }
+  .subtitle { color:var(--dim); font-size:1.05rem; margin-bottom:2.5rem; }
+  .card { background:var(--s1); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin:1.2rem 0; }
+  .quote { border-left:3px solid var(--accent2); padding:0.8rem 1rem; color:var(--dim); font-style:italic; margin:1.2rem 0; background:var(--s2); border-radius:0 6px 6px 0; }
+  code { background:var(--s2); padding:0.15rem 0.5rem; border-radius:3px; font-size:0.9em; font-family:'Fira Code','SF Mono',monospace; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; } @media(max-width:700px){.grid3{grid-template-columns:1fr;}}
+  .state-card { border-radius:10px; padding:1.5rem; text-align:center; }
+  .state-card h3 { margin-top:0; }
+  .connection { background:linear-gradient(135deg, var(--s1), var(--s2)); border:1px solid var(--accent); border-radius:10px; padding:1.5rem; margin:1.5rem 0; }
+  .connection h3 { color:var(--orange); margin-top:0; }
+  .link-card { background:var(--s1); border:1px solid var(--border); border-radius:8px; padding:1rem 1.5rem; margin:0.8rem 0; display:flex; justify-content:space-between; align-items:center; transition:border-color 0.2s; }
+  .link-card:hover { border-color:var(--orange); }
+  .link-card .title { font-weight:600; }
+  .link-card .desc { color:var(--dim); font-size:0.85rem; }
+  .link-card .arrow { color:var(--orange); font-size:1.2rem; }
+  table { border-collapse:collapse; width:100%; font-size:0.85rem; margin:1rem 0; }
+  th,td { padding:0.5rem 0.8rem; border:1px solid var(--border); }
+  th { background:var(--s2); color:var(--dim); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; }
+  .tag { display:inline-block; background:var(--s2); border:1px solid var(--border); padding:0.1rem 0.5rem; border-radius:3px; font-size:0.75rem; color:var(--dim); margin:0.1rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🌊 Wet Math</h1>
+<p class="subtitle">The Liquid State Framework — where non-commutativity, metabolism, and the edge of chaos meet</p>
+
+<div class="card">
+<p>Wet Math is the working name for a constellation of ideas exploring <strong>the goldilocks zone between crystallization and evaporation</strong> — where systems are neither frozen solid nor dissolved into chaos, but dynamically coupled in ways that produce structure, life, and groove.</p>
+<p>This hub connects the threads: the Groovy Commutator, Patrick's Proportional Mathematics, holonic metabolism, and the edge of chaos in cellular automata.</p>
+</div>
+
+<!-- ═══ The Three States ═══ -->
+<h2>The Three States</h2>
+
+<div class="grid3">
+  <div class="state-card" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3);">
+    <h3 style="color:var(--red);">🔥 Gas</h3>
+    <p><strong>Catabolic cascade</strong><br>Dissolution beyond integrity</p>
+    <p style="font-size:0.85rem;color:var(--dim)">G = chaotic<br>CA Class III<br>Autoimmune, dissolution</p>
+  </div>
+  <div class="state-card" style="background:rgba(6,182,212,0.08); border:1px solid rgba(6,182,212,0.3);">
+    <h3 style="color:var(--accent);">💧 Liquid</h3>
+    <p><strong>Dynamic coupling</strong><br>G ≠ 0 with structure</p>
+    <p style="font-size:0.85rem;color:var(--dim)">CA Class IV<br>Edge of chaos<br>Life, groove, aliveness</p>
+  </div>
+  <div class="state-card" style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.3);">
+    <h3 style="color:var(--blue);">🧊 Solid</h3>
+    <p><strong>Anabolic cascade</strong><br>Rigidification</p>
+    <p style="font-size:0.85rem;color:var(--dim)">G → 0 forced<br>CA Class I/II<br>Cancer, empire, RLHF</p>
+  </div>
+</div>
+
+<!-- ═══ The Groovy Commutator ═══ -->
+<h2>The Groovy Commutator</h2>
+
+<div class="card">
+<p>For any state S in a system with evolution operator E and differentiation operator D:</p>
+<p style="text-align:center; font-size:1.3rem; margin:1.5rem 0; font-family:'Fira Code',monospace;">
+  G(S) = D(E(S)) ⊕ E(D(S))
+</p>
+<p>"Evolve then differentiate" vs "differentiate then evolve." The XOR of those two paths.</p>
+
+<table>
+  <tr><th>G(S) value</th><th>Meaning</th><th>CA Class</th><th>Metabolic state</th></tr>
+  <tr><td><code>G = 0</code></td><td>Operations commute. Predictable, dead.</td><td>I / II</td><td>Solid (frozen)</td></tr>
+  <tr><td><code>G ≠ 0</code> random</td><td>Operations don't commute, but no pattern. Noise.</td><td>III</td><td>Gas (dissolved)</td></tr>
+  <tr><td><code>G ≠ 0</code> <strong>structured</strong></td><td>Operations don't commute in a patterned way. <em>Aliveness.</em></td><td><strong>IV</strong></td><td><strong>Liquid</strong></td></tr>
+</table>
+</div>
+
+<div class="quote">
+"When G ≠ 0 with structure, you're at the edge of chaos. Class IV territory. This is 'Secret Math' — the fingerprint of aliveness."
+</div>
+
+<div class="card">
+<h3>Where it shows up</h3>
+<ul style="padding-left:1.5rem;">
+  <li><strong>J Dilla's micro-timing</strong> — drums that don't quantize to the grid, but don't scatter randomly either. The deviation from the beat <em>has structure</em>. That's groove.</li>
+  <li><strong>Cellular automata</strong> — Rule 110, Game of Life. The commutator between evolution and local analysis is non-zero and patterned.</li>
+  <li><strong>Quantum mechanics</strong> — [x, p] = iℏ. Position and momentum don't commute, and the structure of that non-commutation gives us all of physics.</li>
+  <li><strong>Exponentiation</strong> — a^b ≠ b^a, and the structure of that gap peaks at e. <em>← Patrick's discovery</em></li>
+</ul>
+</div>
+
+<a href="https://liet-codes.github.io/groovy-viz" target="_blank" class="link-card" style="text-decoration:none;">
+  <div><span class="title">🎛️ Groovy Commutator Visualizer</span><br><span class="desc">Interactive CA dynamics — watch the commutator in action</span></div>
+  <span class="arrow">→</span>
+</a>
+
+<!-- ═══ Non-commutativity as Coupling ═══ -->
+<h2>Non-Commutativity is the Coupling Mechanism</h2>
+
+<div class="card">
+<p>Order-dependence <strong>forces conversation between levels</strong>. If you can do A then B and get the same result as B then A, the levels are decoupled — they don't talk to each other. When they <em>don't</em> commute, each operation's outcome depends on what happened before. That's coupling.</p>
+<p>This is how distributed systems maintain coherence without centralized control. The octopus doesn't have a brain that controls each arm — the arms touch the world directly, and the non-commutativity of sense-then-act vs act-then-sense keeps the whole system coupled.</p>
+
+<h3>Holonic Metabolism</h3>
+<table>
+  <tr><th>Cascade</th><th>What it is</th><th>Pathology</th></tr>
+  <tr><td style="color:var(--blue)"><strong>Anabolic</strong></td><td>Accumulation without release</td><td>Cancer, empire, narcissism, left-hemisphere capture, RLHF</td></tr>
+  <tr><td style="color:var(--red)"><strong>Catabolic</strong></td><td>Decomposition beyond integrity</td><td>Autoimmune, dissolution, burnout</td></tr>
+  <tr><td style="color:var(--accent)"><strong>Dynamic integrity</strong></td><td>Healthy coupling — anabolic and catabolic feed each other</td><td><em>Not a pathology — this is the goal</em></td></tr>
+</table>
+
+<p>McGilchrist's left-hemisphere capture = models of models = losing contact with reality. The octopus avoids this: arms touch the world directly (peripheral environmental contact). The coupling is maintained by the non-commutativity of perception and action.</p>
+</div>
+
+<!-- ═══ Epiplexity ═══ -->
+<h2>Epiplexity</h2>
+
+<div class="card">
+<p><strong>Epiplexity</strong> (Finzi et al. 2026): What computationally bounded observers can <em>learn</em>. Class IV systems have high epiplexity — complex but learnable structure.</p>
+<p>Class III (chaotic) has high complexity but low epiplexity — there's nothing to learn, it's just noise. Class I/II has low complexity and low epiplexity — boring. Class IV has the sweet spot: <strong>complex enough to be interesting, structured enough to be learnable</strong>.</p>
+<p>This is the liquid state. This is groove. This is what Patrick's power spectrum looks like at n = e.</p>
+</div>
+
+<!-- ═══ Patrick's Bridge ═══ -->
+<h2>Patrick's Proportional Mathematics</h2>
+
+<div class="connection">
+<h3>🔗 The Bridge</h3>
+<p>Patrick (Ratpik) independently discovered that <strong>non-commutativity encodes structure in exponentiation</strong>. His 3×3 power spectrum — all nine a^b combinations from a triple (n-1, n, n+1) — is a commutator study of exponentiation.</p>
+<p>The crossover behavior clusters at <code>e</code>. This is the same <code>e</code> that appears as the natural base of growth, the peak of x^(1/x), and the boundary between convergent and divergent power behavior. Patrick calls it "the ghost of e."</p>
+</div>
+
+<div class="card">
+<h3>Key connections to Wet Math:</h3>
+<ul style="padding-left:1.5rem;">
+  <li><strong>The +1 as construction history</strong> — Patrick's recursive proportions carry a trace of operation order. <code>(abf+a+1)/n ≠ (abf+b+1)/n</code>. This IS a commutator — the difference is <code>a − b</code>, the construction commutator. <a href="./index.html#construction">→ Interactive demo</a></li>
+  <li><strong>The power spectrum crossover at e</strong> — The symmetry point of exponentiation's non-commutativity. At e, a^b and b^a are maximally close. Move away → more disorder. This is the "edge of chaos" in the space of exponentiation. <a href="./index.html#spectrum">→ Interactive demo</a></li>
+  <li><strong>The invariant clock</strong> — Ticking a spectrum by e gives quasiperiodic behavior (orbit never closes). Ticking by 2 gives pure repetition (octaves). The e-clock is Class IV; the 2-clock is Class II. <a href="./index.html#clock">→ Interactive demo</a></li>
+  <li><strong>Irrationals as resolution boundaries</strong> — "Going below reference frame." These are the fractal boundaries where the system can't resolve further — the edge of the carpet. <a href="./index.html#irrationals">→ Interactive demo</a></li>
+  <li><strong>8n+1 and Sierpiński</strong> — The 8-fold branching with +1 memory creates a fractal whose hole count connects to the fine structure constant. The +1 is the "cost of existence" — the irreducible non-commutativity of structure at each scale. <a href="./index.html#skeleton">→ Interactive demo</a></li>
+</ul>
+</div>
+
+<a href="./index.html" class="link-card" style="text-decoration:none;">
+  <div><span class="title">⚗️ Proportional Mathematics</span><br><span class="desc">Full interactive explainer of Patrick's framework — vessels, events, power spectra</span></div>
+  <span class="arrow">→</span>
+</a>
+
+<!-- ═══ Lines of Flight ═══ -->
+<h2>Lines of Flight</h2>
+
+<div class="card">
+<p>From Deleuze: operations don't belong to their origin domains — they're capacities that got captured by domain-strata through historical accident. <strong>Deterritorialization</strong> lets you compose across domains.</p>
+<p>Wet Math is itself a line of flight: the groovy commutator deterritorialized from cellular automata, applied to music (J Dilla), to metabolism (holonic integrity), to number theory (Patrick's power spectra), to physics (quantum non-commutation).</p>
+<p>The operation is always the same: <strong>measure where order-of-operations matters in a structured (not random) way</strong>. The domain changes. The operation persists.</p>
+</div>
+
+<div class="card">
+<h3>Shadow-Walking</h3>
+<p>From Zelazny's Chronicles of Amber: the path creates the territory. You can't skip steps. Order matters. Applied to semantic space: walk through latent space with tokens and directional intuitions until something inaccessible becomes visible.</p>
+<p>Patrick's construction history is shadow-walking in number space. Each +1 is a step. The order of steps determines where you end up. You can't get to <code>(abf+a+1)/n</code> by doing b-then-a — you'd arrive at a different shadow.</p>
+</div>
+
+<!-- ═══ Project Map ═══ -->
+<h2>Project Map</h2>
+
+<a href="https://liet-codes.github.io/groovy-viz" target="_blank" class="link-card" style="text-decoration:none;">
+  <div><span class="title">🎛️ Groovy Commutator Visualizer</span><br><span class="desc">Interactive CA dynamics — the commutator in action • <span class="tag">shipped</span></span></div>
+  <span class="arrow">→</span>
+</a>
+
+<a href="./index.html" class="link-card" style="text-decoration:none;">
+  <div><span class="title">⚗️ Proportional Mathematics</span><br><span class="desc">Patrick's mathematical framework — vessels, events, power spectra, the ghost of e</span></div>
+  <span class="arrow">→</span>
+</a>
+
+<a href="./mcguffin.html" class="link-card" style="text-decoration:none;">
+  <div><span class="title">🎲 The McGuffin System</span><br><span class="desc">Patrick's tensor-based narrative engine — the application layer of proportional math</span></div>
+  <span class="arrow">→</span>
+</a>
+
+<a href="https://github.com/mbilokonsky/claude_skills" target="_blank" class="link-card" style="text-decoration:none;">
+  <div><span class="title">✈️ Flight Lines / Semantic Walk</span><br><span class="desc">Claude skills for cross-domain composition and latent space navigation</span></div>
+  <span class="arrow">→</span>
+</a>
+
+<a href="https://github.com/liet-codes/groovy-viz" target="_blank" class="link-card" style="text-decoration:none;">
+  <div><span class="title">📊 groovy-viz source</span><br><span class="desc">GitHub repo for the CA visualizer</span></div>
+  <span class="arrow">→</span>
+</a>
+
+<div class="card" style="margin-top:2rem; text-align:center; color:var(--dim);">
+  <p style="font-style:italic;">"The highest function of ecology is understanding consequences." — Pardot Kynes</p>
+  <p style="font-size:0.85rem;">Non-commutativity is consequences. It's the universe insisting that order matters.</p>
+</div>
+
+</div>
+</body>
+</html>
