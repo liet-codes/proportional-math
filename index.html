@@ -148,12 +148,20 @@
 
 <p>D₂ is <strong>not the second derivative.</strong></p>
 
-<ul style="padding-left:1.5rem; font-size:0.95rem;">
-  <li>The <strong>second derivative</strong>: compute D(S) at step 0, then D(φ(S)) at step 1, then compare: <code>C(D(S), D(φ(S)))</code>. It feeds <strong>φ(S)</strong> (the next state) back into D. It asks: "how is the change accelerating along the system's actual trajectory?"</li>
-  <li><strong>D₂(S)</strong>: take the change-mask D(S), treat it <em>as if it were a state</em>, apply the rules to it, and see what changes: <code>D(D(S)) = D(S) ⊕ φ(D(S))</code>. It feeds <strong>D(S)</strong> (the change pattern) into φ. It asks: "if the derivative were a world, what would the system do with it?"</li>
-</ul>
+<p>For the <strong>second derivative</strong> s'':</p>
+<ol style="padding-left:1.5rem; font-size:0.95rem;">
+  <li>Compute <code>s'₁ = D(S)</code> — the derivative at step 0</li>
+  <li>Compute <code>s'₂ = D(φ(S))</code> — evolve the state, then take the derivative at step 1</li>
+  <li><code>s'' = s'₁ ⊕ s'₂</code> — how the derivative changed between steps</li>
+</ol>
 
-<p>Both are expressed purely in terms of φ. They differ because they feed different inputs to the rules: <code>φ(φ(S)) ≠ φ(D(S))</code> — the rules eating the next state vs eating the change pattern. The second derivative tracks the system's actual trajectory. D₂ tracks <em>the system dreaming about its own dynamics</em>.</p>
+<p>For <strong>D₂(S)</strong>:</p>
+<ol style="padding-left:1.5rem; font-size:0.95rem;">
+  <li>Compute <code>s' = D(S)</code> — the derivative of state</li>
+  <li>Compute <code>D₂ = D(s') = s' ⊕ φ(s')</code> — the derivative <em>of that</em>, treating the change pattern as state</li>
+</ol>
+
+<p>Both are expressed purely in terms of φ. The difference: s'' compares derivatives at two timepoints along the system's actual trajectory (<code>φ(S)</code> then <code>φ(φ(S))</code>). D₂ never evolves the original state — it just differentiates the derivative, feeding the change pattern into φ as if it were a world: <code>φ(D(S))</code>. The second derivative tracks where the system is going. D₂ tracks <em>the system dreaming about its own dynamics</em>.</p>
 
 <p style="font-size:0.9rem; color:var(--dim);">The commutator's path 2 needs D₂, not the second derivative. It's measuring whether the system's response to "change-as-state" is consistent with its response to "state-as-state."</p>
 </div>
