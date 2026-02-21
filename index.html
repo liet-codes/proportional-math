@@ -119,7 +119,7 @@
 </p>
 <p>Two paths. Path 1: integrate then differentiate — evolve the state, then ask what changed. Path 2: differentiate the derivative (treat change as state, ask what's changing about it), then integrate with that. Both paths consume D(S), but path 2 also needs <code>D(D(S))</code> — the derivative of the derivative-as-state.</p>
 <p>This is equivalently <code>C( D(E(S)), E(D(S)) )</code> where <code>E(x) = I(x, D(x))</code>. The shorthand is cleaner, but the expanded form reveals what E hides.</p>
-<p style="font-size:0.9rem; color:var(--dim);">D is defined relative to the system's rules — it implicitly closes over the dynamics. In cellular automata, D = XOR change mask, I = rule application, C = XOR. In continuous systems, D might be a gradient, I a differential equation solver, C a distance metric. The operators change; the architecture persists.</p>
+<p style="font-size:0.9rem; color:var(--dim);">There's a subtle but important distinction: <strong>φ</strong> (the raw rules) and <strong>E</strong> (the evolution operator) are isomorphic in CAs — both give you the next state — but conceptually they're different. φ is a pure function: "given this input, what do the rules say?" E is the operator that advances the system through time: <code>E(S) = I(S, D(S))</code>. D is defined in terms of φ, not E, so there's no circularity: <code>D(S) = S ⊕ φ(S)</code> — compare where we are against what the rules say. In domains where integration is non-trivial (physics, continuous systems), φ gives forces while E requires actually integrating them — the distinction becomes load-bearing.</p>
 
 <table>
   <tr><th>G(S)</th><th>Meaning</th><th>CA Class</th><th>State</th></tr>
@@ -136,34 +136,30 @@
   <li><strong>Exponentiation</strong> — <code>a^b ≠ b^a</code>, and the structure of that gap organizes around e. Patrick's discovery.</li>
   <li><strong>Scale</strong> — physics changes as you zoom in or out (renormalization). The non-commutativity of "measure then zoom" vs "zoom then measure" is the RG flow. Brooklyn's territory.</li>
 </ul>
-</div>
 
-<!-- ═══ D₂ — THE SECRET THIRD THING ═══ -->
-<h2>D₂ — The Secret Third Thing</h2>
-
-<div class="card">
+<!-- D₂ callout — nested inside Groovy Commutator -->
+<div class="connection" style="border-color:var(--accent2); margin-top:1.5rem;">
+<h3 style="color:var(--accent2);">🔮 D₂ — The Secret Third Thing</h3>
 <p>The expanded commutator reveals something hiding inside:</p>
 
-<p><strong>D₀(S) = S</strong> — the state itself.<br>
+<p style="margin-left:1rem;"><strong>D₀(S) = S</strong> — the state itself.<br>
 <strong>D₁(S) = D(S)</strong> — what's changing. The first derivative.<br>
 <strong>D₂(S) = D(D(S))</strong> — apply the system's rules <em>to the change pattern</em> and see what changes about <em>that</em>.</p>
 
-<p>D₂ is <strong>not the second derivative.</strong> Here's why:</p>
+<p>D₂ is <strong>not the second derivative.</strong></p>
 
-<ul style="padding-left:1.5rem;">
-  <li>The <strong>second derivative</strong> asks: how does the derivative change over time? Compute s'₁ = D(S) at step 0, then s'₂ = D(φ(S)) at step 1, then compare: <code>C(s'₁, s'₂) = D(S) ⊕ D(φ(S))</code>. This requires <em>integration</em> (evolving to the next state) to get the second sample. It simplifies to <code>S ⊕ φ(φ(S))</code> — the total change over two steps.</li>
-  <li><strong>D₂(S)</strong> asks: take the change-mask D(S), treat it <em>as if it were a state</em>, apply the rules to it, and see what changes. "If the derivative were a world, what would the system do with it?" Formally: <code>D(D(S)) = D(S) ⊕ φ(D(S))</code>. No integration of the original state is involved — just D, applied twice.</li>
+<ul style="padding-left:1.5rem; font-size:0.95rem;">
+  <li>The <strong>second derivative</strong>: compute D(S) at step 0, then D(φ(S)) at step 1, then compare: <code>C(D(S), D(φ(S)))</code>. This requires <em>integration</em> (evolving to the next state) to get the second sample. It asks: "how is the change accelerating?"</li>
+  <li><strong>D₂(S)</strong>: take the change-mask D(S), treat it <em>as if it were a state</em>, apply the rules to it, and see what changes: <code>D(D(S)) = D(S) ⊕ φ(D(S))</code>. No integration involved. It asks: "if the derivative were a world, what would the system do with it?"</li>
 </ul>
 
-<p>These differ because <code>φ(D(S)) ≠ φ(φ(S))</code> in general — the rule eating a change pattern produces different output than the rule eating the next state. One tracks how the system actually evolves. The other tracks what the system <em>would do</em> if the change pattern were a world.</p>
+<p>These differ because <code>φ(D(S)) ≠ φ(φ(S))</code> — the rules eating a change pattern vs eating the next state. The second derivative tracks the system's actual trajectory. D₂ tracks <em>the system dreaming about its own dynamics</em>.</p>
 
-<p>The second derivative applies the rules to <strong>the actual next state</strong>. D₂ applies the rules to <strong>the change pattern</strong> — a completely different input. One tracks the system's trajectory. The other tracks <em>the system dreaming about its own dynamics</em>.</p>
-
-<p>The commutator's path 2 needs D₂, not the second derivative. That's what makes it structural — it's measuring whether the system's response to "change-as-state" is consistent with its response to "state-as-state."</p>
+<p style="font-size:0.9rem; color:var(--dim);">The commutator's path 2 needs D₂, not the second derivative. It's measuring whether the system's response to "change-as-state" is consistent with its response to "state-as-state."</p>
 </div>
 
-<!-- ═══ INTERACTIVE: D₂ vs SECOND DERIVATIVE ═══ -->
-<div class="card" id="d2-demo">
+<!-- D₂ interactive demo — still inside Groovy Commutator -->
+<div class="card" id="d2-demo" style="margin-top:1rem;">
 <h3>🔬 Rule 110: D₂ vs Second Derivative</h3>
 <p style="font-size:0.9rem; color:var(--dim); margin-bottom:1rem;">Click cells to toggle, or randomize. The demo computes both D₂ and the classical second derivative for the same state — they almost always differ.</p>
 
