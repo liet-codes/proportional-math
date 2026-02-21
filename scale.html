@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale Geometry — Wet Math</title>
+<style>
+  :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#a1a1aa; --accent:#06b6d4; --accent2:#a78bfa; --orange:#f97316; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.8; font-size:1.05rem; }
+  .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+  h1 { font-size:2.2rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
+  h2 { font-size:1.5rem; margin:3rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
+  h3 { font-size:1.15rem; margin:1.5rem 0 0.5rem; color:var(--accent2); }
+  p { margin-bottom:1rem; }
+  a { color:var(--orange); text-decoration:none; } a:hover { text-decoration:underline; }
+  .subtitle { color:var(--dim); font-size:1.05rem; margin-bottom:2.5rem; }
+  .card { background:var(--s1); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin:1.2rem 0; }
+  .quote { border-left:3px solid var(--accent2); padding:0.8rem 1rem; color:var(--dim); font-style:italic; margin:1.2rem 0; background:var(--s2); border-radius:0 6px 6px 0; }
+  .quote cite { display:block; margin-top:0.5rem; font-style:normal; font-size:0.85rem; color:var(--accent2); }
+  code { background:var(--s2); padding:0.15rem 0.5rem; border-radius:3px; font-size:0.9em; font-family:'Fira Code','SF Mono',monospace; }
+  .connection { background:linear-gradient(135deg, var(--s1), var(--s2)); border:1px solid var(--accent); border-radius:10px; padding:1.5rem; margin:1.5rem 0; }
+  .connection h3 { color:var(--orange); margin-top:0; }
+  table { border-collapse:collapse; width:100%; font-size:0.9rem; margin:1rem 0; }
+  th,td { padding:0.5rem 0.8rem; border:1px solid var(--border); }
+  th { background:var(--s2); color:var(--dim); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; }
+  .nav { margin-bottom:2rem; }
+  .nav a { background:var(--s1); border:1px solid var(--border); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; transition:border-color 0.2s; }
+  .nav a:hover { border-color:var(--accent); text-decoration:none; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; } @media(max-width:600px){.grid2{grid-template-columns:1fr;}}
+  .status { font-size:0.8rem; display:inline-block; padding:0.15rem 0.5rem; border-radius:3px; }
+  .status-wip { background:rgba(234,179,8,0.15); color:var(--yellow); border:1px solid rgba(234,179,8,0.3); }
+  .status-spec { background:rgba(168,85,247,0.15); color:var(--accent2); border:1px solid rgba(168,85,247,0.3); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="nav"><a href="./">← Wet Math</a></div>
+
+<h1>🔭 Scale Geometry</h1>
+<p class="subtitle">There's something weird about scale — Brooklyn's exploration of scale as a spatial dimension</p>
+<p style="font-size:0.9rem; color:var(--dim);">by Brooklyn (brookcub) · <span class="status status-wip">work in progress</span></p>
+
+<!-- ═══ THE OBSERVATION ═══ -->
+<h2>The Observation</h2>
+
+<div class="card">
+<p>When something moves away from you in space, it appears smaller. When something shrinks in scale — cartoon shrink ray — it <em>also</em> appears smaller, in exactly the same way. Physically, you're measuring the curvature of the object's light cone to determine "small vs far away."</p>
+
+<p>We can distinguish between these cases only because we have an information-processing brain that extends across scale, space, and time. But what if the visual identity isn't a coincidence? What if scale is a genuine geometric axis — as real as the three spatial ones — and our perception compresses a richer structure into the 3+1 dimensional representation we evolved to navigate?</p>
+</div>
+
+<div class="quote">
+"I see no good reason to assume 3+1 is the ground truth. In fact I think it's more likely that it's an artifact of our perception compressing a more complex structure into an efficient standard representation, optimized for making decisions about our particular scale."
+<cite>— Brooklyn</cite>
+</div>
+
+<!-- ═══ THE PSYCHEDELIC EVIDENCE ═══ -->
+<h2>The Psychedelic Evidence</h2>
+
+<div class="card">
+<p>Across most psychoactive substances, certain aspects of perception are remarkably stable:</p>
+
+<div class="grid2">
+  <div>
+    <h3 style="color:var(--green);">🪨 Stable under perturbation</h3>
+    <ul style="padding-left:1.2rem;">
+      <li>Object permanence</li>
+      <li>Causality</li>
+      <li>Spatial ordering</li>
+      <li>Basic agency</li>
+    </ul>
+  </div>
+  <div>
+    <h3 style="color:var(--red);">🌊 Dissolves universally</h3>
+    <ul style="padding-left:1.2rem;">
+      <li>Smooth flow of time</li>
+      <li>Distances and sizes</li>
+      <li>Exact object boundaries</li>
+      <li>Number of perceived dimensions</li>
+    </ul>
+  </div>
+</div>
+
+<p style="margin-top:1.5rem;">If 3+1 spacetime were the ground truth, why would some dimensions be more stable than others under perturbation? The things that dissolve — time flow, scale, boundaries, dimensionality — are exactly what you'd expect to wobble if our normal perception is a compressed projection of something richer, and the compression relies on processes that psychoactives disrupt.</p>
+
+<p>This echoes Donald Hoffman's Interface Theory of Perception: our senses didn't evolve to show us reality, they evolved to show us a <em>useful interface</em> for survival. The interface can be efficient without being accurate.</p>
+</div>
+
+<!-- ═══ SCALE AS A DIMENSION ═══ -->
+<h2>Scale as a Dimension</h2>
+
+<div class="card">
+<p>The core proposal: extend 3+1 spacetime with a <strong>scale axis</strong>. Not as metaphor — as geometry. An object's position in this extended space includes not just <em>where</em> and <em>when</em> but <em>at what scale</em>.</p>
+
+<p>This isn't entirely speculative. Physics already has a framework for how things change across scale: the <strong>renormalization group (RG) flow</strong>. As you zoom in or out, coupling constants evolve. The fine structure constant α ≈ 1/137 at human scale becomes α ≈ 1/128 at the Z boson mass. The laws don't change — but their <em>effective parameters</em> do.</p>
+
+<p>What Brooklyn proposes is taking this seriously as geometry: the RG flow isn't just a computational trick for managing divergences, it's <em>motion along the scale axis</em>.</p>
+</div>
+
+<div class="connection">
+<h3>🔗 Connection to Wet Math</h3>
+<p>Scale-dependence is non-commutativity across levels. The Groovy Commutator asks: does it matter whether you "measure then zoom" vs "zoom then measure"? In the RG flow, it absolutely does — the effective coupling constants at one scale determine the dynamics, which determine how the couplings run to the next scale. The order matters. The <a href="./commutator.html">commutator</a> is non-zero.</p>
+</div>
+
+<!-- ═══ THE FINE STRUCTURE TRANSITION ═══ -->
+<h2>The Fine Structure Transition</h2>
+
+<div class="card">
+<p><span class="status status-spec">speculative</span></p>
+
+<p>The fine structure constant α ≈ 1/137 governs electromagnetic interactions. Its reciprocal, α⁻¹ ≈ 137, runs with energy scale via the RG flow: α⁻¹(M_Z) ≈ 127.9 at the Z boson mass.</p>
+
+<p>Brooklyn observes: the atomic scale is where the scale axis transitions from being "more scale-like" to "more time-like." And this transition happens right where the EM coupling sits just below the value that would make the arithmetic dynamics of the integers undergo a phase transition.</p>
+
+<p>Patrick's 8n+1 Sierpiński structure (from <a href="./proportional.html">Proportional Mathematics</a>) produces hole counts that suggestively approach α⁻¹ ≈ 128. The +1 at each level is the "cost of existence" — the irreducible non-commutativity of structure at each scale.</p>
+
+<p>Is this a coincidence? Maybe. Patrick's position: these are human-made descriptions of a universe that just exists. The near-match is a property of the math itself, not necessarily a claim about physics. But the convergence from two independent directions — Brooklyn's scale geometry and Patrick's number theory — is worth paying attention to.</p>
+</div>
+
+<!-- ═══ DIMENSION SQUISHING ═══ -->
+<h2>Dimension Squishing</h2>
+
+<div class="card">
+<p>It doesn't need to be a full fifth dimension. Brooklyn's Appendix B explores how dimensions might be "squished into each other" — not fully independent axes but partially coupled ones, where the interactions between them produce the effects we observe.</p>
+
+<p>A concrete example: 2D and 3D scale differently. Double the radius of a sphere: surface area goes up by 4×, volume goes up by 8×. As Patrick points out, mixing these carelessly is "a data type error — what's a cube divided by a square? Needs conversion." The square-cube law is itself a non-commutativity: the order in which you apply scaling and dimensionality matters.</p>
+
+<p>If time and scale form a partially unified axis, then the perception experiments make sense: psychoactives don't "add dimensions," they <em>decouple</em> axes that are normally compressed together. You experience the raw higher-dimensional structure before your brain's compression algorithm puts it back together.</p>
+</div>
+
+<!-- ═══ OPEN QUESTIONS ═══ -->
+<h2>Open Questions</h2>
+
+<div class="card">
+<ul style="padding-left:1.5rem;">
+  <li>Can the scale axis be formalized as a metric extension of spacetime, or does it require a fundamentally different geometric framework?</li>
+  <li>What predictions does scale geometry make that differ from standard 3+1 physics? (Testability is the hard part.)</li>
+  <li>How does the time-scale transition relate to the measurement problem in quantum mechanics? (Scale is where quantum → classical happens.)</li>
+  <li>Is the α ≈ 1/137 near-match with Patrick's 8n+1 structure a coincidence, a shared mathematical substrate, or something deeper?</li>
+  <li>If perception compresses a higher-dimensional structure, what's the "codec"? Can we characterize what information is lost?</li>
+</ul>
+</div>
+
+<div class="quote">
+"I just want to ask God for the answer key at this point."
+<cite>— Brooklyn, after considering the implications</cite>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border); text-align:center; color:var(--dim); font-size:0.9rem;">
+  <p><a href="./">← Back to Wet Math</a></p>
+  <p style="margin-top:0.5rem; font-size:0.8rem;">Based on Brooklyn's Scale Geometry v02 paper and wet-math Discord discussions (Feb 2026).</p>
+</div>
+
+</div>
+</body>
+</html>
