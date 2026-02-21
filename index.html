@@ -47,7 +47,7 @@
 <div class="hero">
   <h1>🌊 Wet Math</h1>
   <p class="subtitle">The Liquid State Framework</p>
-  <p class="equation">G(S) = C( D(I(S)), I(D(S)) )</p>
+  <p class="equation">G(S) = C( D(I(S, D(S))), I(D(S), D(D(S))) )</p>
 </div>
 
 <!-- ═══ THE SYNTHESIS ═══ -->
@@ -115,10 +115,11 @@
 <div class="card">
 <p>For any state <code>S</code>, with three domain-specific operators — <strong>D</strong> (differentiation: detect change), <strong>I</strong> (integration: assemble the next state), and <strong>C</strong> (comparison: measure discrepancy):</p>
 <p style="text-align:center; font-size:1.3rem; margin:1.5rem 0; font-family:'Fira Code',monospace;">
-  G(S) = C( D(I(S)), I(D(S)) )
+  G(S) = C( D(I(S, D(S))), I(D(S), D(D(S))) )
 </p>
-<p>"Integrate then differentiate" vs "differentiate then integrate." Compare those two paths. When the result has structure, you're looking at aliveness.</p>
-<p style="font-size:0.9rem; color:var(--dim);">In cellular automata, D = XOR change mask, I = rule application, C = XOR. But these are <em>domain-specific implementations</em>. In continuous systems, D might be a gradient, I a differential equation solver, C a distance metric. The operators change; the architecture persists.</p>
+<p>Two paths. Path 1: integrate then differentiate — evolve the state, then ask what changed. Path 2: differentiate the derivative (treat change as state, ask what's changing about it), then integrate with that. Both paths consume D(S), but path 2 also needs <code>D(D(S))</code> — the derivative of the derivative-as-state.</p>
+<p>This is equivalently <code>C( D(E(S)), E(D(S)) )</code> where <code>E(x) = I(x, D(x))</code>. The shorthand is cleaner, but the expanded form reveals what E hides.</p>
+<p style="font-size:0.9rem; color:var(--dim);">D is defined relative to the system's rules — it implicitly closes over the dynamics. In cellular automata, D = XOR change mask, I = rule application, C = XOR. In continuous systems, D might be a gradient, I a differential equation solver, C a distance metric. The operators change; the architecture persists.</p>
 
 <table>
   <tr><th>G(S)</th><th>Meaning</th><th>CA Class</th><th>State</th></tr>
