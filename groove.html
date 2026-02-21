@@ -331,35 +331,35 @@
     let timing = widthsToTiming(widths);
     let playing = false;
     let loopStart = 0;
-    let scheduledUpTo = 0;
-    let loopCount = 0;
+    let nextLoopAt = 0; // absolute time when next loop starts
+    let currentLoop = 0;
 
-    function scheduleLoop(from) {
+    function scheduleLoop(absoluteStart) {
       // For noise mode, re-randomize widths each loop
       if (mode === 'noise') {
         widths = getWidths('noise');
         timing = widthsToTiming(widths);
       }
       const ctx = getCtx();
-      instances._lastLoopStart = from;
+      instances._lastLoopStart = absoluteStart;
       for (let t = 0; t < TRACKS.length; t++) {
         for (let s = 0; s < STEPS; s++) {
           if (!TRACKS[t].pattern[s]) continue;
-          const noteTime = from + timing[t][s] * LOOP_DUR;
-          if (noteTime >= scheduledUpTo) {
-            playSound(ctx, t, noteTime);
-          }
+          const noteTime = absoluteStart + timing[t][s] * LOOP_DUR;
+          playSound(ctx, t, noteTime);
         }
       }
-      scheduledUpTo = from + LOOP_DUR;
     }
 
     function tick() {
       if (!playing) return;
       const ctx = getCtx();
-      while (scheduledUpTo < ctx.currentTime + 0.2) {
-        const nextLoopStart = loopStart + Math.ceil((scheduledUpTo - loopStart) / LOOP_DUR) * LOOP_DUR;
-        scheduleLoop(nextLoopStart);
+      const now = ctx.currentTime;
+      // Schedule loops ahead — always keep ~0.3s of audio queued
+      while (nextLoopAt < now + 0.3) {
+        scheduleLoop(nextLoopAt);
+        nextLoopAt += LOOP_DUR;
+        currentLoop++;
       }
       requestAnimationFrame(tick);
     }
@@ -463,9 +463,9 @@
         if (ctx.state === 'suspended') await ctx.resume();
         playing = true;
         loopStart = ctx.currentTime;
+        nextLoopAt = loopStart;
+        currentLoop = 0;
         instances._lastLoopStart = loopStart;
-        scheduledUpTo = loopStart;
-        scheduleLoop(loopStart);
         tick();
         playBtn.textContent = '⏸';
       } else {
