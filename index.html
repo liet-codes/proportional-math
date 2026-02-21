@@ -151,9 +151,11 @@
 <p>D₂ is <strong>not the second derivative.</strong> Here's why:</p>
 
 <ul style="padding-left:1.5rem;">
-  <li>The <strong>second derivative</strong> asks: evolve S twice, compare step 1 to step 2. "How is the state <em>accelerating</em>?" Formally: <code>D(φ(S)) = φ(S) ⊕ φ(φ(S))</code></li>
-  <li><strong>D₂(S)</strong> asks: take the change-mask D(S), treat it <em>as if it were a state</em>, evolve it, and see what changes. "If the derivative were a world, what would the system do with it?" Formally: <code>D(D(S)) = D(S) ⊕ φ(D(S))</code></li>
+  <li>The <strong>second derivative</strong> asks: how does the derivative change over time? Compute s'₁ = D(S) at step 0, then s'₂ = D(φ(S)) at step 1, then compare: <code>C(s'₁, s'₂) = D(S) ⊕ D(φ(S))</code>. This requires <em>integration</em> (evolving to the next state) to get the second sample. It simplifies to <code>S ⊕ φ(φ(S))</code> — the total change over two steps.</li>
+  <li><strong>D₂(S)</strong> asks: take the change-mask D(S), treat it <em>as if it were a state</em>, apply the rules to it, and see what changes. "If the derivative were a world, what would the system do with it?" Formally: <code>D(D(S)) = D(S) ⊕ φ(D(S))</code>. No integration of the original state is involved — just D, applied twice.</li>
 </ul>
+
+<p>These differ because <code>φ(D(S)) ≠ φ(φ(S))</code> in general — the rule eating a change pattern produces different output than the rule eating the next state. One tracks how the system actually evolves. The other tracks what the system <em>would do</em> if the change pattern were a world.</p>
 
 <p>The second derivative applies the rules to <strong>the actual next state</strong>. D₂ applies the rules to <strong>the change pattern</strong> — a completely different input. One tracks the system's trajectory. The other tracks <em>the system dreaming about its own dynamics</em>.</p>
 
@@ -230,8 +232,8 @@
     const phiS = phi(S);              // φ(S) — next state
     const dS = D(S);                   // D₁(S) = S ⊕ φ(S)
     const d2S = D(dS);                 // D₂(S) = D(D(S)) = D(S) ⊕ φ(D(S))
-    const phiPhiS = phi(phiS);         // φ(φ(S)) — two steps
-    const secondDeriv = xor(phiS, phiPhiS); // "second derivative" = φ(S) ⊕ φ(φ(S))
+    const dPhiS = D(phiS);              // D(φ(S)) — derivative at step 1
+    const secondDeriv = xor(dS, dPhiS); // second derivative = D(S) ⊕ D(φ(S)) = s'₁ ⊕ s'₂
     const diff = xor(d2S, secondDeriv);     // where they disagree
 
     rows.push(S, dS, phiS, d2S, secondDeriv, diff);
@@ -240,7 +242,7 @@
       'D₁(S) = D(S) — what\'s changing',
       'φ(S) — next state',
       'D₂(S) = D(D(S)) — system dreams its dynamics',
-      'S\'\' = φ(S) ⊕ φ(φ(S)) — classical second derivative',
+      'S\'\' = D(S) ⊕ D(φ(S)) — classical second derivative',
       'D₂ ⊕ S\'\' — where they disagree'
     );
 
