@@ -113,13 +113,37 @@
 <h2>The Groovy Commutator</h2>
 
 <div class="card">
-<p>For any state <code>S</code>, with three domain-specific operators — <strong>D</strong> (differentiation: detect change), <strong>I</strong> (integration: assemble the next state), and <strong>C</strong> (comparison: measure discrepancy):</p>
+
+<h3 style="margin-top:0;">Operators</h3>
+
+<table style="font-size:0.95rem;">
+  <tr><th style="width:5rem;">Symbol</th><th>Name</th><th>Definition</th></tr>
+  <tr><td><code>φ</code></td><td><strong>Rules</strong></td><td>The system's raw rules. A pure function: given any input state, return what the rules produce. In CAs, the rule lookup table. In physics, the force laws.</td></tr>
+  <tr><td><code>D(S)</code></td><td><strong>Differentiation</strong></td><td>Detect what's changing. Defined as <code>S ⊕ φ(S)</code> — compare where we are against what the rules say. Uses φ, not E.</td></tr>
+  <tr><td><code>I(S, d)</code></td><td><strong>Integration</strong></td><td>Assemble the next state from current state + change. In CAs: <code>S ⊕ d</code>. In physics: integrate forces over a timestep (Euler, RK4, etc).</td></tr>
+  <tr><td><code>C(a, b)</code></td><td><strong>Comparison</strong></td><td>Measure discrepancy between two results. In CAs: XOR. In continuous systems: subtraction, distance metric, etc.</td></tr>
+  <tr><td><code>E(S)</code></td><td><strong>Evolution</strong></td><td>Advance the system one step. <em>Derived</em>, not primitive: <code>E(S) = I(S, D(S))</code>. Equals <code>φ(S)</code> in CAs (where I is trivial), but the decomposition matters in domains where integration is non-trivial.</td></tr>
+</table>
+
+<p style="font-size:0.9rem; color:var(--dim); margin-top:1rem;">Note: φ and E are isomorphic in CAs — both give you the next state — but conceptually they're different. φ is the primitive rule. E is the composed operator. D is defined in terms of φ, not E, so there's no circularity.</p>
+
+<h3>The Commutator</h3>
+
 <p style="text-align:center; font-size:1.3rem; margin:1.5rem 0; font-family:'Fira Code',monospace;">
+  G(S) = C( D(E(S)), E(D(S)) )
+</p>
+
+<p>Two paths through the same operators:</p>
+<ul style="padding-left:1.5rem;">
+  <li><strong>Path 1: D(E(S))</strong> — evolve the state, then differentiate the result. "What changed after evolution?"</li>
+  <li><strong>Path 2: E(D(S))</strong> — differentiate the state, then evolve the derivative. "What happens when we evolve the change pattern?"</li>
+</ul>
+
+<p>Expanding E into I and D reveals what the shorthand hides:</p>
+<p style="text-align:center; font-size:1.1rem; margin:1rem 0; font-family:'Fira Code',monospace;">
   G(S) = C( D(I(S, D(S))), I(D(S), D(D(S))) )
 </p>
-<p>Two paths. Path 1: integrate then differentiate — evolve the state, then ask what changed. Path 2: differentiate the derivative (treat change as state, ask what's changing about it), then integrate with that. Both paths consume D(S), but path 2 also needs <code>D(D(S))</code> — the derivative of the derivative-as-state.</p>
-<p>This is equivalently <code>C( D(E(S)), E(D(S)) )</code> where <code>E(x) = I(x, D(x))</code>. The shorthand is cleaner, but the expanded form reveals what E hides.</p>
-<p style="font-size:0.9rem; color:var(--dim);">There's a subtle but important distinction: <strong>φ</strong> (the raw rules) and <strong>E</strong> (the evolution operator) are isomorphic in CAs — both give you the next state — but conceptually they're different. φ is a pure function: "given this input, what do the rules say?" E is the operator that advances the system through time: <code>E(S) = I(S, D(S))</code>. D is defined in terms of φ, not E, so there's no circularity: <code>D(S) = S ⊕ φ(S)</code> — compare where we are against what the rules say. In domains where integration is non-trivial (physics, continuous systems), φ gives forces while E requires actually integrating them — the distinction becomes load-bearing.</p>
+<p>Both paths consume D(S), but path 2 also needs <code>D(D(S))</code> — the derivative of the derivative-as-state. More on that below.</p>
 
 <table>
   <tr><th>G(S)</th><th>Meaning</th><th>CA Class</th><th>State</th></tr>
