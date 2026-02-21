@@ -7,30 +7,28 @@
   :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#a1a1aa; --accent:#06b6d4; --accent2:#a78bfa; --orange:#f97316; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.8; font-size:1.05rem; }
-  .container { max-width:920px; margin:0 auto; padding:2rem 1.5rem; }
-  h1 { font-size:2.2rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
-  h2 { font-size:1.5rem; margin:3rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
+  .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+  h1 { font-size:2.5rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
+  h2 { font-size:1.8rem; margin:4rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
   h3 { font-size:1.15rem; margin:1.5rem 0 0.5rem; color:var(--accent2); }
   p { margin-bottom:1rem; }
   a { color:var(--orange); text-decoration:none; } a:hover { text-decoration:underline; }
-  .subtitle { color:var(--dim); font-size:1.05rem; margin-bottom:2.5rem; }
+  .subtitle { color:var(--dim); font-size:1.1rem; margin-bottom:2.5rem; }
   .card { background:var(--s1); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin:1.2rem 0; }
   .quote { border-left:3px solid var(--accent2); padding:0.8rem 1rem; color:var(--dim); font-style:italic; margin:1.2rem 0; background:var(--s2); border-radius:0 6px 6px 0; }
+  .quote cite { display:block; margin-top:0.5rem; font-style:normal; font-size:0.85rem; color:var(--accent2); }
   code { background:var(--s2); padding:0.15rem 0.5rem; border-radius:3px; font-size:0.9em; font-family:'Fira Code','SF Mono',monospace; }
   .connection { background:linear-gradient(135deg, var(--s1), var(--s2)); border:1px solid var(--accent); border-radius:10px; padding:1.5rem; margin:1.5rem 0; }
   .connection h3 { color:var(--orange); margin-top:0; }
   .nav { margin-bottom:2rem; }
-  .nav a { background:var(--s1); border:1px solid var(--border); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; transition:border-color 0.2s; }
+  .nav a { background:var(--s1); border:1px solid var(--border); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; }
   .nav a:hover { border-color:var(--accent); text-decoration:none; }
-  button { background:var(--accent); color:white; border:none; padding:0.5rem 1.2rem; border-radius:5px; cursor:pointer; font-size:0.9rem; transition:opacity 0.2s; }
-  button:hover { opacity:0.85; }
-  button.secondary { background:var(--s2); color:var(--text); border:1px solid var(--border); }
-  button.active { border-color:var(--accent); box-shadow:0 0 0 2px rgba(6,182,212,0.3); }
-  .mode-btn { padding:0.6rem 1.2rem; border-radius:8px; font-size:0.95rem; }
-  .controls { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; margin-bottom:1rem; }
-  .controls label { font-size:0.85rem; color:var(--dim); display:flex; align-items:center; gap:0.4rem; }
-  input[type=range] { width:100px; accent-color:var(--accent); }
-  select { background:var(--s2); color:var(--text); border:1px solid var(--border); padding:0.3rem 0.5rem; border-radius:4px; font-size:0.85rem; }
+  .viz-box { background:var(--s1); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin:1.5rem 0; }
+  .viz-box canvas { width:100%; border-radius:6px; display:block; }
+  .play-btn { background:var(--accent); color:white; border:none; padding:0.5rem 1.5rem; border-radius:6px; cursor:pointer; font-size:0.95rem; margin-bottom:1rem; transition:all 0.2s; }
+  .play-btn:hover { opacity:0.85; }
+  .play-btn.playing { background:var(--orange); }
+  .era { font-size:0.85rem; display:inline-block; padding:0.2rem 0.6rem; border-radius:4px; margin-bottom:0.5rem; }
 </style>
 </head>
 <body>
@@ -39,340 +37,442 @@
 <div class="nav"><a href="./">← Wet Math</a></div>
 
 <h1>🥁 What is Groove?</h1>
-<p class="subtitle">From the grid to swing to J Dilla — an interactive exploration of micro-timing</p>
+<p class="subtitle">From the grid to swing to J Dilla — a history of humans learning to be alive in rhythm</p>
 
-<!-- ═══ INTRO ═══ -->
 <div class="card">
-<p>Every drum machine quantizes time into a grid. Hit a note, and it snaps to the nearest subdivision — perfectly in time, perfectly dead. Real drummers don't play on the grid. The question is: <em>how</em> do they deviate, and why does it feel good?</p>
-<p>Three modes of timing. Each one a different relationship with the grid.</p>
+<p>This started when Brooklyn — jazz drummer, musical polymath — told Myk she thought groove might have something to do with Class IV cellular automata. The intuition: groove isn't randomness and it isn't precision. It's the zone between. The liquid state.</p>
+<p>Your body already knows this. When a beat grooves, you don't analyze it — you <em>feel</em> it, in your chest, your hips, your neck. That felt sense is your somatic resonance sensorium doing what it does: detecting structured non-commutativity. The commutator is non-zero, and it has pattern, and your body says <em>yes</em>.</p>
+<p>Here's the history of how rhythm found the liquid state.</p>
 </div>
 
-<!-- ═══ MODE SELECTOR ═══ -->
-<h2>The Visualizer</h2>
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 1: THE GRID                         -->
+<!-- ═══════════════════════════════════════════ -->
+<h2>1. The Grid</h2>
+<p class="era" style="background:rgba(59,130,246,0.15); color:var(--blue); border:1px solid rgba(59,130,246,0.3);">🧊 Solid State · G = 0</p>
 
-<div class="card" id="viz-container">
-<div class="controls">
-  <button class="mode-btn active" id="btn-grid" onclick="setMode('grid')">Grid</button>
-  <button class="mode-btn secondary" id="btn-swing" onclick="setMode('swing')">Swing</button>
-  <button class="mode-btn secondary" id="btn-dilla" onclick="setMode('dilla')">Dilla</button>
-  <span style="margin-left:1rem;"></span>
-  <button id="btn-play" onclick="togglePlay()">▶ Play</button>
-  <label>BPM <input type="range" id="bpm" min="60" max="140" value="93" oninput="updateBPM()"><span id="bpm-val" style="font-family:monospace;min-width:2.5rem;">93</span></label>
+<div class="card">
+<p>Before drum machines, rhythm was always human — imprecise by nature. Then in 1980, the Linn LM-1 arrived, and for the first time, you could program beats on an exact grid. Every hit snaps to the nearest subdivision. Perfectly in time. Perfectly dead.</p>
+<p>The grid is powerful for construction — you can build elaborate patterns without worrying about execution. But the grid <em>commutes</em>: every instrument shares the same time reference, every beat is interchangeable with its mirror. There's no consequence to reordering. G = 0.</p>
+<p>Listen to early 808 beats, or any MIDI sequence with no humanize — there's a mechanical quality, a rigidity. It's Class I: a fixed point. The system is frozen.</p>
 </div>
 
-<canvas id="grooveCanvas" width="900" height="340" style="width:100%; border-radius:8px;"></canvas>
-
-<div id="mode-desc" style="margin-top:1rem; font-size:0.9rem; color:var(--dim);"></div>
+<div class="viz-box">
+  <button class="play-btn" id="play-grid" onclick="togglePlayer('grid')">▶ Play Grid</button>
+  <canvas id="cv-grid" width="900" height="200"></canvas>
 </div>
 
+<div class="card">
+<h3>The Somatics</h3>
+<p>You can nod to a grid beat, but you can't <em>lean</em> into it. There's nothing to lean into — no tension, no pull, no pocket. Your body recognizes the regularity and... stops listening. The signal is fully predictable, so the somatic resonance sensorium disengages. Nothing to detect.</p>
+
+<h3>Cultural Impact</h3>
+<p>Despite its lifelessness, the grid democratized rhythm. Suddenly anyone could make beats — you didn't need to be a drummer. Kraftwerk, early hip-hop, house, techno — all built on the grid. The trick was adding life <em>on top</em> of it: arrangement, timbre, dynamics. But the timing itself stayed frozen.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 2: SWING                             -->
+<!-- ═══════════════════════════════════════════ -->
+<h2>2. Swing</h2>
+<p class="era" style="background:rgba(234,179,8,0.15); color:var(--yellow); border:1px solid rgba(234,179,8,0.3);">⚡ Warm Lattice · G ≠ 0, uniform</p>
+
+<div class="card">
+<p>Roger Linn knew the grid was dead. So the MPC60 (1988) shipped with a swing knob: push every other 16th note late by a percentage. 50% = straight. 66% = triplet feel. Anywhere in between = bounce.</p>
+<p>Swing is a <em>uniform deformation</em> of the grid. Every instrument swings together, by the same amount. It's a single parameter applied globally. The non-commutativity is real — early and late positions aren't interchangeable — but it's the same for everyone. One shared, warped grid.</p>
+<p>In Wet Math terms: the commutator is non-zero but <em>periodic</em>. The same deviation repeats. It's Class II — structured, predictable, warm but not alive.</p>
+</div>
+
+<div class="viz-box">
+  <button class="play-btn" id="play-swing" onclick="togglePlayer('swing')">▶ Play Swing</button>
+  <canvas id="cv-swing" width="900" height="200"></canvas>
+</div>
+
+<div class="card">
+<h3>The Somatics</h3>
+<p>Swing makes you bounce. Your body responds to the push-pull of the deformed grid — the anticipation of the late note, the slight tension before it lands. It's the first hint of groove: your body is detecting a non-zero commutator. But it's uniform, so it becomes predictable fast. You settle in rather than stay engaged.</p>
+
+<h3>Cultural Impact</h3>
+<p>Swing defined golden-age hip-hop. Pete Rock, DJ Premier, the Bomb Squad — all masters of the MPC swing percentage. The specific percentage became a signature: Premier's beats swing differently from Pete Rock's. But it's still one number, one parameter, one shared feel. The entire beat lives on one deformed grid.</p>
+<p>Jazz had been doing this for decades, of course — but with human hands, not a knob. The swing knob was a <em>compression</em> of what jazz drummers did naturally into a single parameter. Something was lost in that compression.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SECTION 3: DILLA                             -->
+<!-- ═══════════════════════════════════════════ -->
+<h2>3. Dilla Time</h2>
+<p class="era" style="background:rgba(249,115,22,0.15); color:var(--orange); border:1px solid rgba(249,115,22,0.3);">💧 Liquid State · G ≠ 0, structured</p>
+
+<div class="card">
+<p>James Dewitt Yancey — J Dilla (1974–2006) — broke the grid in a way nobody had before and nobody has fully replicated since.</p>
+<p>He turned off the quantize. He played each part by hand on the MPC pads, and he <em>didn't correct it</em>. But here's what makes it Dilla and not just sloppy: each instrument has its <strong>own timing relationship</strong> with the beat. The kick pushes slightly ahead — anxious, leaning in. The snare lays back — lazy, behind. The hi-hat swings unevenly — different amounts on different beats. Nothing lines up with anything else.</p>
+<p>And it grooves harder than anything on the grid.</p>
+</div>
+
+<div class="viz-box">
+  <button class="play-btn" id="play-dilla" onclick="togglePlayer('dilla')">▶ Play Dilla</button>
+  <canvas id="cv-dilla" width="900" height="200"></canvas>
+</div>
+
+<div class="card">
+<p>The deviations aren't random. If you randomized the timing, it would sound drunk. If you quantized it, it would sound dead. The deviations have <em>pattern</em> — each instrument's relationship to the beat is consistent within itself but different from every other instrument. It's a multi-layered, polyphonic non-commutativity.</p>
+<p>This is <strong>G ≠ 0 with structure</strong>. This is Class IV. This is the liquid state of rhythm.</p>
+</div>
+
+<div class="card">
+<h3>The Somatics</h3>
+<p>Dilla Time does something to your body that no other feel does. You can't just nod — your whole body wants to <em>move differently</em>. Different parts of you respond to different instruments. Your head follows the hi-hat. Your chest follows the kick. Your shoulders follow the snare. You become a distributed system, each part coupled to its own timing stream, coherent without centralization.</p>
+<p>This is the octopus. This is the somatic resonance sensorium at full activation — not detecting one signal but <em>multiple overlapping structured signals</em>, each non-commutative in its own way, the interference pattern between them creating a felt experience that can't be reduced to any single parameter.</p>
+
+<h3>Cultural Impact</h3>
+<p>Dilla changed everything. <em>Donuts</em> (2006), released three days before his death from a rare blood disease, is a 31-track instrumental album that sounds like a dream of hip-hop — nothing quantized, everything alive. Questlove called it "the moment hip-hop became jazz." Madlib, Knxwledge, Kaytranada, Flying Lotus — all descendants.</p>
+<p>But nobody sounds exactly like Dilla, because the feel isn't a technique you can copy. It's a relationship with time that he embodied. You can't set a swing percentage to get Dilla Time. There's no knob. It's a <em>state of being</em>.</p>
+</div>
+
+<div class="quote">
+"He had his own time signature. It wasn't behind the beat, it wasn't ahead of the beat. It was in its own time zone."
+<cite>— Questlove on J Dilla</cite>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CONNECTION TO WET MATH                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="connection" style="margin-top:3rem;">
+<h3>🔗 The Commutator in Rhythm</h3>
+<p>The Groovy Commutator was literally named for this. The three modes of timing map directly onto the three states:</p>
+<ul style="padding-left:1.5rem;">
+  <li><strong>Grid</strong> → G = 0 → Solid → Class I — operations commute, system is frozen</li>
+  <li><strong>Swing</strong> → G ≠ 0, periodic → Warm lattice → Class II — structured but predictable</li>
+  <li><strong>Dilla</strong> → G ≠ 0, structured → Liquid → Class IV — patterned non-commutation, the system is alive</li>
+</ul>
+<p>The commutator doesn't just detect groove — it measures the <em>kind</em> of groove. The pattern of non-commutation IS the feel. <a href="./commutator.html">Read the full math →</a></p>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border); text-align:center; color:var(--dim); font-size:0.9rem;">
+  <p><a href="./">← Back to Wet Math</a></p>
+  <p style="margin-top:0.5rem; font-size:0.8rem;">Inspired by Dan Charnas's <em>Dilla Time</em> (2022). BPM 93 — Dilla's tempo.</p>
+</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- AUDIO + VISUALIZATION ENGINE                 -->
+<!-- ═══════════════════════════════════════════ -->
 <script>
 (function() {
-  // ═══ AUDIO ENGINE ═══
-  let audioCtx = null;
-  let playing = false;
-  let nextNoteTime = 0;
-  let currentStep = 0;
-  let timerID = null;
-  let mode = 'grid';
-  let bpm = 93;
+  const BPM = 93;
   const STEPS = 16;
-  const LOOKAHEAD = 25.0; // ms
-  const SCHEDULEAHEAD = 0.1; // s
+  const STEP_DUR = (60 / BPM) / 4; // 16th note duration in seconds
+  const LOOP_DUR = STEP_DUR * STEPS;
 
-  // Instruments: kick, snare, hihat, rim
-  const tracks = [
+  const TRACKS = [
     { name: 'Kick',  color: '#f97316', pattern: [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0] },
     { name: 'Snare', color: '#a78bfa', pattern: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0] },
     { name: 'HiHat', color: '#06b6d4', pattern: [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0] },
     { name: 'Rim',   color: '#22c55e', pattern: [0,0,0,0, 0,0,1,0, 0,0,0,0, 0,1,0,0] },
   ];
 
-  // Per-step timing offsets (in fractions of a step duration)
-  // These define the "feel" for each mode
-  function getOffsets(m) {
-    const zero = Array.from({length: STEPS}, () => Array(tracks.length).fill(0));
-    if (m === 'grid') return zero;
-    if (m === 'swing') {
-      // Classic MPC swing: push every even 16th note late
-      // Same offset for all instruments — unified feel
-      const swingAmt = 0.33; // 33% of a step
-      return Array.from({length: STEPS}, (_, i) =>
-        tracks.map(() => i % 2 === 1 ? swingAmt : 0)
-      );
-    }
-    if (m === 'dilla') {
-      // J Dilla: each instrument has its OWN timing relationship
-      // Kick slightly ahead, snare slightly behind, hihat swings,
-      // rim has its own pocket — nothing lines up, everything grooves
-      const offsets = Array.from({length: STEPS}, () => Array(tracks.length).fill(0));
+  // Timing offsets per mode (fraction of step duration)
+  const OFFSETS = {
+    grid: () => TRACKS.map(() => new Float32Array(STEPS)), // all zeros
+    swing: () => {
+      const swing = 0.33;
+      return TRACKS.map(() => {
+        const o = new Float32Array(STEPS);
+        for (let i = 0; i < STEPS; i++) o[i] = (i % 2 === 1) ? swing : 0;
+        return o;
+      });
+    },
+    dilla: () => {
+      const o = TRACKS.map(() => new Float32Array(STEPS));
       for (let i = 0; i < STEPS; i++) {
-        // Kick: slightly ahead of the beat (pushing)
-        offsets[i][0] = (i % 4 === 0) ? -0.08 : (i % 2 === 0) ? -0.05 : 0;
-        // Snare: laid back, behind the beat
-        offsets[i][1] = (i % 4 === 0) ? 0.15 : 0.12;
-        // HiHat: uneven swing, different per beat — the Dilla shuffle
-        offsets[i][2] = (i % 4 === 1) ? 0.28 : (i % 4 === 3) ? 0.38 : (i % 2 === 1) ? 0.22 : 0.03;
-        // Rim: its own world — slightly different from everything
-        offsets[i][3] = (i % 3 === 0) ? 0.1 : (i % 3 === 1) ? -0.06 : 0.2;
+        // Kick: pushes ahead
+        o[0][i] = (i % 4 === 0) ? -0.09 : (i % 2 === 0) ? -0.05 : 0;
+        // Snare: lays back
+        o[1][i] = (i % 4 === 0) ? 0.18 : 0.13;
+        // HiHat: uneven swing, different per beat
+        o[2][i] = [0.02, 0.30, 0.04, 0.38, 0.01, 0.25, 0.03, 0.42, 0.02, 0.28, 0.05, 0.35, 0.01, 0.32, 0.04, 0.40][i];
+        // Rim: its own pocket
+        o[3][i] = [0, 0, 0, 0, 0, 0, 0.12, 0, 0, 0, 0, 0, 0, 0.22, 0, 0][i];
       }
-      return offsets;
+      return o;
     }
-    return zero;
+  };
+
+  // Audio context (shared, lazy init)
+  let actx = null;
+  function getCtx() {
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    return actx;
   }
 
-  let offsets = getOffsets(mode);
-
-  // Synthesize percussion sounds
-  function playSound(trackIdx, time) {
-    if (!audioCtx) return;
-    const t = trackIdx;
-    if (t === 0) { // Kick
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
+  // Synth sounds
+  function playSound(ctx, trackIdx, time) {
+    if (trackIdx === 0) { // Kick
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
       osc.frequency.setValueAtTime(160, time);
       osc.frequency.exponentialRampToValueAtTime(40, time + 0.12);
-      gain.gain.setValueAtTime(0.8, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
-      osc.connect(gain); gain.connect(audioCtx.destination);
+      g.gain.setValueAtTime(0.7, time);
+      g.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+      osc.connect(g); g.connect(ctx.destination);
       osc.start(time); osc.stop(time + 0.3);
-    } else if (t === 1) { // Snare
-      const noise = audioCtx.createBufferSource();
-      const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.15, audioCtx.sampleRate);
-      const data = buf.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    } else if (trackIdx === 1) { // Snare
+      const noise = ctx.createBufferSource();
+      const buf = ctx.createBuffer(1, ctx.sampleRate * 0.12, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
       noise.buffer = buf;
-      const gain = audioCtx.createGain();
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'highpass'; filter.frequency.value = 1000;
-      gain.gain.setValueAtTime(0.5, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.15);
-      noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-      noise.start(time); noise.stop(time + 0.15);
+      const g = ctx.createGain();
+      const f = ctx.createBiquadFilter();
+      f.type = 'highpass'; f.frequency.value = 1200;
+      g.gain.setValueAtTime(0.45, time);
+      g.gain.exponentialRampToValueAtTime(0.001, time + 0.12);
+      noise.connect(f); f.connect(g); g.connect(ctx.destination);
+      noise.start(time); noise.stop(time + 0.12);
       // Tonal body
-      const osc = audioCtx.createOscillator();
-      const g2 = audioCtx.createGain();
-      osc.frequency.setValueAtTime(200, time);
-      osc.frequency.exponentialRampToValueAtTime(100, time + 0.05);
-      g2.gain.setValueAtTime(0.4, time);
-      g2.gain.exponentialRampToValueAtTime(0.001, time + 0.08);
-      osc.connect(g2); g2.connect(audioCtx.destination);
-      osc.start(time); osc.stop(time + 0.08);
-    } else if (t === 2) { // HiHat
-      const noise = audioCtx.createBufferSource();
-      const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.05, audioCtx.sampleRate);
-      const data = buf.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+      const osc = ctx.createOscillator();
+      const g2 = ctx.createGain();
+      osc.frequency.setValueAtTime(180, time);
+      osc.frequency.exponentialRampToValueAtTime(80, time + 0.04);
+      g2.gain.setValueAtTime(0.35, time);
+      g2.gain.exponentialRampToValueAtTime(0.001, time + 0.06);
+      osc.connect(g2); g2.connect(ctx.destination);
+      osc.start(time); osc.stop(time + 0.06);
+    } else if (trackIdx === 2) { // HiHat
+      const noise = ctx.createBufferSource();
+      const buf = ctx.createBuffer(1, ctx.sampleRate * 0.04, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
       noise.buffer = buf;
-      const gain = audioCtx.createGain();
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'highpass'; filter.frequency.value = 7000;
-      gain.gain.setValueAtTime(0.25, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
-      noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-      noise.start(time); noise.stop(time + 0.05);
-    } else if (t === 3) { // Rim
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
+      const g = ctx.createGain();
+      const f = ctx.createBiquadFilter();
+      f.type = 'highpass'; f.frequency.value = 8000;
+      g.gain.setValueAtTime(0.2, time);
+      g.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
+      noise.connect(f); f.connect(g); g.connect(ctx.destination);
+      noise.start(time); noise.stop(time + 0.04);
+    } else if (trackIdx === 3) { // Rim
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(800, time);
-      gain.gain.setValueAtTime(0.2, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.start(time); osc.stop(time + 0.03);
+      osc.frequency.setValueAtTime(850, time);
+      g.gain.setValueAtTime(0.18, time);
+      g.gain.exponentialRampToValueAtTime(0.001, time + 0.025);
+      osc.connect(g); g.connect(ctx.destination);
+      osc.start(time); osc.stop(time + 0.025);
     }
   }
 
-  function scheduleNote(step, time) {
-    const stepDur = (60.0 / bpm) / 4; // 16th note duration
-    for (let t = 0; t < tracks.length; t++) {
-      if (tracks[t].pattern[step]) {
-        const offset = offsets[step][t] * stepDur;
-        playSound(t, time + offset);
+  // ═══ PLAYER INSTANCES ═══
+  const players = {};
+
+  function createPlayer(mode) {
+    const ctx = getCtx();
+    const offsets = OFFSETS[mode]();
+    let loopStart = 0;
+    let scheduledUpTo = 0;
+    let playing = false;
+    let rafId = null;
+
+    function scheduleLoop(from) {
+      for (let t = 0; t < TRACKS.length; t++) {
+        for (let s = 0; s < STEPS; s++) {
+          if (!TRACKS[t].pattern[s]) continue;
+          const noteTime = from + (s + offsets[t][s]) * STEP_DUR;
+          if (noteTime >= scheduledUpTo && noteTime < from + LOOP_DUR + 0.1) {
+            playSound(ctx, t, noteTime);
+          }
+        }
       }
+      scheduledUpTo = from + LOOP_DUR;
     }
-  }
 
-  function scheduler() {
-    while (nextNoteTime < audioCtx.currentTime + SCHEDULEAHEAD) {
-      scheduleNote(currentStep, nextNoteTime);
-      const stepDur = (60.0 / bpm) / 4;
-      nextNoteTime += stepDur;
-      currentStep = (currentStep + 1) % STEPS;
+    function tick() {
+      if (!playing) return;
+      const now = ctx.currentTime;
+      // Schedule next loop if needed
+      while (scheduledUpTo < now + 0.2) {
+        scheduleLoop(loopStart + Math.ceil((scheduledUpTo - loopStart) / LOOP_DUR) * LOOP_DUR);
+      }
+      rafId = requestAnimationFrame(tick);
     }
-    timerID = setTimeout(scheduler, LOOKAHEAD);
-  }
 
-  window.togglePlay = function() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (playing) {
-      clearTimeout(timerID);
-      playing = false;
-      document.getElementById('btn-play').textContent = '▶ Play';
-    } else {
-      currentStep = 0;
-      nextNoteTime = audioCtx.currentTime;
-      playing = true;
-      document.getElementById('btn-play').textContent = '⏸ Pause';
-      scheduler();
-    }
-  };
-
-  window.setMode = function(m) {
-    mode = m;
-    offsets = getOffsets(m);
-    document.querySelectorAll('.mode-btn').forEach(b => { b.classList.remove('active'); b.classList.add('secondary'); });
-    document.getElementById('btn-' + m).classList.remove('secondary');
-    document.getElementById('btn-' + m).classList.add('active');
-    const descs = {
-      grid: '<strong>Grid:</strong> Every note snaps to exact 16th-note subdivisions. Perfectly quantized. Metronomically correct. Completely lifeless. This is what a drum machine sounds like with no feel applied — every instrument locked to the same rigid grid.',
-      swing: '<strong>Swing:</strong> Every other 16th note is pushed late by the same amount, across all instruments. This is the classic MPC/drum machine swing — syncopated, bouncy, but <em>uniform</em>. All parts share one deformed grid. Feels good, but predictable.',
-      dilla: '<strong>Dilla:</strong> Each instrument has its <em>own</em> timing relationship with the beat. The kick pushes slightly ahead. The snare lays back behind. The hi-hat swings unevenly — different amounts on different beats. The rim lives in its own pocket. Nothing lines up with anything else, but nothing is random either. Every deviation has structure. This is the liquid state of rhythm — the commutator is non-zero and patterned.'
+    return {
+      get playing() { return playing; },
+      get progress() {
+        if (!playing) return 0;
+        return ((ctx.currentTime - loopStart) % LOOP_DUR) / LOOP_DUR;
+      },
+      offsets,
+      start() {
+        if (playing) return;
+        playing = true;
+        loopStart = ctx.currentTime;
+        scheduledUpTo = loopStart;
+        scheduleLoop(loopStart);
+        tick();
+      },
+      stop() {
+        playing = false;
+        if (rafId) cancelAnimationFrame(rafId);
+      }
     };
-    document.getElementById('mode-desc').innerHTML = descs[m];
-    draw();
-  };
+  }
 
-  window.updateBPM = function() {
-    bpm = parseInt(document.getElementById('bpm').value);
-    document.getElementById('bpm-val').textContent = bpm;
+  // ═══ TOGGLE ═══
+  window.togglePlayer = function(mode) {
+    // Stop all others
+    Object.keys(players).forEach(k => {
+      if (k !== mode && players[k].playing) {
+        players[k].stop();
+        document.getElementById('play-' + k).textContent = '▶ Play ' + k.charAt(0).toUpperCase() + k.slice(1);
+        document.getElementById('play-' + k).classList.remove('playing');
+      }
+    });
+
+    if (!players[mode]) players[mode] = createPlayer(mode);
+    const p = players[mode];
+    const btn = document.getElementById('play-' + mode);
+    const label = mode === 'dilla' ? 'Dilla' : mode.charAt(0).toUpperCase() + mode.slice(1);
+
+    if (p.playing) {
+      p.stop();
+      btn.textContent = '▶ Play ' + label;
+      btn.classList.remove('playing');
+    } else {
+      p.start();
+      btn.textContent = '⏸ Stop';
+      btn.classList.add('playing');
+    }
   };
 
   // ═══ VISUALIZATION ═══
-  function draw() {
-    const canvas = document.getElementById('grooveCanvas');
+  function drawViz(canvasId, mode) {
+    const canvas = document.getElementById(canvasId);
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
+    const p = players[mode];
+    const offsets = p ? p.offsets : OFFSETS[mode]();
+
     ctx.fillStyle = '#09090b';
     ctx.fillRect(0, 0, W, H);
 
-    const marginL = 60, marginR = 20, marginT = 30, marginB = 20;
-    const plotW = W - marginL - marginR;
-    const plotH = H - marginT - marginB;
-    const trackH = plotH / tracks.length;
-    const stepW = plotW / STEPS;
+    const mL = 55, mR = 15, mT = 10, mB = 10;
+    const pW = W - mL - mR;
+    const pH = H - mT - mB;
+    const tH = pH / TRACKS.length;
 
-    // Grid lines (the reference grid — always shown)
-    ctx.strokeStyle = '#1a1a1f';
-    ctx.lineWidth = 1;
+    // Grid lines (16ths)
     for (let i = 0; i <= STEPS; i++) {
-      const x = marginL + i * stepW;
-      ctx.beginPath(); ctx.moveTo(x, marginT); ctx.lineTo(x, marginT + plotH); ctx.stroke();
-      // Beat numbers
-      if (i % 4 === 0 && i < STEPS) {
-        ctx.fillStyle = '#555';
-        ctx.font = '11px Inter, system-ui, sans-serif';
-        ctx.fillText((i/4 + 1).toString(), x + stepW * 1.5, marginT - 8);
-      }
-    }
-    // Stronger lines on quarter notes
-    ctx.strokeStyle = '#2a2a30';
-    ctx.lineWidth = 1.5;
-    for (let i = 0; i <= 4; i++) {
-      const x = marginL + i * 4 * stepW;
-      ctx.beginPath(); ctx.moveTo(x, marginT); ctx.lineTo(x, marginT + plotH); ctx.stroke();
+      const x = mL + (i / STEPS) * pW;
+      ctx.strokeStyle = (i % 4 === 0) ? '#2a2a30' : '#151518';
+      ctx.lineWidth = (i % 4 === 0) ? 1.5 : 0.5;
+      ctx.beginPath(); ctx.moveTo(x, mT); ctx.lineTo(x, mT + pH); ctx.stroke();
     }
 
-    // Track labels
-    ctx.font = '12px Inter, system-ui, sans-serif';
-    for (let t = 0; t < tracks.length; t++) {
-      ctx.fillStyle = tracks[t].color;
-      const y = marginT + t * trackH + trackH / 2 + 4;
-      ctx.fillText(tracks[t].name, 8, y);
+    // Beat numbers
+    ctx.fillStyle = '#444';
+    ctx.font = '10px Inter, system-ui, sans-serif';
+    for (let i = 0; i < 4; i++) {
+      ctx.fillText((i + 1).toString(), mL + (i * 4 + 1.5) / STEPS * pW, mT + pH + 10);
     }
 
-    // Draw notes — circles positioned at their actual timing
-    for (let t = 0; t < tracks.length; t++) {
+    // Track labels and notes
+    for (let t = 0; t < TRACKS.length; t++) {
+      const y = mT + t * tH + tH / 2;
+
+      // Label
+      ctx.fillStyle = TRACKS[t].color;
+      ctx.font = '11px Inter, system-ui, sans-serif';
+      ctx.fillText(TRACKS[t].name, 5, y + 4);
+
+      // Horizontal lane line
+      ctx.strokeStyle = '#1a1a1f';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.moveTo(mL, y); ctx.lineTo(mL + pW, y); ctx.stroke();
+
       for (let s = 0; s < STEPS; s++) {
-        if (!tracks[t].pattern[s]) continue;
-        const offset = offsets[s][t];
-        const x = marginL + (s + 0.5 + offset) * stepW;
-        const y = marginT + t * trackH + trackH / 2;
-        const r = 7;
+        if (!TRACKS[t].pattern[s]) continue;
 
-        // Draw a ghost circle on the grid position if offset
-        if (Math.abs(offset) > 0.01) {
-          const gx = marginL + (s + 0.5) * stepW;
-          ctx.beginPath(); ctx.arc(gx, y, r, 0, Math.PI * 2);
-          ctx.strokeStyle = tracks[t].color + '30';
+        const gridX = mL + ((s + 0.5) / STEPS) * pW;
+        const off = offsets[t][s];
+        const noteX = mL + ((s + 0.5 + off) / STEPS) * pW;
+
+        // Ghost on grid
+        if (Math.abs(off) > 0.01) {
+          ctx.beginPath(); ctx.arc(gridX, y, 5, 0, Math.PI * 2);
+          ctx.strokeStyle = TRACKS[t].color + '25';
           ctx.lineWidth = 1;
           ctx.stroke();
-          // Connecting line
-          ctx.beginPath(); ctx.moveTo(gx, y); ctx.lineTo(x, y);
-          ctx.strokeStyle = tracks[t].color + '40';
+
+          // Offset line
+          ctx.beginPath(); ctx.moveTo(gridX, y); ctx.lineTo(noteX, y);
+          ctx.strokeStyle = TRACKS[t].color + '35';
           ctx.lineWidth = 1;
           ctx.stroke();
         }
 
-        // Actual note
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = tracks[t].color;
+        // Note dot
+        ctx.beginPath(); ctx.arc(noteX, y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = TRACKS[t].color;
         ctx.fill();
       }
     }
 
     // Playhead
-    if (playing && audioCtx) {
-      const stepDur = (60.0 / bpm) / 4;
-      const totalDur = stepDur * STEPS;
-      const elapsed = (audioCtx.currentTime - (nextNoteTime - stepDur * ((currentStep === 0 ? STEPS : currentStep)))) % totalDur;
-      const progress = elapsed / totalDur;
-      const px = marginL + progress * plotW;
-
-      ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(px, marginT); ctx.lineTo(px, marginT + plotH); ctx.stroke();
+    if (p && p.playing) {
+      const prog = p.progress;
+      const px = mL + prog * pW;
 
       // Glow
-      ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-      ctx.lineWidth = 8;
-      ctx.beginPath(); ctx.moveTo(px, marginT); ctx.lineTo(px, marginT + plotH); ctx.stroke();
-    }
+      const grad = ctx.createLinearGradient(px - 12, 0, px + 12, 0);
+      grad.addColorStop(0, 'rgba(255,255,255,0)');
+      grad.addColorStop(0.5, 'rgba(255,255,255,0.08)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(px - 12, mT, 24, pH);
 
-    requestAnimationFrame(draw);
+      // Line
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(px, mT); ctx.lineTo(px, mT + pH); ctx.stroke();
+
+      // Pulse notes near playhead
+      for (let t = 0; t < TRACKS.length; t++) {
+        for (let s = 0; s < STEPS; s++) {
+          if (!TRACKS[t].pattern[s]) continue;
+          const off = offsets[t][s];
+          const notePos = (s + 0.5 + off) / STEPS;
+          const dist = Math.abs(prog - notePos);
+          if (dist < 0.02 || (prog < 0.02 && notePos > 0.98)) {
+            const noteX = mL + notePos * pW;
+            const yy = mT + t * tH + tH / 2;
+            ctx.beginPath(); ctx.arc(noteX, yy, 10, 0, Math.PI * 2);
+            ctx.fillStyle = TRACKS[t].color + '60';
+            ctx.fill();
+          }
+        }
+      }
+    }
   }
 
-  // Initialize
-  setMode('grid');
-  draw();
+  // Animation loop for all canvases
+  function animateAll() {
+    drawViz('cv-grid', 'grid');
+    drawViz('cv-swing', 'swing');
+    drawViz('cv-dilla', 'dilla');
+    requestAnimationFrame(animateAll);
+  }
+
+  // Init static views
+  players['grid'] = players['grid'] || null;
+  players['swing'] = players['swing'] || null;
+  players['dilla'] = players['dilla'] || null;
+  animateAll();
 })();
 </script>
 
-<!-- ═══ THE THREE MODES ═══ -->
-<h2>The Three Modes</h2>
-
-<div class="card">
-<h3 style="color:var(--dim);">1. Grid — The Solid State</h3>
-<p>Every note snaps to the nearest 16th-note subdivision. All instruments share the same rigid grid. This is G = 0 — operations commute, nothing depends on order, the system is frozen. It's technically "correct" and completely dead.</p>
-<p>Most electronic music starts here and adds complexity on top. But the grid itself has no groove. It's Class I — a fixed point.</p>
-</div>
-
-<div class="card">
-<h3 style="color:var(--yellow);">2. Swing — The Warm Lattice</h3>
-<p>Push every other 16th note late by a fixed percentage. All instruments share this deformed grid — they all swing together, by the same amount. This is your classic MPC swing, your jazz shuffle, your boom-bap bounce.</p>
-<p>Swing introduces non-commutativity at the note level (early and late positions aren't interchangeable), but it's <em>uniform</em> — every instrument responds the same way. It's more alive than the grid, but still predictable. Class II: periodic, structured, but not computing.</p>
-</div>
-
-<div class="card">
-<h3 style="color:var(--orange);">3. Dilla — The Liquid State</h3>
-<p>James Dewitt Yancey (J Dilla, 1974–2006) did something nobody had done before: he gave each instrument its <em>own</em> timing relationship with the beat. The kick pushes ahead. The snare lays back. The hi-hat swings unevenly — different amounts on different beats. The rim sits in its own pocket entirely.</p>
-<p>Nothing lines up with anything else. But nothing is random. Every deviation has structure. If you tried to quantize it, it would die. If you randomized the offsets, it would be noise. The deviations are <em>patterned non-commutations</em> — the instruments don't agree on where the beat is, and the structure of that disagreement is the groove.</p>
-<p>This is Class IV. This is the liquid state. This is <strong>G ≠ 0 with structure</strong>.</p>
-</div>
-
-<!-- ═══ CONNECTION ═══ -->
-<div class="connection">
-<h3>🔗 The Commutator in Rhythm</h3>
-<p>The Groovy Commutator was literally named for this. Take "evolve" (advance to the next beat) and "differentiate" (measure the deviation from the grid). Swap the order. In grid mode, the result is always zero — the grid commutes. In swing mode, it's non-zero but uniform. In Dilla mode, it's non-zero and <em>structured differently for each instrument</em>.</p>
-<p>The commutator doesn't just detect groove — it measures the <em>kind</em> of groove. The pattern of non-commutation IS the feel. <a href="./commutator.html">Read more →</a></p>
-</div>
-
-<!-- ═══ FOOTER ═══ -->
-<div style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border); text-align:center; color:var(--dim); font-size:0.9rem;">
-  <p><a href="./">← Back to Wet Math</a></p>
-  <p style="margin-top:0.5rem; font-size:0.8rem;">Inspired by Dan Charnas's <em>Dilla Time</em> and <a href="https://d-buckner.github.io/dilla-time/">d-buckner's visualization</a>.</p>
-</div>
-
-</div>
 </body>
 </html>
