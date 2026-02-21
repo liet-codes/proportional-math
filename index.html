@@ -138,6 +138,185 @@
 </ul>
 </div>
 
+<!-- ═══ D₂ — THE SECRET THIRD THING ═══ -->
+<h2>D₂ — The Secret Third Thing</h2>
+
+<div class="card">
+<p>The expanded commutator reveals something hiding inside:</p>
+
+<p><strong>D₀(S) = S</strong> — the state itself.<br>
+<strong>D₁(S) = D(S)</strong> — what's changing. The first derivative.<br>
+<strong>D₂(S) = D(D(S))</strong> — apply the system's rules <em>to the change pattern</em> and see what changes about <em>that</em>.</p>
+
+<p>D₂ is <strong>not the second derivative.</strong> Here's why:</p>
+
+<ul style="padding-left:1.5rem;">
+  <li>The <strong>second derivative</strong> asks: evolve S twice, compare step 1 to step 2. "How is the state <em>accelerating</em>?" Formally: <code>D(φ(S)) = φ(S) ⊕ φ(φ(S))</code></li>
+  <li><strong>D₂(S)</strong> asks: take the change-mask D(S), treat it <em>as if it were a state</em>, evolve it, and see what changes. "If the derivative were a world, what would the system do with it?" Formally: <code>D(D(S)) = D(S) ⊕ φ(D(S))</code></li>
+</ul>
+
+<p>The second derivative applies the rules to <strong>the actual next state</strong>. D₂ applies the rules to <strong>the change pattern</strong> — a completely different input. One tracks the system's trajectory. The other tracks <em>the system dreaming about its own dynamics</em>.</p>
+
+<p>The commutator's path 2 needs D₂, not the second derivative. That's what makes it structural — it's measuring whether the system's response to "change-as-state" is consistent with its response to "state-as-state."</p>
+</div>
+
+<!-- ═══ INTERACTIVE: D₂ vs SECOND DERIVATIVE ═══ -->
+<div class="card" id="d2-demo">
+<h3>🔬 Rule 110: D₂ vs Second Derivative</h3>
+<p style="font-size:0.9rem; color:var(--dim); margin-bottom:1rem;">Click cells to toggle, or randomize. The demo computes both D₂ and the classical second derivative for the same state — they almost always differ.</p>
+
+<div style="margin-bottom:1rem;">
+  <button onclick="randomizeD2()">Randomize</button>
+  <button onclick="clearD2()">Clear</button>
+  <button onclick="stepD2()">Step →</button>
+  <span id="d2-match" style="margin-left:1rem; font-size:0.9rem;"></span>
+</div>
+
+<canvas id="d2Canvas" width="800" height="320" style="width:100%; border-radius:8px; cursor:pointer;"></canvas>
+
+<div id="d2-stats" style="margin-top:0.8rem; font-size:0.85rem; color:var(--dim);"></div>
+</div>
+
+<script>
+(function() {
+  const W = 64; // cells
+  let state = new Uint8Array(W);
+
+  // Rule 110
+  function phi(s) {
+    const next = new Uint8Array(s.length);
+    for (let i = 0; i < s.length; i++) {
+      const L = s[(i - 1 + s.length) % s.length];
+      const C = s[i];
+      const R = s[(i + 1) % s.length];
+      const idx = (L << 2) | (C << 1) | R;
+      next[i] = (110 >> idx) & 1;
+    }
+    return next;
+  }
+
+  // D(S) = S ⊕ φ(S)
+  function D(s) {
+    const p = phi(s);
+    const d = new Uint8Array(s.length);
+    for (let i = 0; i < s.length; i++) d[i] = s[i] ^ p[i];
+    return d;
+  }
+
+  // XOR two arrays
+  function xor(a, b) {
+    const r = new Uint8Array(a.length);
+    for (let i = 0; i < a.length; i++) r[i] = a[i] ^ b[i];
+    return r;
+  }
+
+  function countOnes(a) { let c = 0; for (let i = 0; i < a.length; i++) c += a[i]; return c; }
+
+  function draw() {
+    const canvas = document.getElementById('d2Canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const cw = canvas.width, ch = canvas.height;
+    ctx.fillStyle = '#09090b';
+    ctx.fillRect(0, 0, cw, ch);
+
+    const cellW = cw / W;
+    const rowH = ch / 6;
+    const rows = [];
+    const labels = [];
+
+    // Compute everything
+    const S = state;
+    const phiS = phi(S);              // φ(S) — next state
+    const dS = D(S);                   // D₁(S) = S ⊕ φ(S)
+    const d2S = D(dS);                 // D₂(S) = D(D(S)) = D(S) ⊕ φ(D(S))
+    const phiPhiS = phi(phiS);         // φ(φ(S)) — two steps
+    const secondDeriv = xor(phiS, phiPhiS); // "second derivative" = φ(S) ⊕ φ(φ(S))
+    const diff = xor(d2S, secondDeriv);     // where they disagree
+
+    rows.push(S, dS, phiS, d2S, secondDeriv, diff);
+    labels.push(
+      'S — state',
+      'D₁(S) = D(S) — what\'s changing',
+      'φ(S) — next state',
+      'D₂(S) = D(D(S)) — system dreams its dynamics',
+      'S\'\' = φ(S) ⊕ φ(φ(S)) — classical second derivative',
+      'D₂ ⊕ S\'\' — where they disagree'
+    );
+
+    const colors = ['#d4d4d8', '#06b6d4', '#a78bfa', '#f97316', '#22c55e', '#ef4444'];
+
+    for (let r = 0; r < rows.length; r++) {
+      const y = r * rowH;
+      // Label
+      ctx.fillStyle = colors[r];
+      ctx.font = '11px Inter, system-ui, sans-serif';
+      ctx.fillText(labels[r], 4, y + 13);
+
+      // Cells
+      for (let i = 0; i < W; i++) {
+        if (rows[r][i]) {
+          ctx.fillStyle = colors[r];
+          ctx.fillRect(i * cellW, y + 18, cellW - 1, rowH - 22);
+        } else {
+          ctx.fillStyle = '#1a1a1f';
+          ctx.fillRect(i * cellW, y + 18, cellW - 1, rowH - 22);
+        }
+      }
+    }
+
+    // Stats
+    const d2Count = countOnes(d2S);
+    const sdCount = countOnes(secondDeriv);
+    const diffCount = countOnes(diff);
+    const match = diffCount === 0;
+
+    document.getElementById('d2-match').innerHTML = match
+      ? '<span style="color:#22c55e;">✓ D₂ = S\'\' (identical!)</span>'
+      : '<span style="color:#ef4444;">✗ D₂ ≠ S\'\' — differ at ' + diffCount + '/' + W + ' cells (' + Math.round(diffCount/W*100) + '%)</span>';
+
+    document.getElementById('d2-stats').innerHTML =
+      'D₂ active: ' + d2Count + '/' + W +
+      ' · S\'\' active: ' + sdCount + '/' + W +
+      ' · Disagreement: ' + diffCount + '/' + W;
+  }
+
+  window.randomizeD2 = function() {
+    for (let i = 0; i < W; i++) state[i] = Math.random() < 0.5 ? 1 : 0;
+    draw();
+  };
+
+  window.clearD2 = function() {
+    state.fill(0);
+    state[W >> 1] = 1; // single seed
+    draw();
+  };
+
+  window.stepD2 = function() {
+    state = phi(state);
+    draw();
+  };
+
+  // Click to toggle cells
+  const canvas = document.getElementById('d2Canvas');
+  if (canvas) {
+    canvas.addEventListener('click', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const i = Math.floor(x * W);
+      if (i >= 0 && i < W) {
+        state[i] ^= 1;
+        draw();
+      }
+    });
+  }
+
+  // Initialize with single seed
+  state[W >> 1] = 1;
+  draw();
+})();
+</script>
+
 <!-- ═══ PATRICK'S BRIDGE ═══ -->
 <h2>Patrick's Proportional Mathematics</h2>
 
