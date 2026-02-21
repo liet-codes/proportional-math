@@ -4,9 +4,9 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Proportional Mathematics — Patrick's Framework</title>
 <style>
-  :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#71717a; --accent:#f97316; --accent2:#a78bfa; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
+  :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#a1a1aa; --accent:#f97316; --accent2:#a78bfa; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.7; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.8; font-size:1.05rem; }
   .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
   h1 { font-size:2.2rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
   h2 { font-size:1.5rem; margin:3rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
@@ -29,17 +29,17 @@
   button:hover { opacity:0.85; }
   .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; } @media(max-width:600px){.grid2{grid-template-columns:1fr;}}
   .axiom { background:var(--s1); border:1px solid var(--border); border-radius:8px; padding:1.2rem; counter-increment:ax; position:relative; margin:0.8rem 0; }
-  .axiom::before { content:'Axiom ' counter(ax); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); position:absolute; top:0.6rem; right:0.8rem; }
+  .axiom::before { content:'Axiom ' counter(ax); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); position:absolute; top:0.6rem; right:0.8rem; }
   .axioms { counter-reset:ax; }
   code { background:var(--s2); padding:0.15rem 0.5rem; border-radius:3px; font-size:0.9em; font-family:'Fira Code','SF Mono',monospace; }
   .table-wrap { overflow-x:auto; margin:1rem 0; }
   table { border-collapse:collapse; width:100%; font-size:0.85rem; }
   th,td { padding:0.4rem 0.7rem; border:1px solid var(--border); text-align:center; }
-  th { background:var(--s2); color:var(--dim); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; }
+  th { background:var(--s2); color:var(--dim); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; }
   .highlight { color:var(--accent); font-weight:600; }
   .connection { background:linear-gradient(135deg, var(--s1), var(--s2)); border:1px solid var(--accent2); border-radius:10px; padding:1.5rem; margin:1.5rem 0; }
   .connection h3 { color:var(--accent); margin-top:0; }
-  .tag { display:inline-block; background:var(--s2); border:1px solid var(--border); padding:0.1rem 0.5rem; border-radius:3px; font-size:0.75rem; color:var(--dim); margin:0.1rem; }
+  .tag { display:inline-block; background:var(--s2); border:1px solid var(--border); padding:0.1rem 0.5rem; border-radius:3px; font-size:0.8rem; color:var(--dim); margin:0.1rem; }
   .spectrum-cell { font-family:'Fira Code',monospace; font-size:0.8rem; transition:background 0.2s; }
   .spectrum-cell.cross { background:rgba(249,115,22,0.15); }
   #spectrumTable td { cursor:default; }
@@ -608,7 +608,7 @@ function drawSpectrum() {
     html += '</tr>';
   }
   html += '</table>';
-  html += `<p style="font-size:0.8rem;color:var(--dim);margin-top:0.5rem;">Orange cells: near-commutative (a^b ≈ b^a within 1%). Different pairs commute at different n values. Try n=3.0 and n=3.3 for the most orange.</p>`;
+  html += `<p style="font-size:0.85rem;color:var(--dim);margin-top:0.5rem;">Orange cells: near-commutative (a^b ≈ b^a within 1%). Different pairs commute at different n values — try n=3.0 (where 2⁴ = 4² exactly) and n=3.3 for the most orange. The number e ≈ 2.718 doesn't produce the most orange cells; it's where x^(1/x) peaks, making it the <em>fulcrum</em> around which all commutative pairs organize.</p>`;
   document.getElementById('spectrumTable').innerHTML = html;
 }
 drawSpectrum();
