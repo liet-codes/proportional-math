@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Holonic Metabolism — Wet Math</title>
+<style>
+  :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#a1a1aa; --accent:#06b6d4; --accent2:#a78bfa; --orange:#f97316; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.8; font-size:1.05rem; }
+  .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+  h1 { font-size:2.2rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
+  h2 { font-size:1.5rem; margin:3rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
+  h3 { font-size:1.15rem; margin:1.5rem 0 0.5rem; color:var(--accent2); }
+  p { margin-bottom:1rem; }
+  a { color:var(--orange); text-decoration:none; } a:hover { text-decoration:underline; }
+  .subtitle { color:var(--dim); font-size:1.05rem; margin-bottom:2.5rem; }
+  .card { background:var(--s1); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin:1.2rem 0; }
+  .quote { border-left:3px solid var(--accent2); padding:0.8rem 1rem; color:var(--dim); font-style:italic; margin:1.2rem 0; background:var(--s2); border-radius:0 6px 6px 0; }
+  .quote cite { display:block; margin-top:0.5rem; font-style:normal; font-size:0.85rem; color:var(--accent2); }
+  code { background:var(--s2); padding:0.15rem 0.5rem; border-radius:3px; font-size:0.9em; font-family:'Fira Code','SF Mono',monospace; }
+  table { border-collapse:collapse; width:100%; font-size:0.9rem; margin:1rem 0; }
+  th,td { padding:0.5rem 0.8rem; border:1px solid var(--border); }
+  th { background:var(--s2); color:var(--dim); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; }
+  .nav { margin-bottom:2rem; }
+  .nav a { background:var(--s1); border:1px solid var(--border); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; transition:border-color 0.2s; }
+  .nav a:hover { border-color:var(--accent); text-decoration:none; }
+  .example { background:var(--s2); border:1px solid var(--border); border-radius:8px; padding:1.2rem 1.5rem; margin:1rem 0; }
+  .example h4 { color:var(--orange); margin-bottom:0.5rem; font-size:1rem; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; } @media(max-width:700px){.grid2{grid-template-columns:1fr;}}
+  .cascade-card { border-radius:10px; padding:1.5rem; }
+  .source { margin-top:2rem; padding:1rem; background:var(--s2); border-radius:8px; font-size:0.9rem; color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="nav"><a href="./">← Wet Math</a></div>
+
+<h1>🫀 Holonic Metabolism</h1>
+<p class="subtitle">How holons fail — and how they stay alive</p>
+
+<!-- ═══ THE CORE IDEA ═══ -->
+<h2>The Pattern</h2>
+
+<div class="card">
+<p>Everything that exists, exists within something else. A <strong>holon</strong> is something that is simultaneously a whole in itself and a part of a larger whole. A cell in your body. A person in a community. An empire in a geopolitical system.</p>
+
+<p>Holons fail in exactly two ways:</p>
+
+<div class="grid2" style="margin:1.5rem 0;">
+  <div class="cascade-card" style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.3);">
+    <h3 style="color:var(--blue); margin-top:0;">🧊 Anabolic Cascade</h3>
+    <p>The holon focuses so much on its own internal coherence that it stops listening to its environment. <strong>Accumulation without release.</strong> It grows, rigidifies, and eventually crushes what it's embedded in.</p>
+  </div>
+  <div class="cascade-card" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3);">
+    <h3 style="color:var(--red); margin-top:0;">🔥 Catabolic Cascade</h3>
+    <p>The holon focuses so much on signals from its environment that it fails to assert its own coherence. <strong>Decomposition beyond integrity.</strong> It dissolves, loses boundaries, falls apart.</p>
+  </div>
+</div>
+
+<p>To thread the needle between these two terminal attractors, a holon has to <strong>metabolize</strong> — coupling anabolic processes (composition, accumulation, building) with catabolic processes (decomposition, release, breaking down). Each feeds the other. This is <strong>dynamic integrity</strong>: neither frozen nor dissolved, but breathing.</p>
+
+<p>It's when these processes <em>decouple</em> that cascade begins.</p>
+</div>
+
+<!-- ═══ BIOLOGY ═══ -->
+<h2>In the Body</h2>
+
+<div class="example">
+<h4>Cancer — Anabolic Cascade of the Part</h4>
+<p>A cell ignores the body's signals around downregulation and just starts to grow. The cell becomes a tumor, the tumor metastasizes, and the body shuts down as resources are consumed — leading to cachexia, itself a <em>compensatory catabolic cascade</em> of the whole.</p>
+<p style="font-size:0.9rem; color:var(--dim);">A part goes anabolic → the whole is forced catabolic.</p>
+</div>
+
+<div class="example">
+<h4>Autoimmune Disease — Anabolic Cascade of the Whole</h4>
+<p>The immune system's coordination function goes anabolic — it over-builds pattern-recognition, surveillance, and boundary-enforcement, targeting healthy components as threats. The whole asserts its frame against the parts, which enter compensatory catabolic cascade as they're broken down.</p>
+<p style="font-size:0.9rem; color:var(--dim);">The whole goes anabolic → the parts are forced catabolic.</p>
+</div>
+
+<!-- ═══ SOCIETY ═══ -->
+<h2>In Society</h2>
+
+<div class="example">
+<h4>Empire — Anabolic Cascade Projected into Social Organization</h4>
+<p>An empire asserts itself over neighbors by force or coercion. As it grows, the cost of maintaining outward pressure increases until it requires constant expansion to maintain integrity — until Alexander wept, for there were no more lands to conquer. From the empire's standpoint: anabolic cascade. From the conquered peoples' standpoint: forced catabolic cascade.</p>
+</div>
+
+<div class="example">
+<h4>Market Monopolization — A Part Goes Anabolic Against the Whole</h4>
+<p>When a player corners a market with inelastic demand, they can set their own terms — doing damage to the commons to secure local gain. Market forces become powerless to govern them. The monopolist's anabolic cascade causes catabolic cascade in the rest of the market.</p>
+</div>
+
+<!-- ═══ PSYCHOLOGY ═══ -->
+<h2>In the Self</h2>
+
+<div class="example">
+<h4>"Narcissism" — Anabolic Cascade of Identity</h4>
+<p>The narcissist centers and protects their sense of self against all external signals. In pathological cases, they surround themselves with enablers — people who support the narcissist's identity as the center of the social dynamic. The narcissist's anabolic cascade around identity exerts pressure on those around them toward <em>catabolic cascade with respect to their own identity</em>.</p>
+</div>
+
+<div class="example">
+<h4>"Borderline" — Catabolic Cascade of Identity</h4>
+<p>Where narcissism is anabolic cascade around identity, BPD is its inverse: a weak and underdeveloped sense of self, grounded in the approval of others. Even slight perceived rejection is experienced as fundamental invalidation, leading to panic. The catabolic cascade of underdeveloped identity exerts pressure on those around them toward <em>anabolic cascade</em> — needing to assert their own identity while simultaneously reassuring.</p>
+</div>
+
+<!-- ═══ THE META-PATTERN ═══ -->
+<h2>The Meta-Pattern</h2>
+
+<div class="card" style="border-color:var(--accent);">
+<p><strong>Metabolic cascade is necessarily systemic.</strong> It would be a mistake to identify it strictly as a property of a given holon, because a local cascade only becomes terminal when the corresponding <em>compensatory cascade</em> arises in adjacent nodes.</p>
+
+<p>In some cases it seems "obvious" which cascade is primary and which is compensatory. But in others it's less clear — which suggests that localizing the pathology is itself a mistake. What <em>does</em> seem clear is that compensatory action often gives rise to the worst consequences of the initial cascade.</p>
+
+<p>This raises a striking possibility: <strong>the cascade requires adjacent nodes to compensate in order to "complete the circuit."</strong> By refusing to engage — refusing to offset, refusing to allow the cascade to jump — the system reasserts the infinite game, demonstrating that the finite game cannot force anyone else to play.</p>
+</div>
+
+<!-- ═══ DEEPER CONNECTIONS ═══ -->
+<h2>Deeper Connections</h2>
+
+<div class="card">
+<h3>McGilchrist — Left Hemisphere Capture</h3>
+<p>Iain McGilchrist's identification of left-hemisphere capture is a clear instance of anabolic cascade. The left hemisphere creates models; the right hemisphere holds observations. When we spend time observing our own models, the right hemisphere fills with observations <em>of models</em>. The left hemisphere then creates models of models — an anabolic cascade that leaves us very good at optimizing precise abstractions while cutting us off from the holistic world outside.</p>
+</div>
+
+<div class="card">
+<h3>Dewart — Ontic Consciousness</h3>
+<p>Leslie Dewart (in <em>Evolution and Consciousness</em>) proposes that consciousness among speakers who predicate using the copula — "the apple <em>is</em> red" — subconsciously conditions us to believe the association exists "out there" rather than in the speaker. This <strong>ontic consciousness</strong> mistakes the map for the territory, enabling powerful abstractions that tend toward imperial social structures and ultimately destructive relationships.</p>
+</div>
+
+<div class="card">
+<h3>Hoffman — Interface Theory of Perception</h3>
+<p>Donald Hoffman complicates everything gloriously. If the right hemisphere is always already populated not with "true representations of reality" but with species-specific encodings of <em>fitness payoffs</em> — then at what point does the anabolic process slip into anabolic cascade, and at what point is this just… what we're doing here?</p>
+</div>
+
+<!-- ═══ FINITE vs INFINITE ═══ -->
+<h2>Finite Games, Infinite Games</h2>
+
+<div class="card" style="border-color:var(--orange);">
+<p>In every failure mode, the cascade heads toward a "game over" screen — for the holon itself, its environment, or some process that the cascade jeopardizes. That's the signature of a <strong>finite game</strong>.</p>
+
+<p>A healthy holonic system — one with metabolic integrity — is playing an <strong>infinite game</strong>. The system is arranged to let both the holon and its environment keep playing. Dynamic integrity is the refusal to let the game become finite.</p>
+</div>
+
+<!-- ═══ WET MATH CONNECTION ═══ -->
+<h2>The Wet Math Connection</h2>
+
+<div class="card" style="border-color:var(--accent);">
+<p>In the <a href="./commutator.html">Groovy Commutator</a> framework:</p>
+
+<table>
+  <tr><th>Cascade</th><th>G(S)</th><th>CA Class</th><th>State</th></tr>
+  <tr><td style="color:var(--blue)"><strong>Anabolic</strong></td><td>G → 0 (forced)</td><td>I / II</td><td>Solid — frozen, crystallized</td></tr>
+  <tr><td style="color:var(--red)"><strong>Catabolic</strong></td><td>G = chaotic</td><td>III</td><td>Gas — dissolved, noise</td></tr>
+  <tr><td style="color:var(--accent)"><strong>Dynamic integrity</strong></td><td>G ≠ 0, structured</td><td><strong>IV</strong></td><td><strong>Liquid</strong> — alive, metabolizing</td></tr>
+</table>
+
+<p>Non-commutativity is the coupling mechanism. Order-dependence forces conversation between levels — neither can run independently. When an anabolic cascade decouples the system, operations start to commute (G → 0): the holon stops listening. When a catabolic cascade takes hold, everything becomes noise (G = chaotic): the holon stops existing as a coherent unit.</p>
+
+<p>The liquid state is <strong>metabolic integrity</strong>: structured non-commutativity. The system breathes.</p>
+</div>
+
+<div class="source">
+  <strong>Source:</strong> <a href="https://unstriver.substack.com/p/thoughts-around-holonic-metabolism">Thoughts around Holonic Metabolism</a> — Myk's original essay (~1 year in development)
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border); text-align:center; color:var(--dim); font-size:0.9rem;">
+  <p><a href="./">← Back to Wet Math</a></p>
+</div>
+
+</div>
+</body>
+</html>
