@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shannon Clusters — Retained Informational Regimes</title>
+<style>
+  :root { --bg:#09090b; --s1:#111113; --s2:#1a1a1f; --border:#2a2a30; --text:#d4d4d8; --dim:#a1a1aa; --accent:#06b6d4; --accent2:#a78bfa; --orange:#f97316; --green:#22c55e; --blue:#3b82f6; --red:#ef4444; --yellow:#eab308; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.8; font-size:1.05rem; }
+  .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+  h1 { font-size:2.5rem; margin-bottom:0.3rem; letter-spacing:-0.02em; }
+  h2 { font-size:1.5rem; margin:3rem 0 1rem; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:0.5rem; }
+  h3 { font-size:1.15rem; margin:1.5rem 0 0.5rem; color:var(--accent2); }
+  p { margin-bottom:1rem; }
+  a { color:var(--orange); text-decoration:none; } a:hover { text-decoration:underline; }
+  .subtitle { color:var(--dim); font-size:1.1rem; margin-bottom:2.5rem; }
+  .card { background:var(--s1); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin:1.2rem 0; }
+  .quote { border-left:3px solid var(--accent2); padding:0.8rem 1rem; color:var(--dim); font-style:italic; margin:1.2rem 0; background:var(--s2); border-radius:0 6px 6px 0; }
+  .quote cite { display:block; margin-top:0.5rem; font-style:normal; font-size:0.85rem; color:var(--accent2); }
+  code { background:var(--s2); padding:0.15rem 0.5rem; border-radius:3px; font-size:0.9em; font-family:'Fira Code','SF Mono',monospace; }
+  pre { background:var(--s2); padding:1rem; border-radius:6px; overflow-x:auto; margin:1rem 0; font-family:'Fira Code','SF Mono',monospace; font-size:0.9rem; line-height:1.6; }
+  .tag { display:inline-block; font-size:0.75rem; padding:0.15rem 0.6rem; border-radius:4px; font-weight:600; margin-right:0.3rem; vertical-align:middle; }
+  .tag-est { background:rgba(34,197,94,0.15); color:var(--green); }
+  .tag-plaus { background:rgba(6,182,212,0.15); color:var(--accent); }
+  .tag-spec { background:rgba(167,139,250,0.15); color:var(--accent2); }
+  .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:0.8rem; margin:1.5rem 0; }
+  @media(max-width:700px){ .grid4{grid-template-columns:repeat(2,1fr);} }
+  .regime-card { border-radius:8px; padding:1rem; text-align:center; font-size:0.9rem; }
+  .regime-card h4 { margin-bottom:0.3rem; font-size:1rem; }
+  .connection { background:linear-gradient(135deg, var(--s1), var(--s2)); border:1px solid var(--accent); border-radius:10px; padding:1.5rem; margin:1.5rem 0; }
+  .connection h3 { color:var(--orange); margin-top:0; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<p style="margin-bottom:2rem;"><a href="./index.html">← Wet Math</a></p>
+
+<h1>🌀 Shannon Clusters</h1>
+<p class="subtitle">Retained Informational Regimes — by Ben (bensaxophone)</p>
+
+<div class="card" style="border-color:var(--accent);">
+<p>Across physics and mathematics, practitioners have independently built tools for the same problem without realizing it: <strong>identify what persists, characterize its boundary, and figure out what descriptions stay stable under coupling.</strong></p>
+
+<p>Renormalization group theorists do it. Quantum error correction people do it. Decoherence researchers do it. Dynamical systems people do it. They use completely different formalisms, different notation, different intuitions — and they're solving the same structural problem.</p>
+
+<p>Ben's paper names that problem and gives it a common vocabulary: the <strong>Shannon cluster</strong>.</p>
+</div>
+
+<h2>What Is a Shannon Cluster?</h2>
+
+<div class="card">
+<p>A Shannon cluster is a <strong>retained informational regime</strong>: a set of states, observables, or descriptions whose mutual predictability persists over a timescale significantly longer than the ambient mixing, decoherence, or escape dynamics would predict.</p>
+
+<p>Three things define it:</p>
+<ol style="margin-left:1.5rem; margin-bottom:1rem;">
+  <li><strong>Retained regime</strong> — what persists</li>
+  <li><strong>Informational interface</strong> — the boundary through which information flows</li>
+  <li><strong>Stable descriptions</strong> — what stays true under coupling</li>
+</ol>
+
+<p>The cluster and the dynamics that produce it are <em>co-descriptions of the same organization</em>. The boundary isn't a wall around something pre-existing — it's where the dynamics change character.</p>
+</div>
+
+<div class="quote">
+  "A retained regime exists only relative to a comparison of rates: internal equilibration, leakage across the interface, and the observational scale at which the description is taken. There is no absolute retained regime."
+  <cite>— Shannon Clusters paper, Section 1</cite>
+</div>
+
+<h2>The Same Ghost, Four Costumes</h2>
+
+<div class="card">
+<h3>1. Renormalization Group Fixed Points</h3>
+<p><span class="tag tag-est">Established</span> Under coarse-graining, many different microscopic theories flow to the same long-distance behavior. The universality class is the retained regime. The separatrix between classes is the informational interface. Critical exponents are the stable descriptions.</p>
+
+<h3>2. Open System Reduction</h3>
+<p><span class="tag tag-est">Established</span> When you trace out part of a system, the memory kernel K(t−s) encodes how the hidden part influences the accessible part. Almost-invariant sets — regions of state space that hold their measure far longer than mixing would predict — are Shannon clusters in the classical limit.</p>
+
+<h3>3. Pointer States & Quantum Darwinism</h3>
+<p><span class="tag tag-est">Established</span> Decoherence selects pointer states that are redundantly imprinted on independent environmental fragments. Classical objectivity — the agreement of independent observers — is the joint fixed point of a network of coupled Shannon clusters converging on a common boundary condition.</p>
+
+<h3>4. Quantum Error Correction & Holographic Encoding</h3>
+<p><span class="tag tag-est">Established</span> A QEC code embeds logical information into a larger physical space such that it survives any correctable error. The code subspace is the retained regime. The Almheiri-Dong-Harlow result shows that AdS/CFT bulk locality has exactly this QEC structure — the Ryu-Takayanagi area formula is a consequence, not an assumption.</p>
+</div>
+
+<h2>The Four Regimes</h2>
+
+<p>A Shannon cluster lives somewhere on a spectrum defined by its coupling strength and symmetry:</p>
+
+<div class="grid4">
+  <div class="regime-card" style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.3);">
+    <h4 style="color:var(--blue);">🧊 Frozen</h4>
+    <p>Weak coupling, high symmetry. Maximum retention, zero responsiveness. Inert.</p>
+  </div>
+  <div class="regime-card" style="background:rgba(6,182,212,0.08); border:1px solid rgba(6,182,212,0.3);">
+    <h4 style="color:var(--accent);">💧 Quasi-stationary</h4>
+    <p>Moderate coupling, broken symmetry. Active retention via coupling. <strong>The generative regime.</strong></p>
+  </div>
+  <div class="regime-card" style="background:rgba(234,179,8,0.08); border:1px solid rgba(234,179,8,0.3);">
+    <h4 style="color:var(--yellow);">⚡ Critical</h4>
+    <p>Coupling near dissolution threshold. Boundary fluctuations diverge. Genuine criticality.</p>
+  </div>
+  <div class="regime-card" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3);">
+    <h4 style="color:var(--red);">🔥 Dissolved</h4>
+    <p>Beyond retention threshold. Internal correlations destroyed faster than produced.</p>
+  </div>
+</div>
+
+<div class="card">
+<p><strong>The critical distinction:</strong> Quasi-stationary clusters can exhibit broad relaxation spectra and apparent power-law statistics <em>without being near the dissolution boundary</em>. The slow manifold geometry produces a distribution of local escape timescales that can mimic criticality. Ben's framework gives vocabulary for distinguishing these cases — which is exactly where complex systems research keeps getting confused.</p>
+</div>
+
+<h2>Where Shannon Clusters Meet Wet Math</h2>
+
+<div class="connection">
+<h3>The Map</h3>
+<p>Ben's four regimes are Wet Math's three states with the transition zone made explicit:</p>
+<pre>
+Ben's Framework          Wet Math               CA Class
+─────────────────────────────────────────────────────────
+Frozen                   🧊 Solid               I/II
+Quasi-stationary         💧 Liquid               IV
+Critical                 (the edge itself)        IV→III
+Dissolved                🔥 Gas                  III
+</pre>
+<p>The "liquid state" — where groove lives, where life happens — is Ben's quasi-stationary regime. The key insight from both sides: <strong>you don't need criticality to be alive. You need structured retention under active coupling.</strong></p>
+</div>
+
+<div class="connection">
+<h3>Patrick's Vessels Are Shannon Clusters</h3>
+<p>In Patrick's <a href="./proportional.html">Proportional Mathematics</a>, every number lives inside a vessel with a capacity. The vessel is the retained regime. The fill is the coupling to the environment. The ±1 deposits are boundary crossings — information flowing across the interface.</p>
+<p>The self-ratio d/d — when the scale recognizes itself — is the simplest possible Shannon cluster: a regime whose only retained description is its own existence. The +1 it deposits is the informational trace of that self-recognition.</p>
+</div>
+
+<div class="connection">
+<h3>Brooklyn's Emergence Levels Are Nested Clusters</h3>
+<p>Brooklyn's <a href="./scale.html">Scale Geometry</a> documents emergence levels separated by ~10³ scale gaps: quarks → nucleons → atoms → molecules → cells. Each level is a quasi-stationary Shannon cluster relative to the level below — retained by coupling, not by isolation. The spectral dimension log(8)/log(3) ≈ 1.89 from the Sierpiński carpet is the geometric signature of how these nested clusters tile scale-space.</p>
+</div>
+
+<div class="connection">
+<h3>The Groovy Commutator Measures the Interface</h3>
+<p>The <a href="./commutator.html">Groovy Commutator</a> G(S) = C(D(E(S)), E(D(S))) measures exactly what Ben's framework calls the informational interface: the structure of what changes when you swap the order of operations. G = 0 is frozen. G = chaotic is dissolved. G ≠ 0 with structure is the quasi-stationary generative regime — the liquid state.</p>
+</div>
+
+<h2>Open Directions</h2>
+
+<div class="card">
+<h3>1. Hyperbolic Information Geometry <span class="tag tag-spec">Speculative</span></h3>
+<p>If the interior of a Shannon cluster is where nearby states are hard to distinguish (slow divergence) and the boundary is where distinguishability accelerates, the natural geometry may be hyperbolic — negatively curved. The Fisher information metric on exponential families is hyperbolic in known cases. The conjecture: the almost-invariant condition formally implies negative curvature under specifiable assumptions.</p>
+
+<h3>2. Intra-Cluster Stability Signatures <span class="tag tag-plaus">Plausible</span></h3>
+<p>Pseudo-open clusters should exhibit structured drift in oscillatory modes — not random jitter, but directional drift coherent across timescales. Theta phase precession in hippocampal place cells has this structure. The prediction: distinguishable from noise by coherence across nested timescales and stable exponents across behavioral states.</p>
+
+<h3>3. Laws as Regime-Specific Fixed Points <span class="tag tag-plaus">Plausible</span></h3>
+<p>Physical laws may be the stable descriptions of our current coupling regime, not universal truths. QCD confinement is the empirical case: it's the low-energy fixed point of the strong coupling, and it dissolves at high temperature/density into quark-gluon plasma. The "law" is the cluster's fixed point. Change the cluster, change the law.</p>
+</div>
+
+<h2>Read the Full Paper</h2>
+
+<div class="card">
+<p><strong>"Retained Informational Regimes: Shannon Clusters, Coupling Geometry, and a Shared Structural Problem"</strong></p>
+<p>by Ben (bensaxophone), written with Claude from extensive notes and back-and-forth. Draft, March 2026.</p>
+<p><a href="https://docs.google.com/document/d/1LPH4FrTGOKvkNvkhgpBDZXldN1tg3Ztt/edit?usp=sharing&ouid=100847170444061487740&rtpof=true&sd=true">Read the full paper on Google Docs →</a></p>
+</div>
+
+<div style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border); text-align:center; color:var(--dim); font-size:0.9rem;">
+  <p>The framework is a methodological proposal. Its value is making the shared structure visible.</p>
+  <p style="margin-top:0.5rem;"><a href="./index.html">← Back to Wet Math</a></p>
+</div>
+
+</div>
+</body>
+</html>
